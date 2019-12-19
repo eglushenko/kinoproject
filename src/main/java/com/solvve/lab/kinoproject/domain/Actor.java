@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.domain;
 
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -9,18 +10,14 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Entity
-public class Customer {
+public class Actor {
     @Id
     @GeneratedValue
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @NotNull
     private UUID id;
-    private String userName;
     private String firstName;
     private String lastName;
-    private String email;
-    //private String role;
-    //private String password;
 
     public UUID getId() {
         return id;
@@ -44,21 +41,5 @@ public class Customer {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 }

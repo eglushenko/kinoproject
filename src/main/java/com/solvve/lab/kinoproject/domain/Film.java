@@ -19,9 +19,13 @@ public class Film {
     private String country;
     private String lang;
     private float rate;
+    // film length in minutes
     private int length;
-    private Date last_update;
+    //Using Sql date and time like TimeStamp
+    private Date lastUpdate;
+    //One to Many (List of actors)
     private String actor;
+    //List category
     private String category;
     private String filmText;
 
@@ -73,12 +77,12 @@ public class Film {
         this.length = length;
     }
 
-    public Date getLast_update() {
-        return last_update;
+    public Date getLastUpdate() {
+        return lastUpdate;
     }
 
-    public void setLast_update(Date last_update) {
-        this.last_update = last_update;
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public String getActor() {

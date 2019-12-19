@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+
+    <changeSet id="1" author="eglushenko">
+        <createTable tableName="customer">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(50)"/>
+            <column name="firstname" type="varchar(50)"/>
+            <column name="lastname" type="varchar(50)"/>
+            <column name="email" type="varchar(255)"/>
+        </createTable>
+        <createTable tableName="film" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)"/>
+            <column name="country" type="varchar(50)"/>
+            <column name="lang" type="varchar(50)"/>
+            <column name="rate" type="double"/>
+            <column name="lastUpdate" type="datetime"/>
+            <column name="actor" type="varchar(255)"/>
+            <column name="category" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="actor">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="firstName" type="varchar(50)"/>
+            <column name="lastName" type="varchar(50)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
