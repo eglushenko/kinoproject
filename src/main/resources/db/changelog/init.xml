@@ -24,7 +24,7 @@
             <column name="country" type="varchar(50)"/>
             <column name="lang" type="varchar(50)"/>
             <column name="rate" type="double"/>
-            <column name="lastUpdate" type="datetime"/>
+            <column name="lastUpdate" type="timestamp"/>
             <column name="actor" type="varchar(255)"/>
             <column name="category" type="varchar(50)"/>
         </createTable>

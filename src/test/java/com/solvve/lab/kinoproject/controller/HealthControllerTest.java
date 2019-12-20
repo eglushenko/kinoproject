@@ -12,12 +12,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(HealthController.class)
-class HealthControllerTest {
+public class HealthControllerTest {
     @Autowired
     private MockMvc mvc;
 
     @Test
-    void testHealth() throws Exception {
+    public void testHealth() throws Exception {
         mvc.perform(get("/health")).andExpect(status().isOk());
     }
 }

@@ -3,10 +3,8 @@ package com.solvve.lab.kinoproject.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.sql.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -22,7 +20,8 @@ public class Film {
     // film length in minutes
     private int length;
     //Using Sql date and time like TimeStamp
-    private Date lastUpdate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime lastUpdate;
     //One to Many (List of actors)
     private String actor;
     //List category
@@ -77,11 +76,11 @@ public class Film {
         this.length = length;
     }
 
-    public Date getLastUpdate() {
+    public LocalDateTime getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Date lastUpdate) {
+    public void setLastUpdate(LocalDateTime lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
