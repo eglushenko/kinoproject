@@ -15,7 +15,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public CustomerReadDTO getCustomer(UUID uuid) {
-        //TODO - NullPointerException isPresent check
+        //        Customer customer = customerRepository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("Invalid Id:" + uuid));
         Customer customer = customerRepository.findById(uuid).get();
         return readDTObyUUID(customer);
     }

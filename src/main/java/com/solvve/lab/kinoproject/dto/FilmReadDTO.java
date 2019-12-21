@@ -1,31 +1,17 @@
-package com.solvve.lab.kinoproject.domain;
+package com.solvve.lab.kinoproject.dto;
 
-
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
-public class Film {
-    @Id
-    @GeneratedValue
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+public class FilmReadDTO {
     private UUID id;
     private String title;
     private String country;
     private String lang;
     private float rate;
-    // film length in minutes
     private int length;
-    //Using Sql date and time like TimeStamp
     private LocalDate lastUpdate;
-    //One to Many (List of actors)
     private String actor;
-    //List category
     private String category;
     private String filmText;
 

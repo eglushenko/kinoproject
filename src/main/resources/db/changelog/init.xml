@@ -24,11 +24,12 @@
             <column name="country" type="varchar(50)"/>
             <column name="lang" type="varchar(50)"/>
             <column name="rate" type="double"/>
-            <column name="lastUpdate" type="timestamp"/>
+            <column name="lastUpdate" type="date"/>
             <column name="actor" type="varchar(255)"/>
             <column name="category" type="varchar(50)"/>
+            <column name="filmText" type="clob"/>
         </createTable>
-        <createTable tableName="actor">
+        <createTable tableName="actor" author="eglushenko">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
