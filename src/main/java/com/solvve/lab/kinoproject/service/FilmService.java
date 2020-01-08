@@ -1,8 +1,10 @@
 package com.solvve.lab.kinoproject.service;
 
 
+import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmReadDTO;
+import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +18,10 @@ public class FilmService {
     private FilmRepository filmRepository;
 
     public FilmReadDTO getFilm(UUID uuid) {
-        //Film film = filmRepository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("Invalid Id:" + uuid)
-        Film film = filmRepository.findById(uuid).get();
+        Film film = filmRepository.findById(uuid)
+                .orElseThrow(() -> {
+                    throw new EntityNotFoundException(Customer.class, uuid);
+                });
         return readFilmByUUID(film);
     }
 

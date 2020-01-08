@@ -2,6 +2,7 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
+import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,10 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     public CustomerReadDTO getCustomer(UUID uuid) {
-        //        Customer customer = customerRepository.findById(uuid).orElseThrow(() -> new IllegalArgumentException("Invalid Id:" + uuid));
-        Customer customer = customerRepository.findById(uuid).get();
+        Customer customer = customerRepository.findById(uuid)
+                .orElseThrow(() -> {
+                    throw new EntityNotFoundException(Customer.class, uuid);
+                });
         return readDTObyUUID(customer);
     }
 

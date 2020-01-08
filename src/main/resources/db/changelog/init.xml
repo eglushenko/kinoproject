@@ -11,9 +11,9 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="username" type="varchar(50)"/>
-            <column name="firstname" type="varchar(50)"/>
-            <column name="lastname" type="varchar(50)"/>
+            <column name="user_name" type="varchar(50)"/>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
             <column name="email" type="varchar(255)"/>
         </createTable>
         <createTable tableName="film" author="eglushenko">
@@ -33,7 +33,7 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="firstName" type="varchar(50)"/>
+            <column name="firstname" type="varchar(50)"/>
             <column name="lastName" type="varchar(50)"/>
         </createTable>
     </changeSet>

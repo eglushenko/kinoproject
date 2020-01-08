@@ -1,9 +1,13 @@
 package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
+import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
+import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CustomerService;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -14,6 +18,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,7 +40,7 @@ public class CustomerControllerTest {
     private CustomerService customerService;
 
     @Test
-    public void testGetCustomer() throws Exception {
+    public void getCustomerTest() throws Exception {
         CustomerReadDTO customer = new CustomerReadDTO();
         customer.setId(UUID.randomUUID());
         customer.setUserName("test");
@@ -52,8 +58,43 @@ public class CustomerControllerTest {
 
         Mockito.verify(customerService).getCustomer(customer.getId());
 
-
     }
 
+    @Test
+    public void getCustomerWrongIdTest() throws Exception {
+        UUID wrongId = UUID.randomUUID();
 
+        EntityNotFoundException exception = new EntityNotFoundException(Customer.class, wrongId);
+        Mockito.when(customerService.getCustomer(wrongId)).thenThrow(exception);
+
+        String resultJson = mvc.perform(get("/api/v1/customers/{id}", wrongId))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+
+        Assert.assertTrue(resultJson.contains(exception.getMessage()));
+    }
+
+    @Test
+    public void getCustomerWrongUUIDFormatTest() throws Exception {
+        String resultJson = String.valueOf(mvc.perform(get("/api/v1/customers/1234"))
+                .andReturn().getResponse().getStatus());
+        Assert.assertTrue(resultJson.contains("400"));
+    }
+
+    @Test
+    public void getCustomerErrorFormatTest() throws Exception {
+        String resultJson = mvc.perform(get("/api/v1/customers/1234"))
+                .andReturn().getResponse().getContentAsString();
+        HashMap<String, String> testResult = new HashMap<>();
+        testResult.put("status", "");
+        testResult.put("exeptionClass", "");
+        testResult.put("msg", "");
+
+        ObjectReader reader = new ObjectMapper().readerFor(Map.class);
+        HashMap<String, String> map = reader.readValue(resultJson);
+        /* Equals only kay */
+        Assert.assertEquals("Json format not equals", map.keySet(), testResult.keySet());
+
+
+    }
 }

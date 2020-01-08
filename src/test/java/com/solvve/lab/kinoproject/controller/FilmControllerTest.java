@@ -1,9 +1,12 @@
 package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmReadDTO;
+import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.FilmService;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -35,7 +38,7 @@ public class FilmControllerTest {
     private FilmService filmService;
 
     @Test
-    public void testGetFilm() throws Exception {
+    public void getFilmTest() throws Exception {
         FilmReadDTO filmReadDTO = new FilmReadDTO();
         filmReadDTO.setId(UUID.randomUUID());
         filmReadDTO.setLang("RU");
@@ -57,5 +60,27 @@ public class FilmControllerTest {
 
         Mockito.verify(filmService).getFilm(filmReadDTO.getId());
     }
+
+    @Test
+    public void getFilmWrongIdTest() throws Exception {
+        UUID wrongId = UUID.randomUUID();
+
+        EntityNotFoundException exception = new EntityNotFoundException(Film.class, wrongId);
+        Mockito.when(filmService.getFilm(wrongId)).thenThrow(exception);
+
+        String resultJson = mvc.perform(get("/api/v1/films/{id}", wrongId))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+
+        Assert.assertTrue(resultJson.contains(exception.getMessage()));
+    }
+
+    @Test
+    public void getCustomerWrongUUIDFormatTest() throws Exception {
+        String resultJson = String.valueOf(mvc.perform(get("/api/v1/films/smile"))
+                .andReturn().getResponse().getStatus());
+        Assert.assertTrue(resultJson.contains("400"));
+    }
+
 
 }

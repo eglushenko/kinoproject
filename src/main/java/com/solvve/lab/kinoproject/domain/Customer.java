@@ -1,7 +1,5 @@
 package com.solvve.lab.kinoproject.domain;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,7 +10,6 @@ import java.util.UUID;
 public class Customer {
     @Id
     @GeneratedValue
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @NotNull
     private UUID id;
     private String userName;

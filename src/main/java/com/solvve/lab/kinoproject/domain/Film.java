@@ -29,6 +29,7 @@ public class Film {
     private String category;
     private String filmText;
 
+
     public UUID getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.repository;
 
-import com.solvve.lab.kinoproject.domain.Customer;
+
+import com.solvve.lab.kinoproject.domain.Actor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +16,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql(statements = "delete from customer", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class CustomerRepositoryTest {
+@Sql(statements = "delete from actor", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+public class ActorRepositoryTest {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    ActorRepository actorRepository;
 
     @Test
-    public void testSave() {
-        Customer customer = new Customer();
-        customer = customerRepository.save(customer);
-        assertNotNull(customer.getId());
-        assertTrue(customerRepository.findById(customer.getId()).isPresent());
+    public void saveActorTest() {
+        Actor actor = new Actor();
+        actor = actorRepository.save(actor);
+        assertNotNull(actor.getId());
+        assertTrue(actorRepository.findById(actor.getId()).isPresent());
     }
 }
