@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
+import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
@@ -31,5 +32,15 @@ public class CustomerService {
         customerReadDTO.setLastName(customer.getLastName());
         customerReadDTO.setEmail(customer.getEmail());
         return customerReadDTO;
+    }
+
+    public CustomerReadDTO createCustomer(CustomerCreateDTO create) {
+        Customer customer = new Customer();
+        customer.setUserName(create.getUserName());
+        customer.setFirstName(create.getFirstName());
+        customer.setLastName(create.getLastName());
+        customer.setEmail(create.getEmail());
+        customer = customerRepository.save(customer);
+        return readDTObyUUID(customer);
     }
 }

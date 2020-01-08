@@ -1,10 +1,12 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
+import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +47,18 @@ public class CustomerServiceTest {
 
     }
 
+    @Test
+    public void createCustomerTest() {
+        CustomerCreateDTO create = new CustomerCreateDTO();
+        create.setUserName("user");
+        create.setFirstName("Jhon");
+        create.setLastName("Dou");
+        create.setEmail("mail@mail.ua");
+        CustomerReadDTO customerReadDTO = customerService.createCustomer(create);
+        Assertions.assertThat(create).isEqualToComparingFieldByField(customerReadDTO);
+        Assert.assertNotNull(customerReadDTO.getId());
 
+        Customer customer = customerRepository.findById(customerReadDTO.getId()).get();
+        Assertions.assertThat(customerReadDTO).isEqualToComparingFieldByField(customer);
+    }
 }

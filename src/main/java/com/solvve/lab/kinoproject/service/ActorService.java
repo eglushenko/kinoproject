@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Actor;
+import com.solvve.lab.kinoproject.dto.ActorCreateDTO;
 import com.solvve.lab.kinoproject.dto.ActorReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.ActorRepository;
@@ -28,5 +29,13 @@ public class ActorService {
         actorReadDTO.setFirstName(actor.getFirstName());
         actorReadDTO.setLastName(actor.getLastName());
         return actorReadDTO;
+    }
+
+    public ActorReadDTO createActor(ActorCreateDTO create) {
+        Actor actor = new Actor();
+        actor.setFirstName(create.getFirstName());
+        actor.setLastName(create.getLastName());
+        actor = actorRepository.save(actor);
+        return readDTObyUUID(actor);
     }
 }

@@ -2,10 +2,12 @@ package com.solvve.lab.kinoproject.service;
 
 
 import com.solvve.lab.kinoproject.domain.Actor;
+import com.solvve.lab.kinoproject.dto.ActorCreateDTO;
 import com.solvve.lab.kinoproject.dto.ActorReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.ActorRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,19 @@ public class ActorServiceTest {
     public void getActorWrongId() {
         actorService.getActor(UUID.randomUUID());
 
+    }
+
+    @Test
+    public void createActorTest() {
+        ActorCreateDTO create = new ActorCreateDTO();
+        create.setFirstName("Jhon");
+        create.setLastName("Dou");
+        ActorReadDTO actorReadDTO = actorService.createActor(create);
+        Assertions.assertThat(create).isEqualToComparingFieldByField(actorReadDTO);
+        Assert.assertNotNull(actorReadDTO.getId());
+
+        Actor actor = actorRepository.findById(actorReadDTO.getId()).get();
+        Assertions.assertThat(actorReadDTO).isEqualToComparingFieldByField(actor);
     }
 
 

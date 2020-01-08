@@ -1,10 +1,12 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.dto.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +56,23 @@ public class FilmServiceTest {
 
     }
 
+    @Test
+    public void createFilmTest() {
+        FilmCreateDTO create = new FilmCreateDTO();
+        create.setActor("actor");
+        create.setCategory("category");
+        create.setCountry("UA");
+        create.setFilmText("");
+        create.setLang("UA");
+        create.setLength(83);
+        create.setRate(4.3F);
+        create.setTitle("LEGO FILM");
+        create.setLastUpdate(LocalDate.of(2019, 3, 15));
+        FilmReadDTO filmReadDTO = filmService.createFilm(create);
+        Assertions.assertThat(create).isEqualToComparingFieldByField(filmReadDTO);
+        Assert.assertNotNull(filmReadDTO.getId());
 
+        Film film = filmRepository.findById(filmReadDTO.getId()).get();
+        Assertions.assertThat(filmReadDTO).isEqualToComparingFieldByField(film);
+    }
 }
