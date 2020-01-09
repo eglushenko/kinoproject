@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/actors")
+@RequestMapping("/api/v1/names")
 public class NameController {
     @Autowired
     NameService actorService;
