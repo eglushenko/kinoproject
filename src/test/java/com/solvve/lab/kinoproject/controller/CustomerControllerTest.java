@@ -20,9 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -88,17 +86,16 @@ public class CustomerControllerTest {
     public void getCustomerErrorFormatTest() throws Exception {
         String resultJson = mvc.perform(get("/api/v1/customers/1234"))
                 .andReturn().getResponse().getContentAsString();
-        HashMap<String, String> testResult = new HashMap<>();
-        testResult.put("status", "");
-        testResult.put("exeptionClass", "");
-        testResult.put("msg", "");
+
+        Set<String> testResult = new HashSet<>();
+        testResult.add("status");
+        testResult.add("exeptionClass");
+        testResult.add("msg");
 
         ObjectReader reader = new ObjectMapper().readerFor(Map.class);
         HashMap<String, String> map = reader.readValue(resultJson);
         /* Equals only kay */
-        Assert.assertEquals("Json format not equals", map.keySet(), testResult.keySet());
-
-
+        Assert.assertEquals("Json format not equals", map.keySet(), testResult);
     }
 
     @Test
