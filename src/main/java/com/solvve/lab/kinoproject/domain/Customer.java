@@ -1,8 +1,8 @@
 package com.solvve.lab.kinoproject.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.solvve.lab.kinoproject.enums.Role;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
@@ -16,7 +16,8 @@ public class Customer {
     private String firstName;
     private String lastName;
     private String email;
-    //private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     //private String password;
 
     public UUID getId() {
@@ -57,5 +58,13 @@ public class Customer {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

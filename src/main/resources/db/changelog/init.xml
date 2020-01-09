@@ -15,6 +15,7 @@
             <column name="first_name" type="varchar(50)"/>
             <column name="last_name" type="varchar(50)"/>
             <column name="email" type="varchar(255)"/>
+            <column name="role" type="varchar(20)"/>
         </createTable>
         <createTable tableName="film" author="eglushenko">
             <column name="id" type="uuid">
@@ -35,6 +36,12 @@
             </column>
             <column name="firstname" type="varchar(50)"/>
             <column name="lastName" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="genere" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="genereName" type="varchar(50)"/>
         </createTable>
     </changeSet>
 
