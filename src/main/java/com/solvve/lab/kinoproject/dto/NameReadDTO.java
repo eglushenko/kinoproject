@@ -1,20 +1,8 @@
-package com.solvve.lab.kinoproject.domain;
+package com.solvve.lab.kinoproject.dto;
 
-
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Entity
-public class Actor {
-    @Id
-    @GeneratedValue
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @NotNull
+public class NameReadDTO {
     private UUID id;
     private String firstName;
     private String lastName;

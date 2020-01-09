@@ -1,6 +1,6 @@
 package com.solvve.lab.kinoproject.dto;
 
-public class ActorCreateDTO {
+public class NameCreateDTO {
     private String firstName;
     private String lastName;
 
@@ -9,7 +9,7 @@ public class ActorCreateDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ActorCreateDTO that = (ActorCreateDTO) o;
+        NameCreateDTO that = (NameCreateDTO) o;
 
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         return lastName != null ? lastName.equals(that.lastName) : that.lastName == null;
