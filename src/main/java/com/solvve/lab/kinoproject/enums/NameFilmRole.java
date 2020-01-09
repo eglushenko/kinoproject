@@ -1,6 +1,6 @@
 package com.solvve.lab.kinoproject.enums;
 
-public enum NameGenere {
+public enum NameFilmRole {
     ACTOR,
     DIRECTOR,
     WRITER,
