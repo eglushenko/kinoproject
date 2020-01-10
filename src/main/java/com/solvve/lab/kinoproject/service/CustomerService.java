@@ -27,7 +27,7 @@ public class CustomerService {
     public CustomerReadDTO readDTObyUUID(Customer customer) {
         CustomerReadDTO customerReadDTO = new CustomerReadDTO();
         customerReadDTO.setId(customer.getId());
-        customerReadDTO.setUserName(customer.getUserName());
+        customerReadDTO.setLogin(customer.getLogin());
         customerReadDTO.setFirstName(customer.getFirstName());
         customerReadDTO.setLastName(customer.getLastName());
         customerReadDTO.setEmail(customer.getEmail());
@@ -36,7 +36,7 @@ public class CustomerService {
 
     public CustomerReadDTO createCustomer(CustomerCreateDTO create) {
         Customer customer = new Customer();
-        customer.setUserName(create.getUserName());
+        customer.setLogin(create.getLogin());
         customer.setFirstName(create.getFirstName());
         customer.setLastName(create.getLastName());
         customer.setEmail(create.getEmail());

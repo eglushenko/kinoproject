@@ -1,7 +1,7 @@
 package com.solvve.lab.kinoproject.dto;
 
 public class CustomerCreateDTO {
-    private String userName;
+    private String login;
     private String firstName;
     private String lastName;
     private String email;
@@ -13,27 +13,27 @@ public class CustomerCreateDTO {
 
         CustomerCreateDTO that = (CustomerCreateDTO) o;
 
-        if (!userName.equals(that.userName)) return false;
-        if (!firstName.equals(that.firstName)) return false;
-        if (!lastName.equals(that.lastName)) return false;
+        if (login != null ? !login.equals(that.login) : that.login != null) return false;
+        if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(that.lastName) : that.lastName != null) return false;
         return email != null ? email.equals(that.email) : that.email == null;
     }
 
     @Override
     public int hashCode() {
-        int result = userName.hashCode();
-        result = 31 * result + firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
+        int result = login != null ? login.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (email != null ? email.hashCode() : 0);
         return result;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstName() {

@@ -44,7 +44,7 @@ public class CustomerControllerTest {
     public void getCustomerTest() throws Exception {
         CustomerReadDTO customer = new CustomerReadDTO();
         customer.setId(UUID.randomUUID());
-        customer.setUserName("test");
+        customer.setLogin("test");
         customer.setFirstName("John");
         customer.setLastName("Dou");
         customer.setEmail("test@mail.ua");
@@ -101,14 +101,14 @@ public class CustomerControllerTest {
     @Test
     public void createCustomerTest() throws Exception {
         CustomerCreateDTO create = new CustomerCreateDTO();
-        create.setUserName("user");
+        create.setLogin("user");
         create.setFirstName("Jhon");
         create.setLastName("Dou");
         create.setEmail("mail@mail.ua");
 
         CustomerReadDTO read = new CustomerReadDTO();
         read.setId(UUID.randomUUID());
-        read.setUserName("user");
+        read.setLogin("user");
         read.setFirstName("Jhon");
         read.setLastName("Dou");
         read.setEmail("mail@mail.ua");
@@ -123,4 +123,5 @@ public class CustomerControllerTest {
         CustomerReadDTO customerReadDTO = objectMapper.readValue(resultJson, CustomerReadDTO.class);
         Assertions.assertThat(customerReadDTO).isEqualToComparingFieldByField(read);
     }
+
 }

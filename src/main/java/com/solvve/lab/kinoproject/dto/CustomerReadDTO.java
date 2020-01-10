@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class CustomerReadDTO {
     private UUID id;
-    private String userName;
+    private String login;
     private String firstName;
     private String lastName;
     private String email;
@@ -17,12 +17,12 @@ public class CustomerReadDTO {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstName() {

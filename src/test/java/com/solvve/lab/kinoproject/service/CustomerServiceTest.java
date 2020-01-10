@@ -50,7 +50,7 @@ public class CustomerServiceTest {
     @Test
     public void createCustomerTest() {
         CustomerCreateDTO create = new CustomerCreateDTO();
-        create.setUserName("user");
+        create.setLogin("user");
         create.setFirstName("Jhon");
         create.setLastName("Dou");
         create.setEmail("mail@mail.ua");

@@ -12,7 +12,7 @@ public class Customer {
     @GeneratedValue
     @NotNull
     private UUID id;
-    private String userName;
+    private String login;
     private String firstName;
     private String lastName;
     private String email;
@@ -20,12 +20,21 @@ public class Customer {
     private Role role;
     //private String password;
 
+
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstName() {
@@ -50,14 +59,6 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public Role getRole() {
