@@ -2,6 +2,7 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
+import com.solvve.lab.kinoproject.dto.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
@@ -60,5 +61,27 @@ public class CustomerServiceTest {
 
         Customer customer = customerRepository.findById(customerReadDTO.getId()).get();
         Assertions.assertThat(customerReadDTO).isEqualToComparingFieldByField(customer);
+    }
+
+    @Test
+    public void testPatchCustomer() {
+        Customer customer = new Customer();
+        customer.setLogin("user");
+        customer.setFirstName("Jhon");
+        customer.setLastName("Dou");
+        customer.setEmail("mail@mail.ua");
+        customer = customerRepository.save(customer);
+
+        CustomerPatchDTO patch = new CustomerPatchDTO();
+        patch.setLogin("test");
+        patch.setFirstName("Joe");
+        patch.setLastName("Dou");
+        patch.setEmail("nomail@i.ua");
+        CustomerReadDTO read = customerService.patchCustomer(customer.getId(), patch);
+
+        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+
+        customer = customerRepository.findById(read.getId()).get();
+        Assertions.assertThat(customer).isEqualToComparingFieldByField(read);
     }
 }

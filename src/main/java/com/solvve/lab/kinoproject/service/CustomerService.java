@@ -2,6 +2,7 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
+import com.solvve.lab.kinoproject.dto.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
@@ -16,15 +17,18 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public CustomerReadDTO getCustomer(UUID uuid) {
-        Customer customer = customerRepository.findById(uuid)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException(Customer.class, uuid);
-                });
-        return readDTObyUUID(customer);
+    public CustomerReadDTO getCustomer(UUID id) {
+        Customer customer = getCustomerRequired(id);
+        return toReadDTO(customer);
     }
 
-    public CustomerReadDTO readDTObyUUID(Customer customer) {
+    private Customer getCustomerRequired(UUID id) {
+        return customerRepository.findById(id).orElseThrow(() -> {
+            throw new EntityNotFoundException(Customer.class, id);
+        });
+    }
+
+    public CustomerReadDTO toReadDTO(Customer customer) {
         CustomerReadDTO customerReadDTO = new CustomerReadDTO();
         customerReadDTO.setId(customer.getId());
         customerReadDTO.setLogin(customer.getLogin());
@@ -41,6 +45,27 @@ public class CustomerService {
         customer.setLastName(create.getLastName());
         customer.setEmail(create.getEmail());
         customer = customerRepository.save(customer);
-        return readDTObyUUID(customer);
+        return toReadDTO(customer);
+    }
+
+    public CustomerReadDTO patchCustomer(UUID id, CustomerPatchDTO patch) {
+        Customer customer = getCustomerRequired(id);
+        if (patch.getFirstName() != null) {
+            customer.setFirstName(patch.getFirstName());
+        }
+        if (patch.getLastName() != null) {
+            customer.setLastName(patch.getLastName());
+        }
+        if (patch.getLogin() != null) {
+            customer.setLogin(patch.getLogin());
+        }
+        if (patch.getEmail() != null) {
+            customer.setEmail(patch.getEmail());
+        }
+        if (patch.getRole() != null) {
+            customer.setRole(patch.getRole());
+        }
+        customer = customerRepository.save(customer);
+        return toReadDTO(customer);
     }
 }

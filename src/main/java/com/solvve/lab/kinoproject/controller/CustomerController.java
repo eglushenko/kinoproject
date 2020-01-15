@@ -2,6 +2,7 @@ package com.solvve.lab.kinoproject.controller;
 
 
 import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
+import com.solvve.lab.kinoproject.dto.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
 import com.solvve.lab.kinoproject.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class CustomerController {
     @PostMapping
     public CustomerReadDTO createCustomer(@RequestBody CustomerCreateDTO createDTO) {
         return customerService.createCustomer(createDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public CustomerReadDTO patchCustomer(@PathVariable UUID id, @RequestBody CustomerPatchDTO patch) {
+        return customerService.patchCustomer(id, patch);
     }
 
 }
