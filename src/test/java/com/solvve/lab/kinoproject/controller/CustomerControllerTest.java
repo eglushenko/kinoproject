@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
+import com.solvve.lab.kinoproject.dto.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CustomerService;
@@ -22,8 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.*;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -94,8 +94,7 @@ public class CustomerControllerTest {
 
         ObjectReader reader = new ObjectMapper().readerFor(Map.class);
         HashMap<String, String> map = reader.readValue(resultJson);
-        /* Equals only kay */
-        Assert.assertEquals("Json format not equals", map.keySet(), testResult);
+        Assert.assertEquals(map.keySet(), testResult);
     }
 
     @Test
@@ -122,6 +121,33 @@ public class CustomerControllerTest {
                 .andReturn().getResponse().getContentAsString();
         CustomerReadDTO customerReadDTO = objectMapper.readValue(resultJson, CustomerReadDTO.class);
         Assertions.assertThat(customerReadDTO).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPatchCustomer() throws Exception {
+        CustomerPatchDTO patchDTO = new CustomerPatchDTO();
+        patchDTO.setLogin("user");
+        patchDTO.setFirstName("Jhon");
+        patchDTO.setLastName("Dou");
+        patchDTO.setEmail("mail@mail.ua");
+
+        CustomerReadDTO read = new CustomerReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setLogin("user");
+        read.setFirstName("Jhon");
+        read.setLastName("Dou");
+        read.setEmail("mail@mail.ua");
+
+
+        Mockito.when(customerService.patchCustomer(read.getId(), patchDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(patch("/api/v1/customers/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(patchDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        CustomerReadDTO actualCustomer = objectMapper.readValue(resultJson, CustomerReadDTO.class);
+        Assert.assertEquals(read, actualCustomer);
     }
 
 }

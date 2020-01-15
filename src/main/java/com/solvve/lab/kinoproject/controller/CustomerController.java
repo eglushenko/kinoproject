@@ -32,4 +32,9 @@ public class CustomerController {
         return customerService.patchCustomer(id, patch);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteCustomer(@PathVariable UUID id) {
+        customerService.deleteCustomer(id);
+    }
+
 }

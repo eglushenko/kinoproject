@@ -84,4 +84,32 @@ public class CustomerServiceTest {
         customer = customerRepository.findById(read.getId()).get();
         Assertions.assertThat(customer).isEqualToComparingFieldByField(read);
     }
+
+    @Test
+    public void testPatchCustomerEmptyPatch() {
+        Customer customer = new Customer();
+        customer.setLogin("user");
+        customer.setFirstName("Jhon");
+        customer.setLastName("Dou");
+        customer.setEmail("mail@mail.ua");
+        customer = customerRepository.save(customer);
+
+        CustomerPatchDTO patch = new CustomerPatchDTO();
+
+        CustomerReadDTO read = customerService.patchCustomer(customer.getId(), patch);
+
+        Assert.assertNotNull(read.getLogin());
+        Assert.assertNotNull(read.getFirstName());
+        Assert.assertNotNull(read.getLastName());
+        Assert.assertNotNull(read.getEmail());
+
+        Customer customerAfterUpdate = customerRepository.findById(read.getId()).get();
+
+        Assert.assertNotNull(customerAfterUpdate.getLogin());
+        Assert.assertNotNull(customerAfterUpdate.getFirstName());
+        Assert.assertNotNull(customerAfterUpdate.getLastName());
+        Assert.assertNotNull(customerAfterUpdate.getEmail());
+
+        Assertions.assertThat(customer).isEqualToComparingFieldByField(customerAfterUpdate);
+    }
 }

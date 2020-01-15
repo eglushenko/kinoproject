@@ -1,7 +1,6 @@
 package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
@@ -19,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -82,21 +81,5 @@ public class FilmControllerTest {
                 .andReturn().getResponse().getStatus());
         Assert.assertTrue(resultJson.contains("400"));
     }
-
-    @Test
-    public void getFilmErrorFormatWrongParametr() throws Exception {
-        String resultJson = mvc.perform(get("/api/v1/films/666"))
-                .andReturn().getResponse().getContentAsString();
-        Set<String> testSet = new HashSet<>();
-        testSet.add("status");
-        testSet.add("exeptionClass");
-        testSet.add("msg");
-
-        ObjectReader reader = new ObjectMapper().readerFor(Map.class);
-        HashMap<String, String> map = reader.readValue(resultJson);
-        /* Equals only kay */
-        Assert.assertEquals("Json format not equals", map.keySet(), testSet);
-    }
-
 
 }

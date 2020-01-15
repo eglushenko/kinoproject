@@ -68,4 +68,8 @@ public class CustomerService {
         customer = customerRepository.save(customer);
         return toReadDTO(customer);
     }
+
+    public void deleteCustomer(UUID id) {
+        customerRepository.delete(getCustomerRequired(id));
+    }
 }
