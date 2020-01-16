@@ -38,7 +38,7 @@ public class FilmControllerTest {
     private FilmService filmService;
 
     @Test
-    public void getFilmTest() throws Exception {
+    public void testGetFilm() throws Exception {
         FilmReadDTO filmReadDTO = new FilmReadDTO();
         filmReadDTO.setId(UUID.randomUUID());
         filmReadDTO.setLang("RU");
@@ -62,7 +62,7 @@ public class FilmControllerTest {
     }
 
     @Test
-    public void getFilmWrongIdTest() throws Exception {
+    public void testGetFilmWrongId() throws Exception {
         UUID wrongId = UUID.randomUUID();
 
         EntityNotFoundException exception = new EntityNotFoundException(Film.class, wrongId);
@@ -76,7 +76,7 @@ public class FilmControllerTest {
     }
 
     @Test
-    public void getFilmWrongUUIDFormatTest() throws Exception {
+    public void testGetFilmWrongUUIDFormat() throws Exception {
         String resultJson = String.valueOf(mvc.perform(get("/api/v1/films/smile"))
                 .andReturn().getResponse().getStatus());
         Assert.assertTrue(resultJson.contains("400"));

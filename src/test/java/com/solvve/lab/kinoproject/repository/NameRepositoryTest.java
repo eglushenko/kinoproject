@@ -23,7 +23,7 @@ public class NameRepositoryTest {
     NameRepository nameRepository;
 
     @Test
-    public void saveNameTest() {
+    public void testSaveName() {
         Name name = new Name();
         name = nameRepository.save(name);
         assertNotNull(name.getId());

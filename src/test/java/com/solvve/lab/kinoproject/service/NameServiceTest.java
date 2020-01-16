@@ -29,7 +29,7 @@ public class NameServiceTest {
     private NameService nameService;
 
     @Test
-    public void getNameTest() {
+    public void testGetName() {
         Name name = new Name();
         name.setId(UUID.randomUUID());
         name.setFirstName("Jhon");
@@ -42,13 +42,13 @@ public class NameServiceTest {
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void getActorWrongId() {
+    public void testGetActorWrongId() {
         nameService.getName(UUID.randomUUID());
 
     }
 
     @Test
-    public void createActorTest() {
+    public void testCreateActor() {
         NameCreateDTO create = new NameCreateDTO();
         create.setFirstName("Jhon");
         create.setLastName("Dou");

@@ -32,7 +32,7 @@ public class FilmServiceTest {
     private FilmService filmService;
 
     @Test
-    public void getFilmTest() {
+    public void testGetFilm() {
         Film film = new Film();
         film.setId(UUID.randomUUID());
         film.setActor("actor");
@@ -57,7 +57,7 @@ public class FilmServiceTest {
     }
 
     @Test
-    public void createFilmTest() {
+    public void testCreateFilm() {
         FilmCreateDTO create = new FilmCreateDTO();
         create.setActor("actor");
         create.setCategory("category");

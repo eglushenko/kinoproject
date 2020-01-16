@@ -23,7 +23,7 @@ public class FilmRepositoryTest {
     private FilmRepository filmRepository;
 
     @Test
-    public void saveFilmTest() {
+    public void testSaveFilm() {
         Film film = new Film();
         film = filmRepository.save(film);
         assertNotNull(film.getId());

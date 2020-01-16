@@ -1,6 +1,6 @@
 package com.solvve.lab.kinoproject.enums;
 
-public enum ComentStatus {
+public enum CommentStatus {
     UNCHECKED,
     CHECK,
     RETURNED,

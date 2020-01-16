@@ -40,14 +40,19 @@ public class CustomerControllerTest {
     @MockBean
     private CustomerService customerService;
 
+    private CustomerReadDTO createCustomerRead() {
+        CustomerReadDTO read = new CustomerReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setLogin("user");
+        read.setFirstName("Jhon");
+        read.setLastName("Dou");
+        read.setEmail("mail@mail.ua");
+        return read;
+    }
+
     @Test
-    public void getCustomerTest() throws Exception {
-        CustomerReadDTO customer = new CustomerReadDTO();
-        customer.setId(UUID.randomUUID());
-        customer.setLogin("test");
-        customer.setFirstName("John");
-        customer.setLastName("Dou");
-        customer.setEmail("test@mail.ua");
+    public void testGetCustomer() throws Exception {
+        CustomerReadDTO customer = createCustomerRead();
 
         Mockito.when(customerService.getCustomer(customer.getId())).thenReturn(customer);
 
@@ -62,7 +67,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void getCustomerWrongIdTest() throws Exception {
+    public void testGetCustomerWrongId() throws Exception {
         UUID wrongId = UUID.randomUUID();
 
         EntityNotFoundException exception = new EntityNotFoundException(Customer.class, wrongId);
@@ -76,14 +81,14 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void getCustomerWrongUUIDFormatTest() throws Exception {
+    public void restGetCustomerWrongUUIDFormat() throws Exception {
         String resultJson = String.valueOf(mvc.perform(get("/api/v1/customers/1234"))
                 .andReturn().getResponse().getStatus());
         Assert.assertTrue(resultJson.contains("400"));
     }
 
     @Test
-    public void getCustomerErrorFormatTest() throws Exception {
+    public void testGetCustomerErrorFormat() throws Exception {
         String resultJson = mvc.perform(get("/api/v1/customers/1234"))
                 .andReturn().getResponse().getContentAsString();
 
@@ -98,19 +103,14 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void createCustomerTest() throws Exception {
+    public void testcreateCustomer() throws Exception {
         CustomerCreateDTO create = new CustomerCreateDTO();
         create.setLogin("user");
         create.setFirstName("Jhon");
         create.setLastName("Dou");
         create.setEmail("mail@mail.ua");
 
-        CustomerReadDTO read = new CustomerReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setLogin("user");
-        read.setFirstName("Jhon");
-        read.setLastName("Dou");
-        read.setEmail("mail@mail.ua");
+        CustomerReadDTO read = createCustomerRead();
 
         Mockito.when(customerService.createCustomer(create)).thenReturn(read);
 
@@ -131,13 +131,7 @@ public class CustomerControllerTest {
         patchDTO.setLastName("Dou");
         patchDTO.setEmail("mail@mail.ua");
 
-        CustomerReadDTO read = new CustomerReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setLogin("user");
-        read.setFirstName("Jhon");
-        read.setLastName("Dou");
-        read.setEmail("mail@mail.ua");
-
+        CustomerReadDTO read = createCustomerRead();
 
         Mockito.when(customerService.patchCustomer(read.getId(), patchDTO)).thenReturn(read);
 

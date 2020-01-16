@@ -29,14 +29,18 @@ public class CustomerServiceTest {
     @Autowired
     private CustomerService customerService;
 
-    @Test
-    public void getCustomerTest() {
+    private Customer createCustomer() {
         Customer customer = new Customer();
-        customer.setId(UUID.randomUUID());
+        customer.setLogin("user");
         customer.setFirstName("Jhon");
         customer.setLastName("Dou");
-        customer = customerRepository.save(customer);
+        customer.setEmail("mail@mail.ua");
+        return customerRepository.save(customer);
+    }
 
+    @Test
+    public void getCustomerTest() {
+        Customer customer = createCustomer();
         CustomerReadDTO customerReadDTO = customerService.getCustomer(customer.getId());
         Assertions.assertThat(customerReadDTO).isEqualToComparingFieldByField(customer);
 
@@ -65,12 +69,7 @@ public class CustomerServiceTest {
 
     @Test
     public void testPatchCustomer() {
-        Customer customer = new Customer();
-        customer.setLogin("user");
-        customer.setFirstName("Jhon");
-        customer.setLastName("Dou");
-        customer.setEmail("mail@mail.ua");
-        customer = customerRepository.save(customer);
+        Customer customer = createCustomer();
 
         CustomerPatchDTO patch = new CustomerPatchDTO();
         patch.setLogin("test");
@@ -87,12 +86,7 @@ public class CustomerServiceTest {
 
     @Test
     public void testPatchCustomerEmptyPatch() {
-        Customer customer = new Customer();
-        customer.setLogin("user");
-        customer.setFirstName("Jhon");
-        customer.setLastName("Dou");
-        customer.setEmail("mail@mail.ua");
-        customer = customerRepository.save(customer);
+        Customer customer = createCustomer();
 
         CustomerPatchDTO patch = new CustomerPatchDTO();
 
@@ -112,4 +106,19 @@ public class CustomerServiceTest {
 
         Assertions.assertThat(customer).isEqualToComparingFieldByField(customerAfterUpdate);
     }
+
+    @Test
+    public void testDeleteCustomer() {
+        Customer customer = createCustomer();
+
+        customerService.deleteCustomer(customer.getId());
+
+        Assert.assertFalse(customerRepository.existsById(customer.getId()));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteCustomerNotFoundId() {
+        customerService.deleteCustomer(UUID.randomUUID());
+    }
+
 }

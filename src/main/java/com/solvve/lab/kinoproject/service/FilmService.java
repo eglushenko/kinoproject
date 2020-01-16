@@ -4,6 +4,7 @@ package com.solvve.lab.kinoproject.service;
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmCreateDTO;
+import com.solvve.lab.kinoproject.dto.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
@@ -18,11 +19,15 @@ public class FilmService {
     @Autowired
     private FilmRepository filmRepository;
 
-    public FilmReadDTO getFilm(UUID uuid) {
-        Film film = filmRepository.findById(uuid)
+    private Film getFilmRequired(UUID id) {
+        return filmRepository.findById(id)
                 .orElseThrow(() -> {
-                    throw new EntityNotFoundException(Customer.class, uuid);
+                    throw new EntityNotFoundException(Customer.class, id);
                 });
+    }
+
+    public FilmReadDTO getFilm(UUID id) {
+        Film film = getFilmRequired(id);
         return readFilmByUUID(film);
     }
 
@@ -55,5 +60,42 @@ public class FilmService {
         film = filmRepository.save(film);
 
         return readFilmByUUID(film);
+    }
+
+    public FilmReadDTO patchFilm(UUID id, FilmPatchDTO patch) {
+        Film film = getFilmRequired(id);
+        if (patch.getTitle() != null) {
+            film.setTitle(patch.getTitle());
+        }
+        if (patch.getFilmText() != null) {
+            film.setFilmText(patch.getFilmText());
+        }
+        if (patch.getActor() != null) {
+            film.setActor(patch.getActor());
+        }
+        if (patch.getCategory() != null) {
+            film.setCategory(patch.getCategory());
+        }
+        if (patch.getCountry() != null) {
+            film.setCountry(patch.getCountry());
+        }
+        if (patch.getLang() != null) {
+            film.setLang(patch.getLang());
+        }
+        if (patch.getLength() > 0) {
+            film.setLength(patch.getLength());
+        }
+        if (patch.getLastUpdate() != null) {
+            film.setLastUpdate(patch.getLastUpdate());
+        }
+        if (patch.getRate() > 0.0) {
+            film.setRate(patch.getRate());
+        }
+        film = filmRepository.save(film);
+        return readFilmByUUID(film);
+    }
+
+    public void deleteFilm(UUID id) {
+        filmRepository.delete(getFilmRequired(id));
     }
 }
