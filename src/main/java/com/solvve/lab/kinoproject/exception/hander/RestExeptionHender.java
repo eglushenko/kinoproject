@@ -26,10 +26,8 @@ public class RestExeptionHender {
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex) {
-        ResponseStatus status = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
-        HttpStatus httpStatus = status != null ? status.code() : HttpStatus.BAD_REQUEST;
 
-        ErrorInfo errorInfo = new ErrorInfo(httpStatus, ex.getClass(), ex.getMessage());
-        return new ResponseEntity<>(errorInfo, new HttpHeaders(), httpStatus);
+        ErrorInfo errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST, ex.getClass(), ex.getMessage());
+        return new ResponseEntity<>(errorInfo, new HttpHeaders(), errorInfo.getStatus());
     }
 }
