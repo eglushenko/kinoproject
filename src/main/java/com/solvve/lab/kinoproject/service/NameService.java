@@ -18,9 +18,8 @@ public class NameService {
 
     public Name getNameRequired(UUID id) {
         return nameRepository.findById(id)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException(Name.class, id);
-                });
+                .orElseThrow(() ->
+                        new EntityNotFoundException(Name.class, id));
     }
 
     public NameReadDTO getName(UUID id) {

@@ -18,9 +18,8 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     private Customer getCustomerRequired(UUID id) {
-        return customerRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(Customer.class, id);
-        });
+        return customerRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(Customer.class, id));
     }
 
     public CustomerReadDTO getCustomer(UUID id) {

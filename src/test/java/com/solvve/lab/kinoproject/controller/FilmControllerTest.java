@@ -2,6 +2,8 @@ package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.dto.FilmCreateDTO;
+import com.solvve.lab.kinoproject.dto.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.FilmService;
@@ -13,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,7 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -37,18 +40,23 @@ public class FilmControllerTest {
     @MockBean
     private FilmService filmService;
 
+    private FilmReadDTO createFilmRead() {
+        FilmReadDTO read = new FilmReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setLang("RU");
+        read.setFilmText("film example text");
+        read.setLength(140); // in minutes
+        read.setTitle("some film");
+        read.setRate(8.3F);
+        read.setCountry("Ukraine");
+        read.setActor(" Bob square pents");
+        read.setLastUpdate(LocalDate.of(2019, 12, 12));
+        return read;
+    }
+
     @Test
     public void testGetFilm() throws Exception {
-        FilmReadDTO filmReadDTO = new FilmReadDTO();
-        filmReadDTO.setId(UUID.randomUUID());
-        filmReadDTO.setLang("RU");
-        filmReadDTO.setFilmText("film example text");
-        filmReadDTO.setLength(140); // in minutes
-        filmReadDTO.setTitle("some film");
-        filmReadDTO.setRate(8.3F);
-        filmReadDTO.setCountry("Ukraine");
-        filmReadDTO.setActor(" Bob square pents");
-        filmReadDTO.setLastUpdate(LocalDate.of(2019, 12, 12));
+        FilmReadDTO filmReadDTO = createFilmRead();
 
 
         Mockito.when(filmService.getFilm(filmReadDTO.getId())).thenReturn(filmReadDTO);
@@ -80,6 +88,65 @@ public class FilmControllerTest {
         String resultJson = String.valueOf(mvc.perform(get("/api/v1/films/smile"))
                 .andReturn().getResponse().getStatus());
         Assert.assertTrue(resultJson.contains("400"));
+    }
+
+    @Test
+    public void testCreateFilm() throws Exception {
+        FilmCreateDTO create = new FilmCreateDTO();
+        create.setLang("RU");
+        create.setFilmText("film example text");
+        create.setLength(140); // in minutes
+        create.setTitle("some film");
+        create.setRate(8.3F);
+        create.setCountry("Ukraine");
+        create.setActor(" Bob square pents");
+        create.setLastUpdate(LocalDate.of(2019, 12, 12));
+
+        FilmReadDTO read = createFilmRead();
+
+        Mockito.when(filmService.createFilm(create)).thenReturn(read);
+
+        String resultJson = mvc.perform(post("/api/v1/films")
+                .content(objectMapper.writeValueAsString(create))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
+        Assertions.assertThat(actual).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPatchFilm() throws Exception {
+        FilmPatchDTO patch = new FilmPatchDTO();
+        patch.setLang("EN");
+        patch.setFilmText("film example text");
+        patch.setLength(140); // in minutes
+        patch.setTitle("film");
+        patch.setRate(1.3F);
+        patch.setCountry("USA");
+        patch.setActor(" Bob square pents");
+        patch.setLastUpdate(LocalDate.of(2019, 1, 12));
+
+        FilmReadDTO read = createFilmRead();
+
+        Mockito.when(filmService.patchFilm(read.getId(), patch)).thenReturn(read);
+
+        String resultJson = mvc.perform(patch("/api/v1/films/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(patch))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
+        Assert.assertEquals(actual, read);
+    }
+
+    @Test
+    public void testDeleteFilm() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(delete("/api/v1/films/{id}", id.toString())).andExpect(status().isOk());
+
+        Mockito.verify(filmService).deleteFilm(id);
     }
 
 }

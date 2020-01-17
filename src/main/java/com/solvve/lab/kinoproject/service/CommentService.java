@@ -18,9 +18,8 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     private Comment getCommentRequired(UUID id) {
-        return commentRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(Comment.class, id);
-        });
+        return commentRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(Comment.class, id));
     }
 
     public CommentReadDTO getComment(UUID id) {

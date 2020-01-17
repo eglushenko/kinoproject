@@ -1,15 +1,20 @@
 package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.solvve.lab.kinoproject.domain.Comment;
+import com.solvve.lab.kinoproject.dto.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.CommentReadDTO;
+import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CommentService;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,6 +24,7 @@ import java.util.UUID;
 
 import static com.solvve.lab.kinoproject.enums.CommentStatus.UNCHECKED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -58,6 +64,49 @@ public class CommentControllerTest {
         Assertions.assertThat(actual).isEqualToComparingFieldByField(comment);
 
         Mockito.verify(commentService).getComment(comment.getId());
+    }
+
+    @Test
+    public void testGetCommentWrongId() throws Exception {
+        UUID wrongId = UUID.randomUUID();
+
+        EntityNotFoundException exception = new EntityNotFoundException(Comment.class, wrongId);
+
+        Mockito.when(commentService.getComment(wrongId)).thenThrow(exception);
+
+        String resultJson = mvc.perform(get("/api/v1/comments/{id}", wrongId))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+        Assert.assertTrue(resultJson.contains(exception.getMessage()));
+    }
+
+    @Test
+    public void testGetCommentWrongIdFormat() throws Exception {
+        String resultJson = String.valueOf(mvc.perform(get("/api/v1/comments/22222"))
+                .andReturn().getResponse().getStatus());
+        Assert.assertTrue(resultJson.contains("400"));
+
+    }
+
+    @Test
+    public void testCreateComment() throws Exception {
+        CommentCreateDTO create = new CommentCreateDTO();
+        create.setCommentText("comment text");
+        create.setPostedDate(LocalDate.of(2020, 1, 22));
+        create.setCommentStatus(UNCHECKED);
+        create.setRate(1.1F);
+
+        CommentReadDTO read = createCommentRead();
+
+        Mockito.when(commentService.createComment(create)).thenReturn(read);
+
+        String resultJson = mvc.perform(post("/api/v1/comments")
+                .content(objectMapper.writeValueAsString(create))
+                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        CommentReadDTO commentReadDTO = objectMapper.readValue(resultJson, CommentReadDTO.class);
+        Assertions.assertThat(commentReadDTO).isEqualToComparingFieldByField(read);
+
     }
 
 

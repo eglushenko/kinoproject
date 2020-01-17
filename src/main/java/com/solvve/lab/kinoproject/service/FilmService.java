@@ -20,10 +20,8 @@ public class FilmService {
     private FilmRepository filmRepository;
 
     private Film getFilmRequired(UUID id) {
-        return filmRepository.findById(id)
-                .orElseThrow(() -> {
-                    throw new EntityNotFoundException(Customer.class, id);
-                });
+        return filmRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(Customer.class, id));
     }
 
     public FilmReadDTO getFilm(UUID id) {

@@ -81,7 +81,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void restGetCustomerWrongUUIDFormat() throws Exception {
+    public void testGetCustomerWrongUUIDFormat() throws Exception {
         String resultJson = String.valueOf(mvc.perform(get("/api/v1/customers/1234"))
                 .andReturn().getResponse().getStatus());
         Assert.assertTrue(resultJson.contains("400"));
@@ -103,7 +103,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void testcreateCustomer() throws Exception {
+    public void testCreateCustomer() throws Exception {
         CustomerCreateDTO create = new CustomerCreateDTO();
         create.setLogin("user");
         create.setFirstName("Jhon");
@@ -142,6 +142,15 @@ public class CustomerControllerTest {
                 .andReturn().getResponse().getContentAsString();
         CustomerReadDTO actualCustomer = objectMapper.readValue(resultJson, CustomerReadDTO.class);
         Assert.assertEquals(read, actualCustomer);
+    }
+
+    @Test
+    public void testDeleteCustomer() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(delete("/api/v1/customers/{id}", id.toString())).andExpect(status().isOk());
+
+        Mockito.verify(customerService).deleteCustomer(id);
     }
 
 }
