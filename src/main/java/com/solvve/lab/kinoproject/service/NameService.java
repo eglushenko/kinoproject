@@ -2,6 +2,7 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Name;
 import com.solvve.lab.kinoproject.dto.NameCreateDTO;
+import com.solvve.lab.kinoproject.dto.NamePatchDTO;
 import com.solvve.lab.kinoproject.dto.NameReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.NameRepository;
@@ -15,15 +16,19 @@ public class NameService {
     @Autowired
     NameRepository nameRepository;
 
-    public NameReadDTO getName(UUID uuid) {
-        Name name = nameRepository.findById(uuid)
+    public Name getNameRequired(UUID id) {
+        return nameRepository.findById(id)
                 .orElseThrow(() -> {
-                    throw new EntityNotFoundException(Name.class, uuid);
+                    throw new EntityNotFoundException(Name.class, id);
                 });
-        return readDTObyUUID(name);
     }
 
-    public NameReadDTO readDTObyUUID(Name name) {
+    public NameReadDTO getName(UUID id) {
+        Name name = getNameRequired(id);
+        return toRead(name);
+    }
+
+    public NameReadDTO toRead(Name name) {
         NameReadDTO nameReadDTO = new NameReadDTO();
         nameReadDTO.setId(name.getId());
         nameReadDTO.setFirstName(name.getFirstName());
@@ -36,6 +41,21 @@ public class NameService {
         name.setFirstName(create.getFirstName());
         name.setLastName(create.getLastName());
         name = nameRepository.save(name);
-        return readDTObyUUID(name);
+        return toRead(name);
+    }
+
+    public NameReadDTO patchName(UUID id, NamePatchDTO patch) {
+        Name name = getNameRequired(id);
+        if (patch.getFirstName() != null) {
+            name.setFirstName(patch.getFirstName());
+        }
+        if (patch.getLastName() != null) {
+            name.setLastName(patch.getLastName());
+        }
+        return toRead(name);
+    }
+
+    public void deleteName(UUID id) {
+        nameRepository.delete(getNameRequired(id));
     }
 }

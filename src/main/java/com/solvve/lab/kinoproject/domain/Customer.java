@@ -22,6 +22,5 @@ public class Customer {
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
-    //private String password;
 
 }

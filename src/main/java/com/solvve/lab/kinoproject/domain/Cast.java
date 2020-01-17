@@ -14,8 +14,8 @@ public class Cast {
     @Id
     @GeneratedValue
     private UUID id;
-    private UUID filmid;
-    private UUID nameid;
+    private UUID filmId;
+    private UUID nameId;
     @Enumerated(EnumType.STRING)
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;

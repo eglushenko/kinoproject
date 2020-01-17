@@ -10,5 +10,4 @@ public class NameReadDTO {
     private String firstName;
     private String lastName;
 
-
 }

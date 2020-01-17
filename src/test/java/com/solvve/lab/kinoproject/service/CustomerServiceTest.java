@@ -39,7 +39,7 @@ public class CustomerServiceTest {
     }
 
     @Test
-    public void getCustomerTest() {
+    public void testGetCustomer() {
         Customer customer = createCustomer();
         CustomerReadDTO customerReadDTO = customerService.getCustomer(customer.getId());
         Assertions.assertThat(customerReadDTO).isEqualToComparingFieldByField(customer);
@@ -47,7 +47,7 @@ public class CustomerServiceTest {
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void getCustomerWrongId() {
+    public void testGetCustomerWrongId() {
         customerService.getCustomer(UUID.randomUUID());
 
     }

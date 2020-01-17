@@ -17,15 +17,15 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public CustomerReadDTO getCustomer(UUID id) {
-        Customer customer = getCustomerRequired(id);
-        return toReadDTO(customer);
-    }
-
     private Customer getCustomerRequired(UUID id) {
         return customerRepository.findById(id).orElseThrow(() -> {
             throw new EntityNotFoundException(Customer.class, id);
         });
+    }
+
+    public CustomerReadDTO getCustomer(UUID id) {
+        Customer customer = getCustomerRequired(id);
+        return toReadDTO(customer);
     }
 
     public CustomerReadDTO toReadDTO(Customer customer) {

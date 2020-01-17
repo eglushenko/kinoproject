@@ -43,6 +43,33 @@
             </column>
             <column name="genereName" type="varchar(50)"/>
         </createTable>
+        <createTable tableName="comment" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="comment_text" type="varchar(255)"/>
+            <column name="posted_date" type="date"/>
+            <column name="comment_status" type="varchar(50)"/>
+            <column name="rate" type="double"/>
+        </createTable>
+        <createTable tableName="typo" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="typoMessege" type="uuid"/>
+            <column name="typoLink" type="uuid"/>
+            <column name="commentStatus" type="varchar(50)"/>
+            <column name="status" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="cast" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="filmId" type="uuid"/>
+            <column name="nameId" type="uuid"/>
+            <column name="roleInFilm" type="varchar(50)"/>
+            <column name="nameRoleInFilm" type="varchar(255)"/>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>

@@ -1,20 +1,14 @@
-package com.solvve.lab.kinoproject.domain;
+package com.solvve.lab.kinoproject.dto;
 
 import com.solvve.lab.kinoproject.enums.CommentStatus;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDate;
-import java.util.UUID;
 
-@Getter
-@Setter
-@Entity
-public class Comment {
-    @Id
-    @GeneratedValue
-    private UUID id;
+@Data
+public class CommentPatchDTO {
     private String commentText;
     private LocalDate postedDate;
     @Enumerated(EnumType.STRING)
