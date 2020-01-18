@@ -3,6 +3,7 @@ package com.solvve.lab.kinoproject.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Comment;
 import com.solvve.lab.kinoproject.dto.CommentCreateDTO;
+import com.solvve.lab.kinoproject.dto.CommentPatchDTO;
 import com.solvve.lab.kinoproject.dto.CommentReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CommentService;
@@ -22,9 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import static com.solvve.lab.kinoproject.enums.CommentStatus.CHECK;
 import static com.solvve.lab.kinoproject.enums.CommentStatus.UNCHECKED;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ActiveProfiles("test")
@@ -107,6 +108,38 @@ public class CommentControllerTest {
         CommentReadDTO commentReadDTO = objectMapper.readValue(resultJson, CommentReadDTO.class);
         Assertions.assertThat(commentReadDTO).isEqualToComparingFieldByField(read);
 
+    }
+
+    @Test
+    public void testPatchComment() throws Exception {
+        CommentPatchDTO patchDTO = new CommentPatchDTO();
+        patchDTO.setCommentText("comment text");
+        patchDTO.setPostedDate(LocalDate.of(2020, 1, 22));
+        patchDTO.setCommentStatus(CHECK);
+        patchDTO.setRate(1.1F);
+
+        CommentReadDTO read = createCommentRead();
+
+        Mockito.when(commentService.patchComment(read.getId(), patchDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(patch("/api/v1/comments/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(patchDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        CommentReadDTO actual = objectMapper.readValue(resultJson, CommentReadDTO.class);
+        Assert.assertEquals(read, actual);
+
+    }
+
+    @Test
+    public void testDeleteComment() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(delete("/api/v1/comments/{id}", id.toString())).andExpect(status().isOk());
+
+        Mockito.verify(commentService).deleteComment(id);
     }
 
 
