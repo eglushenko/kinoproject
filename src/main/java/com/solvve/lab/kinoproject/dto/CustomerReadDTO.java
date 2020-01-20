@@ -3,8 +3,6 @@ package com.solvve.lab.kinoproject.dto;
 import com.solvve.lab.kinoproject.enums.Role;
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.UUID;
 
 @Data
@@ -14,7 +12,6 @@ public class CustomerReadDTO {
     private String firstName;
     private String lastName;
     private String email;
-    @Enumerated(EnumType.STRING)
     private Role role;
 
 

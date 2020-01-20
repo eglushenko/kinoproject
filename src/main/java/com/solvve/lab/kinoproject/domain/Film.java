@@ -32,5 +32,4 @@ public class Film {
     private String category;
     private String filmText;
 
-
 }
