@@ -2,6 +2,8 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
@@ -85,6 +87,48 @@ public class FilmServiceTest {
 
         Film film = filmRepository.findById(filmReadDTO.getId()).get();
         Assertions.assertThat(filmReadDTO).isEqualToComparingFieldByField(film);
+    }
+
+    @Test
+    public void testPatchFilm() {
+        Film film = createFilm();
+
+        FilmPatchDTO patch = new FilmPatchDTO();
+        patch.setCategory("category");
+        patch.setCountry("UA");
+        patch.setFilmText("some text");
+        patch.setLang("UA");
+        patch.setLength(83);
+        patch.setRate(1.3F);
+        patch.setTitle("FILM");
+        patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
+
+        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+
+        film = filmRepository.findById(read.getId()).get();
+        Assertions.assertThat(film).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPutFilm() {
+        Film film = createFilm();
+
+        FilmPutDTO put = new FilmPutDTO();
+        put.setCategory("category");
+        put.setCountry("UA");
+        put.setFilmText("some text");
+        put.setLang("UA");
+        put.setLength(83);
+        put.setRate(1.3F);
+        put.setTitle("FILM");
+        put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmReadDTO read = filmService.putFilm(film.getId(), put);
+
+        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+
+        film = filmRepository.findById(read.getId()).get();
+        Assertions.assertThat(film).isEqualToComparingFieldByField(read);
     }
 
 
