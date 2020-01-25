@@ -1,9 +1,10 @@
 package com.solvve.lab.kinoproject.controller;
 
 
-import com.solvve.lab.kinoproject.dto.FilmCreateDTO;
-import com.solvve.lab.kinoproject.dto.FilmPatchDTO;
-import com.solvve.lab.kinoproject.dto.FilmReadDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
 import com.solvve.lab.kinoproject.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,13 @@ public class FilmController {
     }
 
     @PatchMapping("/{id}")
-
     public FilmReadDTO patchFilm(@PathVariable UUID id, @RequestBody FilmPatchDTO patch) {
         return filmService.patchFilm(id, patch);
+    }
+
+    @PutMapping("/{id}")
+    public FilmReadDTO putFilm(@PathVariable UUID id, @RequestBody FilmPutDTO put) {
+        return filmService.putFilm(id, put);
     }
 
     @DeleteMapping("/{id}")

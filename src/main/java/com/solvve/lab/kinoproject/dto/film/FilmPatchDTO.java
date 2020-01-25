@@ -1,8 +1,8 @@
-package com.solvve.lab.kinoproject.dto;
+package com.solvve.lab.kinoproject.dto.film;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 @Data
 public class FilmPatchDTO {
@@ -11,7 +11,7 @@ public class FilmPatchDTO {
     private String lang;
     private float rate;
     private int length;
-    private LocalDate lastUpdate;
+    private Instant lastUpdate;
     private String actor;
     private String category;
     private String filmText;

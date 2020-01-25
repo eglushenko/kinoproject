@@ -3,9 +3,11 @@ package com.solvve.lab.kinoproject.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.solvve.lab.kinoproject.domain.Customer;
-import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
-import com.solvve.lab.kinoproject.dto.CustomerPatchDTO;
-import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
+import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CustomerService;
 import org.assertj.core.api.Assertions;
@@ -152,5 +154,28 @@ public class CustomerControllerTest {
 
         Mockito.verify(customerService).deleteCustomer(id);
     }
+
+    @Test
+    public void testPutCustomer() throws Exception {
+        CustomerPutDTO putDTO = new CustomerPutDTO();
+        putDTO.setLogin("user");
+        putDTO.setFirstName("Jhon");
+        putDTO.setLastName("Dou");
+        putDTO.setEmail("mail@mail.ua");
+        putDTO.setRole(Role.GUEST);
+
+        CustomerReadDTO read = createCustomerRead();
+
+        Mockito.when(customerService.putCustomer(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/customers/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        CustomerReadDTO actualCustomer = objectMapper.readValue(resultJson, CustomerReadDTO.class);
+        Assert.assertEquals(read, actualCustomer);
+    }
+
 
 }

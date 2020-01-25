@@ -7,7 +7,7 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.UUID;
 
 
@@ -25,7 +25,7 @@ public class Film {
     // film length in minutes
     private int length;
     //Using Sql date and time like TimeStamp
-    private LocalDate lastUpdate;
+    private Instant lastUpdate;
     //One to Many (List of actors)
     private String actor;
     //List category

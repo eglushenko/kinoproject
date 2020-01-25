@@ -1,9 +1,10 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Comment;
-import com.solvve.lab.kinoproject.dto.CommentCreateDTO;
-import com.solvve.lab.kinoproject.dto.CommentPatchDTO;
-import com.solvve.lab.kinoproject.dto.CommentReadDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentPutDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,17 @@ public class CommentService {
         comment = commentRepository.save(comment);
         return toReadDTO(comment);
     }
+
+    public CommentReadDTO putComment(UUID id, CommentPutDTO put) {
+        Comment comment = getCommentRequired(id);
+        comment.setCommentText(put.getCommentText());
+        comment.setCommentStatus(put.getCommentStatus());
+        comment.setPostedDate(put.getPostedDate());
+        comment.setRate(put.getRate());
+        comment = commentRepository.save(comment);
+        return toReadDTO(comment);
+    }
+
 
     public void deleteComment(UUID id) {
         commentRepository.delete(getCommentRequired(id));

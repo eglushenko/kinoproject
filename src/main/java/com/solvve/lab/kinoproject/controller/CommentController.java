@@ -1,9 +1,10 @@
 package com.solvve.lab.kinoproject.controller;
 
 
-import com.solvve.lab.kinoproject.dto.CommentCreateDTO;
-import com.solvve.lab.kinoproject.dto.CommentPatchDTO;
-import com.solvve.lab.kinoproject.dto.CommentReadDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentPutDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
 import com.solvve.lab.kinoproject.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,11 @@ public class CommentController {
     @PatchMapping("/{id}")
     public CommentReadDTO patchComment(@PathVariable UUID id, @RequestBody CommentPatchDTO patchDTO) {
         return commentService.patchComment(id, patchDTO);
+    }
+
+    @PutMapping("/{id}")
+    public CommentReadDTO putComment(@PathVariable UUID id, @RequestBody CommentPutDTO put) {
+        return commentService.putComment(id, put);
     }
 
     @DeleteMapping("/{id}")

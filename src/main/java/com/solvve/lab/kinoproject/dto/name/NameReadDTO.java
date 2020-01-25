@@ -1,4 +1,4 @@
-package com.solvve.lab.kinoproject.dto;
+package com.solvve.lab.kinoproject.dto.name;
 
 import lombok.Data;
 

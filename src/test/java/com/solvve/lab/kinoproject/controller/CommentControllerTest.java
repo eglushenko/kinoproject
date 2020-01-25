@@ -2,9 +2,9 @@ package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Comment;
-import com.solvve.lab.kinoproject.dto.CommentCreateDTO;
-import com.solvve.lab.kinoproject.dto.CommentPatchDTO;
-import com.solvve.lab.kinoproject.dto.CommentReadDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CommentService;
 import org.assertj.core.api.Assertions;

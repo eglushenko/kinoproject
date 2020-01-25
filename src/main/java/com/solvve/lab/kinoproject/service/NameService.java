@@ -1,9 +1,10 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Name;
-import com.solvve.lab.kinoproject.dto.NameCreateDTO;
-import com.solvve.lab.kinoproject.dto.NamePatchDTO;
-import com.solvve.lab.kinoproject.dto.NameReadDTO;
+import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
+import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
+import com.solvve.lab.kinoproject.dto.name.NamePutDTO;
+import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.NameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,13 @@ public class NameService {
         if (patch.getLastName() != null) {
             name.setLastName(patch.getLastName());
         }
+        return toRead(name);
+    }
+
+    public NameReadDTO putName(UUID id, NamePutDTO put) {
+        Name name = getNameRequired(id);
+        name.setFirstName(put.getFirstName());
+        name.setLastName(put.getLastName());
         return toRead(name);
     }
 

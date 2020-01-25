@@ -2,9 +2,10 @@ package com.solvve.lab.kinoproject.controller;
 
 
 import com.solvve.lab.kinoproject.domain.Customer;
-import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
-import com.solvve.lab.kinoproject.dto.CustomerPatchDTO;
-import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
 import com.solvve.lab.kinoproject.service.CustomerService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class CustomerController {
     @PatchMapping("/{id}")
     public CustomerReadDTO patchCustomer(@PathVariable UUID id, @RequestBody CustomerPatchDTO patch) {
         return customerService.patchCustomer(id, patch);
+    }
+
+    @PutMapping("/{id}")
+    public CustomerReadDTO putCustomer(@PathVariable UUID id, @RequestBody CustomerPutDTO put) {
+        return customerService.putCustomer(id, put);
     }
 
     @DeleteMapping("/{id}")

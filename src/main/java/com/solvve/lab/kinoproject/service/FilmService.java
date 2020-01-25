@@ -3,9 +3,10 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
-import com.solvve.lab.kinoproject.dto.FilmCreateDTO;
-import com.solvve.lab.kinoproject.dto.FilmPatchDTO;
-import com.solvve.lab.kinoproject.dto.FilmReadDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class FilmService {
 
     @Autowired
     private FilmRepository filmRepository;
+
 
     private Film getFilmRequired(UUID id) {
         return filmRepository.findById(id).orElseThrow(() ->
@@ -39,14 +41,12 @@ public class FilmService {
         filmReadDTO.setRate(film.getRate());
         filmReadDTO.setLength(film.getLength());
         filmReadDTO.setFilmText(film.getFilmText());
-        filmReadDTO.setActor(film.getActor());
         filmReadDTO.setLastUpdate(film.getLastUpdate());
         return filmReadDTO;
     }
 
     public FilmReadDTO createFilm(FilmCreateDTO create) {
         Film film = new Film();
-        film.setActor(create.getActor());
         film.setCategory(create.getCategory());
         film.setCountry(create.getCountry());
         film.setFilmText(create.getFilmText());
@@ -68,9 +68,6 @@ public class FilmService {
         if (patch.getFilmText() != null) {
             film.setFilmText(patch.getFilmText());
         }
-        if (patch.getActor() != null) {
-            film.setActor(patch.getActor());
-        }
         if (patch.getCategory() != null) {
             film.setCategory(patch.getCategory());
         }
@@ -89,6 +86,20 @@ public class FilmService {
         if (patch.getRate() > 0.0) {
             film.setRate(patch.getRate());
         }
+        film = filmRepository.save(film);
+        return readFilmByUUID(film);
+    }
+
+    public FilmReadDTO putFilm(UUID id, FilmPutDTO put) {
+        Film film = getFilmRequired(id);
+        film.setTitle(put.getTitle());
+        film.setFilmText(put.getFilmText());
+        film.setCategory(put.getCategory());
+        film.setCountry(put.getCountry());
+        film.setLang(put.getLang());
+        film.setLength(put.getLength());
+        film.setLastUpdate(put.getLastUpdate());
+        film.setRate(put.getRate());
         film = filmRepository.save(film);
         return readFilmByUUID(film);
     }

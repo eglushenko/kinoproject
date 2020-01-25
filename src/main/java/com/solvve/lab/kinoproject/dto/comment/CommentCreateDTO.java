@@ -1,14 +1,12 @@
-package com.solvve.lab.kinoproject.dto;
+package com.solvve.lab.kinoproject.dto.comment;
 
 import com.solvve.lab.kinoproject.enums.CommentStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Data
-public class CommentReadDTO {
-    private UUID id;
+public class CommentCreateDTO {
     private String commentText;
     private LocalDate postedDate;
     private CommentStatus commentStatus;

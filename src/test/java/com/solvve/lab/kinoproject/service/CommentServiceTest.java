@@ -1,7 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Comment;
-import com.solvve.lab.kinoproject.dto.CommentReadDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
 import com.solvve.lab.kinoproject.enums.CommentStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CommentRepository;

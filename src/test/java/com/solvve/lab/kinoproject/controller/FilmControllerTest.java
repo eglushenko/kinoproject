@@ -2,9 +2,9 @@ package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Film;
-import com.solvve.lab.kinoproject.dto.FilmCreateDTO;
-import com.solvve.lab.kinoproject.dto.FilmPatchDTO;
-import com.solvve.lab.kinoproject.dto.FilmReadDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.FilmService;
 import org.assertj.core.api.Assertions;
@@ -20,7 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -50,7 +50,7 @@ public class FilmControllerTest {
         read.setRate(8.3F);
         read.setCountry("Ukraine");
         read.setActor(" Bob square pents");
-        read.setLastUpdate(LocalDate.of(2019, 12, 12));
+        read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return read;
     }
 
@@ -100,7 +100,7 @@ public class FilmControllerTest {
         create.setRate(8.3F);
         create.setCountry("Ukraine");
         create.setActor(" Bob square pents");
-        create.setLastUpdate(LocalDate.of(2019, 12, 12));
+        create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
         FilmReadDTO read = createFilmRead();
 
@@ -125,7 +125,7 @@ public class FilmControllerTest {
         patch.setRate(1.3F);
         patch.setCountry("USA");
         patch.setActor(" Bob square pents");
-        patch.setLastUpdate(LocalDate.of(2019, 1, 12));
+        patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
         FilmReadDTO read = createFilmRead();
 
@@ -148,5 +148,6 @@ public class FilmControllerTest {
 
         Mockito.verify(filmService).deleteFilm(id);
     }
+
 
 }

@@ -1,9 +1,9 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
-import com.solvve.lab.kinoproject.dto.CustomerCreateDTO;
-import com.solvve.lab.kinoproject.dto.CustomerPatchDTO;
-import com.solvve.lab.kinoproject.dto.CustomerReadDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
 import org.assertj.core.api.Assertions;

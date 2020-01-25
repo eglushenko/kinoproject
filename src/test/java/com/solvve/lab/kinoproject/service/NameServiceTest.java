@@ -2,8 +2,8 @@ package com.solvve.lab.kinoproject.service;
 
 
 import com.solvve.lab.kinoproject.domain.Name;
-import com.solvve.lab.kinoproject.dto.NameCreateDTO;
-import com.solvve.lab.kinoproject.dto.NameReadDTO;
+import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
+import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.NameRepository;
 import org.assertj.core.api.Assertions;

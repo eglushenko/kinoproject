@@ -65,8 +65,7 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="filmId" type="uuid"/>
-            <column name="nameId" type="uuid"/>
+            <column name="name" type="varchar(255)"/>
             <column name="roleInFilm" type="varchar(50)"/>
             <column name="nameRoleInFilm" type="varchar(255)"/>
         </createTable>
