@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Comment;
 import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentPutDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CommentService;
@@ -131,6 +132,27 @@ public class CommentControllerTest {
         CommentReadDTO actual = objectMapper.readValue(resultJson, CommentReadDTO.class);
         Assert.assertEquals(read, actual);
 
+    }
+
+    @Test
+    public void testPutComment() throws Exception {
+        CommentPutDTO putDTO = new CommentPutDTO();
+        putDTO.setCommentText("comment text");
+        putDTO.setPostedDate(LocalDate.of(2020, 1, 22));
+        putDTO.setCommentStatus(CHECK);
+        putDTO.setRate(1.1F);
+
+        CommentReadDTO read = createCommentRead();
+
+        Mockito.when(commentService.putComment(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/comments/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        CommentReadDTO actualComment = objectMapper.readValue(resultJson, CommentReadDTO.class);
+        Assert.assertEquals(read, actualComment);
     }
 
     @Test

@@ -3,6 +3,8 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Name;
 import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
+import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
+import com.solvve.lab.kinoproject.dto.name.NamePutDTO;
 import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.NameRepository;
@@ -28,6 +30,13 @@ public class NameServiceTest {
     @Autowired
     private NameService nameService;
 
+    private Name createName() {
+        Name name = new Name();
+        name.setFirstName("Jhon");
+        name.setLastName("Dou");
+        return nameRepository.save(name);
+    }
+
     @Test
     public void testGetName() {
         Name name = new Name();
@@ -42,13 +51,13 @@ public class NameServiceTest {
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void testGetActorWrongId() {
+    public void testGetNameWrongId() {
         nameService.getName(UUID.randomUUID());
 
     }
 
     @Test
-    public void testCreateActor() {
+    public void testCreateName() {
         NameCreateDTO create = new NameCreateDTO();
         create.setFirstName("Jhon");
         create.setLastName("Dou");
@@ -58,6 +67,69 @@ public class NameServiceTest {
 
         Name name = nameRepository.findById(nameReadDTO.getId()).get();
         Assertions.assertThat(nameReadDTO).isEqualToComparingFieldByField(name);
+    }
+
+    @Test
+    public void testPatchName() {
+        Name name = createName();
+
+        NamePatchDTO patch = new NamePatchDTO();
+        patch.setFirstName("Jhon");
+        patch.setLastName("Smith");
+        NameReadDTO read = nameService.patchName(name.getId(), patch);
+
+        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+
+        name = nameRepository.findById(read.getId()).get();
+        Assertions.assertThat(name).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPutName() {
+        Name name = createName();
+
+        NamePutDTO put = new NamePutDTO();
+        put.setFirstName("Jhon");
+        put.setLastName("Dou");
+        NameReadDTO read = nameService.putName(name.getId(), put);
+
+        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+
+        name = nameRepository.findById(read.getId()).get();
+        Assertions.assertThat(name).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPatchNameEmptyPatch() {
+        Name name = createName();
+
+        NamePatchDTO patch = new NamePatchDTO();
+
+        NameReadDTO read = nameService.patchName(name.getId(), patch);
+
+        Assert.assertNotNull(read.getFirstName());
+        Assert.assertNotNull(read.getLastName());
+
+        Name nameAfterUpdate = nameRepository.findById(read.getId()).get();
+
+        Assert.assertNotNull(nameAfterUpdate.getFirstName());
+        Assert.assertNotNull(nameAfterUpdate.getLastName());
+
+        Assertions.assertThat(name).isEqualToComparingFieldByField(nameAfterUpdate);
+    }
+
+    @Test
+    public void testDeleteName() {
+        Name name = createName();
+
+        nameService.deleteName(name.getId());
+
+        Assert.assertFalse(nameRepository.existsById(name.getId()));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteNameNotFoundId() {
+        nameService.deleteName(UUID.randomUUID());
     }
 
 

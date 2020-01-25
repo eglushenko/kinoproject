@@ -3,7 +3,9 @@ package com.solvve.lab.kinoproject.service;
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
+import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
+import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
 import org.assertj.core.api.Assertions;
@@ -35,6 +37,7 @@ public class CustomerServiceTest {
         customer.setFirstName("Jhon");
         customer.setLastName("Dou");
         customer.setEmail("mail@mail.ua");
+        customer.setRole(Role.USER);
         return customerRepository.save(customer);
     }
 
@@ -59,6 +62,7 @@ public class CustomerServiceTest {
         create.setFirstName("Jhon");
         create.setLastName("Dou");
         create.setEmail("mail@mail.ua");
+        create.setRole(Role.USER);
         CustomerReadDTO customerReadDTO = customerService.createCustomer(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(customerReadDTO);
         Assert.assertNotNull(customerReadDTO.getId());
@@ -76,9 +80,28 @@ public class CustomerServiceTest {
         patch.setFirstName("Joe");
         patch.setLastName("Dou");
         patch.setEmail("nomail@i.ua");
+        patch.setRole(Role.USER);
         CustomerReadDTO read = customerService.patchCustomer(customer.getId(), patch);
 
         Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+
+        customer = customerRepository.findById(read.getId()).get();
+        Assertions.assertThat(customer).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPutCustomer() {
+        Customer customer = createCustomer();
+
+        CustomerPutDTO put = new CustomerPutDTO();
+        put.setLogin("test");
+        put.setFirstName("Joe");
+        put.setLastName("Dou");
+        put.setEmail("nomail@i.ua");
+        put.setRole(Role.USER);
+        CustomerReadDTO read = customerService.putCustomer(customer.getId(), put);
+
+        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
         customer = customerRepository.findById(read.getId()).get();
         Assertions.assertThat(customer).isEqualToComparingFieldByField(read);

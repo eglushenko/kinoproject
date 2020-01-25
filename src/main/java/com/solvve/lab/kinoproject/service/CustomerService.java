@@ -35,6 +35,7 @@ public class CustomerService {
         customerReadDTO.setFirstName(customer.getFirstName());
         customerReadDTO.setLastName(customer.getLastName());
         customerReadDTO.setEmail(customer.getEmail());
+        customerReadDTO.setRole(customer.getRole());
         return customerReadDTO;
     }
 
@@ -44,6 +45,7 @@ public class CustomerService {
         customer.setFirstName(create.getFirstName());
         customer.setLastName(create.getLastName());
         customer.setEmail(create.getEmail());
+        customer.setRole(create.getRole());
         customer = customerRepository.save(customer);
         return toReadDTO(customer);
     }

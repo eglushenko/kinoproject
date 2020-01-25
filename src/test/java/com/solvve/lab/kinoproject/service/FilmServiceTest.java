@@ -31,6 +31,19 @@ public class FilmServiceTest {
     @Autowired
     private FilmService filmService;
 
+    private Film createFilm() {
+        Film film = new Film();
+        film.setCategory("category");
+        film.setCountry("UA");
+        film.setFilmText("");
+        film.setLang("UA");
+        film.setLength(83);
+        film.setRate(4.3F);
+        film.setTitle("LEGO FILM");
+        film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        return filmRepository.save(film);
+    }
+
     @Test
     public void testGetFilm() {
         Film film = new Film();
@@ -73,4 +86,20 @@ public class FilmServiceTest {
         Film film = filmRepository.findById(filmReadDTO.getId()).get();
         Assertions.assertThat(filmReadDTO).isEqualToComparingFieldByField(film);
     }
+
+
+    @Test
+    public void testDeleteFilm() {
+        Film film = createFilm();
+
+        filmService.deleteFilm(film.getId());
+
+        Assert.assertFalse(filmRepository.existsById(film.getId()));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteFilmNotFoundId() {
+        filmService.deleteFilm(UUID.randomUUID());
+    }
+
 }

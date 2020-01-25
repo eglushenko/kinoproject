@@ -14,5 +14,4 @@ public class CustomerReadDTO {
     private String email;
     private Role role;
 
-
 }

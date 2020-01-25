@@ -52,6 +52,7 @@ public class NameService {
         if (patch.getLastName() != null) {
             name.setLastName(patch.getLastName());
         }
+        name = nameRepository.save(name);
         return toRead(name);
     }
 
