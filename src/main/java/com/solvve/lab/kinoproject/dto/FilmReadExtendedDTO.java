@@ -1,10 +1,8 @@
 package com.solvve.lab.kinoproject.dto;
 
-import com.solvve.lab.kinoproject.domain.Cast;
 import lombok.Data;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -19,5 +17,4 @@ public class FilmReadExtendedDTO {
     private String actor;
     private String category;
     private String filmText;
-    private List<Cast> castList;
 }

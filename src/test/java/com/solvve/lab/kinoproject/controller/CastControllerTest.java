@@ -61,7 +61,7 @@ public class CastControllerTest {
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         CastReadDTO actual = objectMapper.readValue(resultJson, CastReadDTO.class);
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(cast);
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(cast, "film");
 
         Mockito.verify(castService).getCast(cast.getId());
     }
@@ -104,7 +104,7 @@ public class CastControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         CastReadDTO castReadDTO = objectMapper.readValue(resultJson, CastReadDTO.class);
-        Assertions.assertThat(castReadDTO).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(read, "film");
     }
 
     @Test

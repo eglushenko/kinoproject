@@ -2,6 +2,7 @@ package com.solvve.lab.kinoproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
@@ -54,6 +55,20 @@ public class FilmControllerTest {
         return read;
     }
 
+    private FilmReadExtendedDTO createFilmReadExtended() {
+        FilmReadExtendedDTO read = new FilmReadExtendedDTO();
+        read.setId(UUID.randomUUID());
+        read.setLang("RU");
+        read.setFilmText("film example text");
+        read.setLength(140); // in minutes
+        read.setTitle("some film");
+        read.setRate(8.3F);
+        read.setCountry("Ukraine");
+        read.setActor(" Bob square pents");
+        read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        return read;
+    }
+
     @Test
     public void testGetFilm() throws Exception {
         FilmReadDTO filmReadDTO = createFilmRead();
@@ -64,9 +79,24 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO filmActualDTO = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(filmActualDTO).isEqualToComparingFieldByField(filmReadDTO);
+        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadDTO, "castList");
 
         Mockito.verify(filmService).getFilm(filmReadDTO.getId());
+    }
+
+    @Test
+    public void testGetFilmExtended() throws Exception {
+        FilmReadExtendedDTO filmReadExtended = createFilmReadExtended();
+
+
+        Mockito.when(filmService.getFilmExtended(filmReadExtended.getId())).thenReturn(filmReadExtended);
+        String resultJson = mvc.perform(get("/api/v1/films/info/{id}", filmReadExtended.getId()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        FilmReadExtendedDTO filmActualDTO = objectMapper.readValue(resultJson, FilmReadExtendedDTO.class);
+        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadExtended, "castList");
+
+        Mockito.verify(filmService).getFilmExtended(filmReadExtended.getId());
     }
 
     @Test
@@ -112,7 +142,7 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "castList");
     }
 
     @Test

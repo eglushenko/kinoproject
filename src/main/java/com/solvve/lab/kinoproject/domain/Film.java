@@ -7,7 +7,9 @@ import lombok.Setter;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -31,5 +33,7 @@ public class Film {
     //List category
     private String category;
     private String filmText;
+    @OneToMany
+    private List<Cast> castList;
 
 }

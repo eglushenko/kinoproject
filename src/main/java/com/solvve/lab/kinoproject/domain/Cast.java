@@ -19,4 +19,6 @@ public class Cast {
     @Enumerated(EnumType.STRING)
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;
+    @ManyToOne
+    private Film film;
 }

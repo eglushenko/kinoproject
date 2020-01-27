@@ -3,6 +3,7 @@ package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
@@ -20,6 +21,9 @@ public class FilmService {
     @Autowired
     private FilmRepository filmRepository;
 
+    @Autowired
+    private TranslationService translationService;
+
 
     private Film getFilmRequired(UUID id) {
         return filmRepository.findById(id).orElseThrow(() ->
@@ -28,80 +32,32 @@ public class FilmService {
 
     public FilmReadDTO getFilm(UUID id) {
         Film film = getFilmRequired(id);
-        return readFilmByUUID(film);
+        return translationService.toReadFilm(film);
     }
 
-    public FilmReadDTO readFilmByUUID(Film film) {
-        FilmReadDTO filmReadDTO = new FilmReadDTO();
-        filmReadDTO.setId(film.getId());
-        filmReadDTO.setTitle(film.getTitle());
-        filmReadDTO.setCategory(film.getCategory());
-        filmReadDTO.setCountry(film.getCountry());
-        filmReadDTO.setLang(film.getLang());
-        filmReadDTO.setRate(film.getRate());
-        filmReadDTO.setLength(film.getLength());
-        filmReadDTO.setFilmText(film.getFilmText());
-        filmReadDTO.setLastUpdate(film.getLastUpdate());
-        return filmReadDTO;
+    public FilmReadExtendedDTO getFilmExtended(UUID id) {
+        Film film = getFilmRequired(id);
+        return translationService.toReadExtendadFilm(film);
     }
 
     public FilmReadDTO createFilm(FilmCreateDTO create) {
-        Film film = new Film();
-        film.setCategory(create.getCategory());
-        film.setCountry(create.getCountry());
-        film.setFilmText(create.getFilmText());
-        film.setLang(create.getLang());
-        film.setLength(create.getLength());
-        film.setRate(create.getRate());
-        film.setTitle(create.getTitle());
-        film.setLastUpdate(create.getLastUpdate());
+        Film film = translationService.toEntytyFilm(create);
         film = filmRepository.save(film);
-
-        return readFilmByUUID(film);
+        return translationService.toReadFilm(film);
     }
 
     public FilmReadDTO patchFilm(UUID id, FilmPatchDTO patch) {
         Film film = getFilmRequired(id);
-        if (patch.getTitle() != null) {
-            film.setTitle(patch.getTitle());
-        }
-        if (patch.getFilmText() != null) {
-            film.setFilmText(patch.getFilmText());
-        }
-        if (patch.getCategory() != null) {
-            film.setCategory(patch.getCategory());
-        }
-        if (patch.getCountry() != null) {
-            film.setCountry(patch.getCountry());
-        }
-        if (patch.getLang() != null) {
-            film.setLang(patch.getLang());
-        }
-        if (patch.getLength() > 0) {
-            film.setLength(patch.getLength());
-        }
-        if (patch.getLastUpdate() != null) {
-            film.setLastUpdate(patch.getLastUpdate());
-        }
-        if (patch.getRate() > 0.0) {
-            film.setRate(patch.getRate());
-        }
+        translationService.patchEntytyFilm(patch, film);
         film = filmRepository.save(film);
-        return readFilmByUUID(film);
+        return translationService.toReadFilm(film);
     }
 
     public FilmReadDTO putFilm(UUID id, FilmPutDTO put) {
         Film film = getFilmRequired(id);
-        film.setTitle(put.getTitle());
-        film.setFilmText(put.getFilmText());
-        film.setCategory(put.getCategory());
-        film.setCountry(put.getCountry());
-        film.setLang(put.getLang());
-        film.setLength(put.getLength());
-        film.setLastUpdate(put.getLastUpdate());
-        film.setRate(put.getRate());
+        translationService.putEntytyFilm(put, film);
         film = filmRepository.save(film);
-        return readFilmByUUID(film);
+        return translationService.toReadFilm(film);
     }
 
     public void deleteFilm(UUID id) {

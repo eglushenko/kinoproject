@@ -3,6 +3,7 @@ package com.solvve.lab.kinoproject.service;
 import com.solvve.lab.kinoproject.domain.Comment;
 import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
+import com.solvve.lab.kinoproject.dto.comment.CommentPutDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
 import com.solvve.lab.kinoproject.enums.CommentStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
@@ -80,6 +81,23 @@ public class CommentServiceTest {
         CommentReadDTO read = commentService.patchComment(comment.getId(), patch);
 
         Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+
+        comment = commentRepository.findById(read.getId()).get();
+        Assertions.assertThat(comment).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPutComment() {
+        Comment comment = createComment();
+
+        CommentPutDTO put = new CommentPutDTO();
+        put.setCommentText("comment");
+        put.setPostedDate(LocalDate.of(2020, 1, 23));
+        put.setCommentStatus(CommentStatus.UNCHECKED);
+        put.setRate(1.1F);
+        CommentReadDTO read = commentService.putComment(comment.getId(), put);
+
+        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
         comment = commentRepository.findById(read.getId()).get();
         Assertions.assertThat(comment).isEqualToComparingFieldByField(read);

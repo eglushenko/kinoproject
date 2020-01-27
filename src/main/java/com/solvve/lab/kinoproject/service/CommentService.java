@@ -18,6 +18,9 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private TranslationService translationService;
+
     private Comment getCommentRequired(UUID id) {
         return commentRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(Comment.class, id));
@@ -25,56 +28,28 @@ public class CommentService {
 
     public CommentReadDTO getComment(UUID id) {
         Comment comment = getCommentRequired(id);
-        return toReadDTO(comment);
+        return translationService.toReadComment(comment);
 
-    }
-
-    public CommentReadDTO toReadDTO(Comment comment) {
-        CommentReadDTO commentReadDTO = new CommentReadDTO();
-        commentReadDTO.setId(comment.getId());
-        commentReadDTO.setCommentText(comment.getCommentText());
-        commentReadDTO.setPostedDate(comment.getPostedDate());
-        commentReadDTO.setCommentStatus(comment.getCommentStatus());
-        commentReadDTO.setRate(comment.getRate());
-        return commentReadDTO;
     }
 
     public CommentReadDTO createComment(CommentCreateDTO create) {
-        Comment comment = new Comment();
-        comment.setCommentText(create.getCommentText());
-        comment.setCommentStatus(create.getCommentStatus());
-        comment.setPostedDate(create.getPostedDate());
-        comment.setRate(create.getRate());
+        Comment comment = translationService.toEntytyComment(create);
         comment = commentRepository.save(comment);
-        return toReadDTO(comment);
+        return translationService.toReadComment(comment);
     }
 
     public CommentReadDTO patchComment(UUID id, CommentPatchDTO patch) {
         Comment comment = getCommentRequired(id);
-        if (patch.getCommentText() != null) {
-            comment.setCommentText(patch.getCommentText());
-        }
-        if (patch.getCommentStatus() != null) {
-            comment.setCommentStatus(patch.getCommentStatus());
-        }
-        if (patch.getPostedDate() != null) {
-            comment.setPostedDate(patch.getPostedDate());
-        }
-        if (patch.getRate() > 0.0) {
-            comment.setRate(patch.getRate());
-        }
+        translationService.patchEntytyComment(patch, comment);
         comment = commentRepository.save(comment);
-        return toReadDTO(comment);
+        return translationService.toReadComment(comment);
     }
 
     public CommentReadDTO putComment(UUID id, CommentPutDTO put) {
         Comment comment = getCommentRequired(id);
-        comment.setCommentText(put.getCommentText());
-        comment.setCommentStatus(put.getCommentStatus());
-        comment.setPostedDate(put.getPostedDate());
-        comment.setRate(put.getRate());
+        translationService.putEntytyComment(put, comment);
         comment = commentRepository.save(comment);
-        return toReadDTO(comment);
+        return translationService.toReadComment(comment);
     }
 
 

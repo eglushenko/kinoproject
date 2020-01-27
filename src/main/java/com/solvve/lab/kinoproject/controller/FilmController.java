@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.controller;
 
 
+import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
@@ -21,6 +22,11 @@ public class FilmController {
     @GetMapping("/{id}")
     public FilmReadDTO getFilm(@PathVariable UUID id) {
         return filmService.getFilm(id);
+    }
+
+    @GetMapping("/info/{id}")
+    public FilmReadExtendedDTO getFilmExtended(@PathVariable UUID id) {
+        return filmService.getFilmExtended(id);
     }
 
     @PostMapping

@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
@@ -61,7 +62,7 @@ public class FilmServiceTest {
         film = filmRepository.save(film);
 
         FilmReadDTO readDTO = filmService.getFilm(film.getId());
-        Assertions.assertThat(readDTO).isEqualToComparingFieldByField(film);
+        Assertions.assertThat(readDTO).isEqualToIgnoringGivenFields(film, "castList");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -82,11 +83,11 @@ public class FilmServiceTest {
         create.setTitle("LEGO FILM");
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO filmReadDTO = filmService.createFilm(create);
-        Assertions.assertThat(create).isEqualToComparingFieldByField(filmReadDTO);
+        Assertions.assertThat(create).isEqualToIgnoringGivenFields(filmReadDTO, "castList");
         Assert.assertNotNull(filmReadDTO.getId());
 
         Film film = filmRepository.findById(filmReadDTO.getId()).get();
-        Assertions.assertThat(filmReadDTO).isEqualToComparingFieldByField(film);
+        Assertions.assertThat(filmReadDTO).isEqualToIgnoringGivenFields(film, "castList");
     }
 
     @Test
@@ -104,10 +105,10 @@ public class FilmServiceTest {
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "castList");
 
         film = filmRepository.findById(read.getId()).get();
-        Assertions.assertThat(film).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(film).isEqualToIgnoringGivenFields(read, "castList");
     }
 
     @Test
@@ -125,10 +126,19 @@ public class FilmServiceTest {
         put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.putFilm(film.getId(), put);
 
-        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "castList");
 
         film = filmRepository.findById(read.getId()).get();
-        Assertions.assertThat(film).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(film).isEqualToIgnoringGivenFields(read, "castList");
+    }
+
+    @Test
+    public void testGetFilmExtended() {
+        Film film = createFilm();
+
+        FilmReadExtendedDTO read = filmService.getFilmExtended(film.getId());
+        Assertions.assertThat(read).isEqualToIgnoringGivenFields(film);
+        //TODO
     }
 
 

@@ -19,6 +19,9 @@ public class CastService {
     @Autowired
     CastRepository castRepository;
 
+    @Autowired
+    private TranslationService translationService;
+
     private Cast getCastRequired(UUID id) {
         return castRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(Cast.class, id));
@@ -26,41 +29,22 @@ public class CastService {
 
     public CastReadDTO getCast(UUID id) {
         Cast cast = getCastRequired(id);
-        return toRead(cast);
+        return translationService.toReadCast(cast);
 
     }
 
-    public CastReadDTO toRead(Cast cast) {
-        CastReadDTO castReadDTO = new CastReadDTO();
-        castReadDTO.setId(cast.getId());
-        castReadDTO.setName(cast.getName());
-        castReadDTO.setNameRoleInFilm(cast.getNameRoleInFilm());
-        castReadDTO.setRoleInFilm(cast.getRoleInFilm());
-        return castReadDTO;
-    }
 
     public CastReadDTO createCast(CastCreateDTO create) {
-        Cast cast = new Cast();
-        cast.setName(create.getName());
-        cast.setNameRoleInFilm(create.getNameRoleInFilm());
-        cast.setRoleInFilm(create.getRoleInFilm());
+        Cast cast = translationService.toEntytyCast(create);
         cast = castRepository.save(cast);
-        return toRead(cast);
+        return translationService.toReadCast(cast);
     }
 
     public CastReadDTO patchCast(UUID id, CastPatchDTO patch) {
         Cast cast = getCastRequired(id);
-        if (patch.getName() != null) {
-            cast.setName(patch.getName());
-        }
-        if (patch.getNameRoleInFilm() != null) {
-            cast.setNameRoleInFilm(patch.getNameRoleInFilm());
-        }
-        if (patch.getRoleInFilm() != null) {
-            cast.setRoleInFilm(patch.getRoleInFilm());
-        }
+        translationService.patchEntytyCast(patch, cast);
         cast = castRepository.save(cast);
-        return toRead(cast);
+        return translationService.toReadCast(cast);
     }
 
     public CastReadDTO putCast(UUID id, CastPutDTO put) {
@@ -69,7 +53,7 @@ public class CastService {
         cast.setNameRoleInFilm(put.getNameRoleInFilm());
         cast.setRoleInFilm(put.getRoleInFilm());
         cast = castRepository.save(cast);
-        return toRead(cast);
+        return translationService.toReadCast(cast);
     }
 
     public void deleteCast(UUID id) {
