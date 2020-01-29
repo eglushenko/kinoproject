@@ -62,7 +62,7 @@ public class FilmServiceTest {
         film = filmRepository.save(film);
 
         FilmReadDTO readDTO = filmService.getFilm(film.getId());
-        Assertions.assertThat(readDTO).isEqualToIgnoringGivenFields(film, "castList");
+        Assertions.assertThat(readDTO).isEqualToIgnoringGivenFields(film, "casts");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -83,11 +83,11 @@ public class FilmServiceTest {
         create.setTitle("LEGO FILM");
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO filmReadDTO = filmService.createFilm(create);
-        Assertions.assertThat(create).isEqualToIgnoringGivenFields(filmReadDTO, "castList");
+        Assertions.assertThat(create).isEqualToIgnoringGivenFields(filmReadDTO, "casts");
         Assert.assertNotNull(filmReadDTO.getId());
 
         Film film = filmRepository.findById(filmReadDTO.getId()).get();
-        Assertions.assertThat(filmReadDTO).isEqualToIgnoringGivenFields(film, "castList");
+        Assertions.assertThat(filmReadDTO).isEqualToIgnoringGivenFields(film, "casts");
     }
 
     @Test
@@ -105,10 +105,10 @@ public class FilmServiceTest {
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "castList");
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "casts");
 
         film = filmRepository.findById(read.getId()).get();
-        Assertions.assertThat(film).isEqualToIgnoringGivenFields(read, "castList");
+        Assertions.assertThat(film).isEqualToIgnoringGivenFields(read, "casts");
     }
 
     @Test
@@ -126,10 +126,10 @@ public class FilmServiceTest {
         put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.putFilm(film.getId(), put);
 
-        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "castList");
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "casts");
 
         film = filmRepository.findById(read.getId()).get();
-        Assertions.assertThat(film).isEqualToIgnoringGivenFields(read, "castList");
+        Assertions.assertThat(film).isEqualToIgnoringGivenFields(read, "casts");
     }
 
     @Test

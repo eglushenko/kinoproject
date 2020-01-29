@@ -19,6 +19,7 @@ public class Cast {
     @Enumerated(EnumType.STRING)
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "film_id", nullable = false)
     private Film film;
 }

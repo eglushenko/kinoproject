@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CastService {
 
     @Autowired
-    CastRepository castRepository;
+    private CastRepository castRepository;
 
     @Autowired
     private TranslationService translationService;

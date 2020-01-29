@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.domain;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,13 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 @Getter
 @Setter
-@Entity
-public class Rate {
+public class Language {
     @Id
     @GeneratedValue
     private UUID id;
-    private float rate;
-
+    private String language;
+    private String languageShortName;
 }

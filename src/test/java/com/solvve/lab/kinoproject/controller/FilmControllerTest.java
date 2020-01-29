@@ -79,7 +79,7 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO filmActualDTO = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadDTO, "castList");
+        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadDTO, "casts");
 
         Mockito.verify(filmService).getFilm(filmReadDTO.getId());
     }
@@ -94,7 +94,7 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadExtendedDTO filmActualDTO = objectMapper.readValue(resultJson, FilmReadExtendedDTO.class);
-        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadExtended, "castList");
+        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadExtended, "casts");
 
         Mockito.verify(filmService).getFilmExtended(filmReadExtended.getId());
     }
@@ -142,7 +142,7 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "castList");
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "casts");
     }
 
     @Test

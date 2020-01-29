@@ -68,6 +68,11 @@
             <column name="name" type="varchar(255)"/>
             <column name="roleInFilm" type="varchar(50)"/>
             <column name="nameRoleInFilm" type="varchar(255)"/>
+            <column name="film_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_film_id"
+                             referencedTableName="film"
+                             referencedColumnNames="id"/>
+            </column>
         </createTable>
     </changeSet>
 

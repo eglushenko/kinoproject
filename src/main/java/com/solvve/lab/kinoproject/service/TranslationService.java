@@ -21,6 +21,10 @@ import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePutDTO;
 import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
+import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
+import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
+import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
+import com.solvve.lab.kinoproject.dto.typo.TypoReadDTO;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -260,5 +264,42 @@ public class TranslationService {
         return filmReadExtendedDTO;
     }
 
+//Typo
+
+    public TypoReadDTO toReadTypo(Typo typo) {
+        TypoReadDTO read = new TypoReadDTO();
+        read.setId(typo.getId());
+        read.setTypoMessege(typo.getTypoMessege());
+        read.setStatus(typo.getStatus());
+        read.setTypoLink(typo.getTypoLink());
+        return read;
+    }
+
+    public Typo toEntytyTypo(TypoCreateDTO create) {
+        Typo typo = new Typo();
+        typo.setTypoMessege(create.getTypoMessege());
+        typo.setTypoLink(create.getTypoLink());
+        typo.setStatus(create.getStatus());
+        return typo;
+    }
+
+    public void patchEntytyTypo(TypoPatchDTO patch, Typo typo) {
+        if (patch.getTypoMessege() != null) {
+            typo.setTypoMessege(patch.getTypoMessege());
+        }
+        if (patch.getTypoLink() != null) {
+            typo.setTypoLink(patch.getTypoLink());
+        }
+        if (patch.getStatus() != null) {
+            typo.setStatus(patch.getStatus());
+        }
+
+    }
+
+    public void putEntytyTypo(TypoPutDTO put, Typo typo) {
+        typo.setTypoMessege(put.getTypoMessege());
+        typo.setTypoLink(put.getTypoLink());
+        typo.setStatus(put.getStatus());
+    }
 
 }
