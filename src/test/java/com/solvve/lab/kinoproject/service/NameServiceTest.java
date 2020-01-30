@@ -39,11 +39,7 @@ public class NameServiceTest {
 
     @Test
     public void testGetName() {
-        Name name = new Name();
-        name.setId(UUID.randomUUID());
-        name.setFirstName("Jhon");
-        name.setLastName("Dou");
-        name = nameRepository.save(name);
+        Name name = createName();
 
         NameReadDTO nameReadDTO = nameService.getName(name.getId());
         Assertions.assertThat(nameReadDTO).isEqualToIgnoringGivenFields(name, "casts");

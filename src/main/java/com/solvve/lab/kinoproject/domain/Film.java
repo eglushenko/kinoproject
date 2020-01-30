@@ -4,7 +4,10 @@ package com.solvve.lab.kinoproject.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -31,8 +34,6 @@ public class Film {
     //List category
     private String category;
     private String filmText;
-    @OneToMany(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "film")
+    @OneToMany(mappedBy = "film")
     private Set<Cast> casts = new HashSet<>();
 }

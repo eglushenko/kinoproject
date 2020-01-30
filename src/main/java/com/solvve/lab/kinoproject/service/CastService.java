@@ -35,14 +35,14 @@ public class CastService {
 
 
     public CastReadDTO createCast(CastCreateDTO create) {
-        Cast cast = translationService.toEntytyCast(create);
+        Cast cast = translationService.toEntityCast(create);
         cast = castRepository.save(cast);
         return translationService.toReadCast(cast);
     }
 
     public CastReadDTO patchCast(UUID id, CastPatchDTO patch) {
         Cast cast = getCastRequired(id);
-        translationService.patchEntytyCast(patch, cast);
+        translationService.patchEntityCast(patch, cast);
         cast = castRepository.save(cast);
         return translationService.toReadCast(cast);
     }

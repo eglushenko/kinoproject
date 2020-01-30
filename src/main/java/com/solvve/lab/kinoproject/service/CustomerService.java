@@ -32,21 +32,21 @@ public class CustomerService {
     }
 
     public CustomerReadDTO createCustomer(CustomerCreateDTO create) {
-        Customer customer = translationService.toEntytyCustomer(create);
+        Customer customer = translationService.toEntityCustomer(create);
         customer = customerRepository.save(customer);
         return translationService.toReadCustomer(customer);
     }
 
     public CustomerReadDTO patchCustomer(UUID id, CustomerPatchDTO patch) {
         Customer customer = getCustomerRequired(id);
-        translationService.patchEntytyCustomer(patch, customer);
+        translationService.patchEntityCustomer(patch, customer);
         customer = customerRepository.save(customer);
         return translationService.toReadCustomer(customer);
     }
 
     public CustomerReadDTO putCustomer(UUID id, CustomerPutDTO put) {
         Customer customer = getCustomerRequired(id);
-        translationService.putEntytyCustomer(put, customer);
+        translationService.putEntityCustomer(put, customer);
         customer = customerRepository.save(customer);
         return translationService.toReadCustomer(customer);
     }

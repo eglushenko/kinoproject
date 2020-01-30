@@ -32,21 +32,21 @@ public class TypoService {
     }
 
     public TypoReadDTO createTypo(TypoCreateDTO create) {
-        Typo typo = translationService.toEntytyTypo(create);
+        Typo typo = translationService.toEntityTypo(create);
         typo = typoRepository.save(typo);
         return translationService.toReadTypo(typo);
     }
 
     public TypoReadDTO patchTypo(UUID id, TypoPatchDTO patch) {
         Typo typo = getTypoRequired(id);
-        translationService.patchEntytyTypo(patch, typo);
+        translationService.patchEntityTypo(patch, typo);
         typo = typoRepository.save(typo);
         return translationService.toReadTypo(typo);
     }
 
     public TypoReadDTO putTypo(UUID id, TypoPutDTO put) {
         Typo typo = getTypoRequired(id);
-        translationService.putEntytyTypo(put, typo);
+        translationService.putEntityTypo(put, typo);
         typo = typoRepository.save(typo);
         return translationService.toReadTypo(typo);
     }

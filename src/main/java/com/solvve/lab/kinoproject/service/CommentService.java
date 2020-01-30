@@ -33,21 +33,21 @@ public class CommentService {
     }
 
     public CommentReadDTO createComment(CommentCreateDTO create) {
-        Comment comment = translationService.toEntytyComment(create);
+        Comment comment = translationService.toEntityComment(create);
         comment = commentRepository.save(comment);
         return translationService.toReadComment(comment);
     }
 
     public CommentReadDTO patchComment(UUID id, CommentPatchDTO patch) {
         Comment comment = getCommentRequired(id);
-        translationService.patchEntytyComment(patch, comment);
+        translationService.patchEntityComment(patch, comment);
         comment = commentRepository.save(comment);
         return translationService.toReadComment(comment);
     }
 
     public CommentReadDTO putComment(UUID id, CommentPutDTO put) {
         Comment comment = getCommentRequired(id);
-        translationService.putEntytyComment(put, comment);
+        translationService.putEntityComment(put, comment);
         comment = commentRepository.save(comment);
         return translationService.toReadComment(comment);
     }

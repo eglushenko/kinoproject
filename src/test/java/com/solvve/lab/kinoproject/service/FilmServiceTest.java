@@ -49,17 +49,7 @@ public class FilmServiceTest {
 
     @Test
     public void testGetFilm() {
-        Film film = new Film();
-        film.setId(UUID.randomUUID());
-        film.setCategory("category");
-        film.setCountry("UA");
-        film.setFilmText("");
-        film.setLang("UA");
-        film.setLength(83);
-        film.setRate(4.3F);
-        film.setTitle("LEGO FILM");
-        film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
-        film = filmRepository.save(film);
+        Film film = createFilm();
 
         FilmReadDTO readDTO = filmService.getFilm(film.getId());
         Assertions.assertThat(readDTO).isEqualToIgnoringGivenFields(film, "casts");

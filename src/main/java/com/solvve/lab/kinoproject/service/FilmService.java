@@ -37,25 +37,25 @@ public class FilmService {
 
     public FilmReadExtendedDTO getFilmExtended(UUID id) {
         Film film = getFilmRequired(id);
-        return translationService.toReadExtendadFilm(film);
+        return translationService.toReadExtendedFilm(film);
     }
 
     public FilmReadDTO createFilm(FilmCreateDTO create) {
-        Film film = translationService.toEntytyFilm(create);
+        Film film = translationService.toEntityFilm(create);
         film = filmRepository.save(film);
         return translationService.toReadFilm(film);
     }
 
     public FilmReadDTO patchFilm(UUID id, FilmPatchDTO patch) {
         Film film = getFilmRequired(id);
-        translationService.patchEntytyFilm(patch, film);
+        translationService.patchEntityFilm(patch, film);
         film = filmRepository.save(film);
         return translationService.toReadFilm(film);
     }
 
     public FilmReadDTO putFilm(UUID id, FilmPutDTO put) {
         Film film = getFilmRequired(id);
-        translationService.putEntytyFilm(put, film);
+        translationService.putEntityFilm(put, film);
         film = filmRepository.save(film);
         return translationService.toReadFilm(film);
     }

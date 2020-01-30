@@ -14,8 +14,9 @@ import java.util.UUID;
 
 @Service
 public class NameService {
+
     @Autowired
-    NameRepository nameRepository;
+    private NameRepository nameRepository;
 
     @Autowired
     private TranslationService translationService;
@@ -32,21 +33,21 @@ public class NameService {
     }
 
     public NameReadDTO createName(NameCreateDTO create) {
-        Name name = translationService.toEntytyName(create);
+        Name name = translationService.toEntityName(create);
         name = nameRepository.save(name);
         return translationService.toReadName(name);
     }
 
     public NameReadDTO patchName(UUID id, NamePatchDTO patch) {
         Name name = getNameRequired(id);
-        translationService.patchEntytyName(patch, name);
+        translationService.patchEntityName(patch, name);
         name = nameRepository.save(name);
         return translationService.toReadName(name);
     }
 
     public NameReadDTO putName(UUID id, NamePutDTO put) {
         Name name = getNameRequired(id);
-        translationService.putEntytyName(put, name);
+        translationService.putEntityName(put, name);
         return translationService.toReadName(name);
     }
 

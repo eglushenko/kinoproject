@@ -21,6 +21,10 @@ import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePutDTO;
 import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
+import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
+import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
+import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
+import com.solvve.lab.kinoproject.dto.review.ReviewReadDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
@@ -43,7 +47,7 @@ public class TranslationService {
         return customerReadDTO;
     }
 
-    public Customer toEntytyCustomer(CustomerCreateDTO create) {
+    public Customer toEntityCustomer(CustomerCreateDTO create) {
         Customer customer = new Customer();
         customer.setLogin(create.getLogin());
         customer.setFirstName(create.getFirstName());
@@ -53,7 +57,7 @@ public class TranslationService {
         return customer;
     }
 
-    public void patchEntytyCustomer(CustomerPatchDTO patch, Customer customer) {
+    public void patchEntityCustomer(CustomerPatchDTO patch, Customer customer) {
         if (patch.getFirstName() != null) {
             customer.setFirstName(patch.getFirstName());
         }
@@ -71,7 +75,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntytyCustomer(CustomerPutDTO put, Customer customer) {
+    public void putEntityCustomer(CustomerPutDTO put, Customer customer) {
         customer.setLogin(put.getLogin());
         customer.setFirstName(put.getFirstName());
         customer.setLastName(put.getLastName());
@@ -80,7 +84,7 @@ public class TranslationService {
     }
 
     //Cast
-    public Cast toEntytyCast(CastCreateDTO create) {
+    public Cast toEntityCast(CastCreateDTO create) {
         Cast cast = new Cast();
         //cast.setName(create.getName());
         cast.setNameRoleInFilm(create.getNameRoleInFilm());
@@ -97,7 +101,7 @@ public class TranslationService {
         return castReadDTO;
     }
 
-    public void patchEntytyCast(CastPatchDTO patch, Cast cast) {
+    public void patchEntityCast(CastPatchDTO patch, Cast cast) {
 //        if (patch.getName() != null) {
 //            cast.setName(patch.getName());
 //        }
@@ -111,7 +115,7 @@ public class TranslationService {
 
 //Comment
 
-    public Comment toEntytyComment(CommentCreateDTO create) {
+    public Comment toEntityComment(CommentCreateDTO create) {
         Comment comment = new Comment();
         comment.setCommentText(create.getCommentText());
         comment.setCommentStatus(create.getCommentStatus());
@@ -130,7 +134,7 @@ public class TranslationService {
         return commentReadDTO;
     }
 
-    public void patchEntytyComment(CommentPatchDTO patch, Comment comment) {
+    public void patchEntityComment(CommentPatchDTO patch, Comment comment) {
         if (patch.getCommentText() != null) {
             comment.setCommentText(patch.getCommentText());
         }
@@ -145,7 +149,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntytyComment(CommentPutDTO put, Comment comment) {
+    public void putEntityComment(CommentPutDTO put, Comment comment) {
         comment.setCommentText(put.getCommentText());
         comment.setCommentStatus(put.getCommentStatus());
         comment.setPostedDate(put.getPostedDate());
@@ -154,7 +158,7 @@ public class TranslationService {
 
 //Name
 
-    public Name toEntytyName(NameCreateDTO create) {
+    public Name toEntityName(NameCreateDTO create) {
         Name name = new Name();
         name.setFirstName(create.getFirstName());
         name.setLastName(create.getLastName());
@@ -169,7 +173,7 @@ public class TranslationService {
         return nameReadDTO;
     }
 
-    public void patchEntytyName(NamePatchDTO patch, Name name) {
+    public void patchEntityName(NamePatchDTO patch, Name name) {
         if (patch.getFirstName() != null) {
             name.setFirstName(patch.getFirstName());
         }
@@ -178,14 +182,14 @@ public class TranslationService {
         }
     }
 
-    public void putEntytyName(NamePutDTO put, Name name) {
+    public void putEntityName(NamePutDTO put, Name name) {
         name.setFirstName(put.getFirstName());
         name.setLastName(put.getLastName());
     }
 
 //Film
 
-    public Film toEntytyFilm(FilmCreateDTO create) {
+    public Film toEntityFilm(FilmCreateDTO create) {
         Film film = new Film();
         film.setCategory(create.getCategory());
         film.setCountry(create.getCountry());
@@ -212,7 +216,7 @@ public class TranslationService {
         return filmReadDTO;
     }
 
-    public void patchEntytyFilm(FilmPatchDTO patch, Film film) {
+    public void patchEntityFilm(FilmPatchDTO patch, Film film) {
         if (patch.getTitle() != null) {
             film.setTitle(patch.getTitle());
         }
@@ -239,7 +243,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntytyFilm(FilmPutDTO put, Film film) {
+    public void putEntityFilm(FilmPutDTO put, Film film) {
         film.setTitle(put.getTitle());
         film.setFilmText(put.getFilmText());
         film.setCategory(put.getCategory());
@@ -250,7 +254,7 @@ public class TranslationService {
         film.setRate(put.getRate());
     }
 
-    public FilmReadExtendedDTO toReadExtendadFilm(Film film) {
+    public FilmReadExtendedDTO toReadExtendedFilm(Film film) {
         FilmReadExtendedDTO filmReadExtendedDTO = new FilmReadExtendedDTO();
         filmReadExtendedDTO.setId(film.getId());
         filmReadExtendedDTO.setTitle(film.getTitle());
@@ -275,7 +279,7 @@ public class TranslationService {
         return read;
     }
 
-    public Typo toEntytyTypo(TypoCreateDTO create) {
+    public Typo toEntityTypo(TypoCreateDTO create) {
         Typo typo = new Typo();
         typo.setTypoMessege(create.getTypoMessege());
         typo.setTypoLink(create.getTypoLink());
@@ -283,7 +287,7 @@ public class TranslationService {
         return typo;
     }
 
-    public void patchEntytyTypo(TypoPatchDTO patch, Typo typo) {
+    public void patchEntityTypo(TypoPatchDTO patch, Typo typo) {
         if (patch.getTypoMessege() != null) {
             typo.setTypoMessege(patch.getTypoMessege());
         }
@@ -296,10 +300,33 @@ public class TranslationService {
 
     }
 
-    public void putEntytyTypo(TypoPutDTO put, Typo typo) {
+    public void putEntityTypo(TypoPutDTO put, Typo typo) {
         typo.setTypoMessege(put.getTypoMessege());
         typo.setTypoLink(put.getTypoLink());
         typo.setStatus(put.getStatus());
     }
 
+    //Review
+    public ReviewReadDTO toReadReview(Review review) {
+        ReviewReadDTO read = new ReviewReadDTO();
+        read.setId(review.getId());
+        read.setReviewText(review.getReviewText());
+        return read;
+    }
+
+    public Review toEntityReview(ReviewCreateDTO create) {
+        Review review = new Review();
+        review.setReviewText(create.getReviewText());
+        return review;
+    }
+
+    public void patchEntityReview(ReviewPatchDTO patch, Review review) {
+        if (patch.getReviewText() != null) {
+            review.setReviewText(patch.getReviewText());
+        }
+    }
+
+    public void putEntityReview(ReviewPutDTO put, Review review) {
+        review.setReviewText(put.getReviewText());
+    }
 }

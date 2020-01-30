@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/names")
 public class NameController {
     @Autowired
-    NameService nameService;
+    private NameService nameService;
 
     @GetMapping("/{id}")
     public NameReadDTO getActor(@PathVariable UUID id) {
