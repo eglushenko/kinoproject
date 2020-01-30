@@ -87,6 +87,30 @@ public class CommentServiceTest {
     }
 
     @Test
+    public void testPatchCommentEmptyPatch() {
+        Comment comment = createComment();
+
+        CommentPatchDTO patch = new CommentPatchDTO();
+
+        CommentReadDTO read = commentService.patchComment(comment.getId(), patch);
+
+        Assert.assertNotNull(read.getCommentStatus());
+        Assert.assertNotNull(read.getCommentText());
+        Assert.assertNotNull(read.getPostedDate());
+        Assert.assertTrue(read.getRate() > 0.0F);
+
+        Comment commentAfterUpdate = commentRepository.findById(read.getId()).get();
+
+        Assert.assertNotNull(commentAfterUpdate.getCommentStatus());
+        Assert.assertNotNull(commentAfterUpdate.getCommentText());
+        Assert.assertNotNull(commentAfterUpdate.getPostedDate());
+        Assert.assertTrue(commentAfterUpdate.getRate() > 0.0F);
+
+
+        Assertions.assertThat(comment).isEqualToComparingFieldByField(commentAfterUpdate);
+    }
+
+    @Test
     public void testPutComment() {
         Comment comment = createComment();
 

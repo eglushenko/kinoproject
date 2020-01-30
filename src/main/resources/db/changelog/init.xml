@@ -82,7 +82,6 @@
                              referencedTableName="name"
                              referencedColumnNames="id"/>
             </column>
-
         </createTable>
 
     </changeSet>

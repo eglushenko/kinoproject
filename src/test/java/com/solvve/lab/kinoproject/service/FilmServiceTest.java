@@ -102,6 +102,36 @@ public class FilmServiceTest {
     }
 
     @Test
+    public void testPatchFilmEmptyPatch() {
+        Film film = createFilm();
+
+        FilmPatchDTO patch = new FilmPatchDTO();
+
+        FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
+
+        Assert.assertNotNull(read.getCategory());
+        Assert.assertNotNull(read.getCountry());
+        Assert.assertNotNull(read.getFilmText());
+        Assert.assertNotNull(read.getLang());
+        Assert.assertNotNull(read.getLastUpdate());
+        Assert.assertNotNull(read.getTitle());
+        Assert.assertTrue(read.getLength() > 0);
+        Assert.assertTrue(read.getRate() > 0.0F);
+        Film filmAfterUpdate = filmRepository.findById(read.getId()).get();
+
+        Assert.assertNotNull(filmAfterUpdate.getCategory());
+        Assert.assertNotNull(filmAfterUpdate.getCountry());
+        Assert.assertNotNull(filmAfterUpdate.getFilmText());
+        Assert.assertNotNull(filmAfterUpdate.getLang());
+        Assert.assertNotNull(filmAfterUpdate.getLastUpdate());
+        Assert.assertNotNull(filmAfterUpdate.getTitle());
+        Assert.assertTrue(filmAfterUpdate.getLength() > 0);
+        Assert.assertTrue(filmAfterUpdate.getRate() > 0.0F);
+
+        Assertions.assertThat(film).isEqualToIgnoringGivenFields(filmAfterUpdate, "casts");
+    }
+
+    @Test
     public void testPutFilm() {
         Film film = createFilm();
 
@@ -127,7 +157,7 @@ public class FilmServiceTest {
         Film film = createFilm();
 
         FilmReadExtendedDTO read = filmService.getFilmExtended(film.getId());
-        Assertions.assertThat(read).isEqualToIgnoringGivenFields(film);
+        Assertions.assertThat(read).isEqualToIgnoringGivenFields(film, "casts");
         //TODO
     }
 
