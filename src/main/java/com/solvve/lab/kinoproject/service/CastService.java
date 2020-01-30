@@ -49,7 +49,7 @@ public class CastService {
 
     public CastReadDTO putCast(UUID id, CastPutDTO put) {
         Cast cast = getCastRequired(id);
-        cast.setName(put.getName());
+        //cast.setName(put.getName());
         cast.setNameRoleInFilm(put.getNameRoleInFilm());
         cast.setRoleInFilm(put.getRoleInFilm());
         cast = castRepository.save(cast);

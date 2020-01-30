@@ -12,7 +12,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-public class Stils {
+public class Stil {
     @Id
     @GeneratedValue
     private UUID id;

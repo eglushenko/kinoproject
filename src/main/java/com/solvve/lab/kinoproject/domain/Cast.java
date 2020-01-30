@@ -14,12 +14,11 @@ public class Cast {
     @Id
     @GeneratedValue
     private UUID id;
-    //@ManyToOne
-    private String name;
+    @ManyToOne
+    private Name name;
     @Enumerated(EnumType.STRING)
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "film_id", nullable = false)
+    @ManyToOne
     private Film film;
 }

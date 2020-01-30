@@ -45,7 +45,7 @@ public class CastControllerTest {
     private CastReadDTO createCastRead() {
         CastReadDTO read = new CastReadDTO();
         read.setId(UUID.randomUUID());
-        read.setName("somt");
+        //read.setName("somt");
         read.setRoleInFilm(NameFilmRole.ACTOR);
         read.setNameRoleInFilm("Jhon Dou");
         return read;
@@ -61,7 +61,7 @@ public class CastControllerTest {
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
         CastReadDTO actual = objectMapper.readValue(resultJson, CastReadDTO.class);
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(cast, "film");
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(cast, "film", "name");
 
         Mockito.verify(castService).getCast(cast.getId());
     }
@@ -91,7 +91,7 @@ public class CastControllerTest {
     @Test
     public void testCreateCast() throws Exception {
         CastCreateDTO create = new CastCreateDTO();
-        create.setName("somt");
+        //create.setName("somt");
         create.setRoleInFilm(NameFilmRole.ACTOR);
         create.setNameRoleInFilm("Jhon Dou");
 
@@ -104,13 +104,13 @@ public class CastControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         CastReadDTO castReadDTO = objectMapper.readValue(resultJson, CastReadDTO.class);
-        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(read, "film");
+        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(read, "film", "name");
     }
 
     @Test
     public void testPatchComment() throws Exception {
         CastPatchDTO patchDTO = new CastPatchDTO();
-        patchDTO.setName("somt");
+        //patchDTO.setName("somt");
         patchDTO.setRoleInFilm(NameFilmRole.ACTOR);
         patchDTO.setNameRoleInFilm("Jhon Dou");
 

@@ -46,7 +46,7 @@ public class NameServiceTest {
         name = nameRepository.save(name);
 
         NameReadDTO nameReadDTO = nameService.getName(name.getId());
-        Assertions.assertThat(nameReadDTO).isEqualToComparingFieldByField(name);
+        Assertions.assertThat(nameReadDTO).isEqualToIgnoringGivenFields(name, "casts");
 
     }
 
@@ -66,7 +66,7 @@ public class NameServiceTest {
         Assert.assertNotNull(nameReadDTO.getId());
 
         Name name = nameRepository.findById(nameReadDTO.getId()).get();
-        Assertions.assertThat(nameReadDTO).isEqualToComparingFieldByField(name);
+        Assertions.assertThat(nameReadDTO).isEqualToIgnoringGivenFields(name, "casts");
     }
 
     @Test
@@ -78,10 +78,10 @@ public class NameServiceTest {
         patch.setLastName("Smith");
         NameReadDTO read = nameService.patchName(name.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "casts");
 
         name = nameRepository.findById(read.getId()).get();
-        Assertions.assertThat(name).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(name).isEqualToIgnoringGivenFields(read, "casts");
     }
 
     @Test
@@ -93,10 +93,10 @@ public class NameServiceTest {
         put.setLastName("Dou");
         NameReadDTO read = nameService.putName(name.getId(), put);
 
-        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "casts");
 
         name = nameRepository.findById(read.getId()).get();
-        Assertions.assertThat(name).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(name).isEqualToIgnoringGivenFields(read, "casts");
     }
 
     @Test
@@ -115,7 +115,7 @@ public class NameServiceTest {
         Assert.assertNotNull(nameAfterUpdate.getFirstName());
         Assert.assertNotNull(nameAfterUpdate.getLastName());
 
-        Assertions.assertThat(name).isEqualToComparingFieldByField(nameAfterUpdate);
+        Assertions.assertThat(name).isEqualToIgnoringGivenFields(nameAfterUpdate, "casts");
     }
 
     @Test

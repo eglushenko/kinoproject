@@ -25,7 +25,7 @@
             <column name="country" type="varchar(50)"/>
             <column name="lang" type="varchar(50)"/>
             <column name="rate" type="double"/>
-            <column name="lastUpdate" type="date"/>
+            <column name="lastUpdate" type="datetime"/>
             <column name="name" type="varchar(255)"/>
             <column name="category" type="varchar(50)"/>
             <column name="filmText" type="clob"/>
@@ -48,7 +48,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="comment_text" type="varchar(255)"/>
-            <column name="posted_date" type="date"/>
+            <column name="posted_date" type="datetime"/>
             <column name="comment_status" type="varchar(50)"/>
             <column name="rate" type="double"/>
         </createTable>
@@ -71,6 +71,11 @@
             <column name="film_id" type="uuid">
                 <constraints foreignKeyName="fk_ai_film_id"
                              referencedTableName="film"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="name_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_name_id"
+                             referencedTableName="name"
                              referencedColumnNames="id"/>
             </column>
         </createTable>

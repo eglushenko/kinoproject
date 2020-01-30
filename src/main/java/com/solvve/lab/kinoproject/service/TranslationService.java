@@ -82,7 +82,7 @@ public class TranslationService {
     //Cast
     public Cast toEntytyCast(CastCreateDTO create) {
         Cast cast = new Cast();
-        cast.setName(create.getName());
+        //cast.setName(create.getName());
         cast.setNameRoleInFilm(create.getNameRoleInFilm());
         cast.setRoleInFilm(create.getRoleInFilm());
         return cast;
@@ -91,16 +91,16 @@ public class TranslationService {
     public CastReadDTO toReadCast(Cast cast) {
         CastReadDTO castReadDTO = new CastReadDTO();
         castReadDTO.setId(cast.getId());
-        castReadDTO.setName(cast.getName());
+        //castReadDTO.setName(cast.getName());
         castReadDTO.setNameRoleInFilm(cast.getNameRoleInFilm());
         castReadDTO.setRoleInFilm(cast.getRoleInFilm());
         return castReadDTO;
     }
 
     public void patchEntytyCast(CastPatchDTO patch, Cast cast) {
-        if (patch.getName() != null) {
-            cast.setName(patch.getName());
-        }
+//        if (patch.getName() != null) {
+//            cast.setName(patch.getName());
+//        }
         if (patch.getNameRoleInFilm() != null) {
             cast.setNameRoleInFilm(patch.getNameRoleInFilm());
         }

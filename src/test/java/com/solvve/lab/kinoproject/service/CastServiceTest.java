@@ -35,7 +35,7 @@ public class CastServiceTest {
 
     private Cast createCast() {
         Cast cast = new Cast();
-        cast.setName("somt");
+        //cast.setName("somt");
         cast.setRoleInFilm(NameFilmRole.ACTOR);
         cast.setNameRoleInFilm("Jhon Dou");
         return castRepository.save(cast);
@@ -69,7 +69,7 @@ public class CastServiceTest {
         Cast cast = createCast();
 
         CastPatchDTO patch = new CastPatchDTO();
-        patch.setName("somt");
+        //patch.setName("somt");
         patch.setRoleInFilm(NameFilmRole.ACTOR);
         patch.setNameRoleInFilm("Jhon Dou");
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
@@ -88,13 +88,13 @@ public class CastServiceTest {
 
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
 
-        Assert.assertNotNull(read.getName());
+        //Assert.assertNotNull(read.getName());
         Assert.assertNotNull(read.getNameRoleInFilm());
         Assert.assertNotNull(read.getRoleInFilm());
 
         Cast castAfterUpdate = castRepository.findById(read.getId()).get();
 
-        Assert.assertNotNull(castAfterUpdate.getName());
+        //Assert.assertNotNull(castAfterUpdate.getName());
         Assert.assertNotNull(castAfterUpdate.getNameRoleInFilm());
         Assert.assertNotNull(castAfterUpdate.getRoleInFilm());
 
@@ -106,7 +106,7 @@ public class CastServiceTest {
         Cast cast = createCast();
 
         CastPutDTO put = new CastPutDTO();
-        put.setName("somt");
+        //put.setName("somt");
         put.setRoleInFilm(NameFilmRole.DIRECTOR);
         put.setNameRoleInFilm("Jhon Dou");
         CastReadDTO read = castService.putCast(cast.getId(), put);
