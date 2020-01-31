@@ -12,6 +12,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,15 +32,17 @@ public class FilmRepositoryTest {
     private FilmRepository filmRepository;
 
     private Film createFilm() {
+        ZoneOffset utc = ZoneOffset.UTC;
         Film film = new Film();
         film.setCategory("category");
         film.setCountry("UA");
         film.setFilmText("");
-        film.setLang("UA");
+        film.setLang("en");
         film.setLength(83);
         film.setRate(4.3F);
         film.setTitle("LEGO FILM");
-        film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        film.setRealiseYear(LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc));
+        film.setLastUpdate(LocalDateTime.of(2019, 12, 01, 17, 01).toInstant(utc));
         return filmRepository.save(film);
     }
 
@@ -61,6 +65,23 @@ public class FilmRepositoryTest {
 
         List<Film> res = filmRepository.findByRateGreaterThan(4F);
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film3.getId());
+    }
+
+    @Test
+    public void testGetFilmInIntervalAndParaametrs() {
+        ZoneOffset utc = ZoneOffset.UTC;
+        Film film1 = createFilm();
+        Film film2 = createFilm();
+        Film film3 = createFilm();
+        film3.setRealiseYear(LocalDateTime.of(2018, 01, 01, 00, 01).toInstant(utc));
+        film3.setLastUpdate(LocalDateTime.of(2018, 01, 01, 00, 01).toInstant(utc));
+        filmRepository.save(film3);
+
+        Instant lastUpdate = LocalDateTime.of(2019, 12, 01, 00, 01).toInstant(utc);
+        Instant param2 = LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc);
+        List<Film> res = filmRepository.findFilmSortedByRealiseYearAndlastUpdate("en", 0.1F, lastUpdate, param2);
+        Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film2.getId());
+
     }
 
 }

@@ -27,11 +27,9 @@ public class Film {
     private float rate;
     // film length in minutes
     private int length;
-    //Using Sql date and time like TimeStamp
     private Instant lastUpdate;
     //One to Many (List of actors)
-    private String actor;
-    //List category
+    private Instant realiseYear;
     private String category;
     private String filmText;
     @OneToMany(mappedBy = "film")

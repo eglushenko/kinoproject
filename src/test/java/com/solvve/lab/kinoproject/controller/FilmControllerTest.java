@@ -50,7 +50,6 @@ public class FilmControllerTest {
         read.setTitle("some film");
         read.setRate(8.3F);
         read.setCountry("Ukraine");
-        read.setActor(" Bob square pents");
         read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return read;
     }
@@ -64,7 +63,6 @@ public class FilmControllerTest {
         read.setTitle("some film");
         read.setRate(8.3F);
         read.setCountry("Ukraine");
-        read.setActor(" Bob square pents");
         read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return read;
     }
@@ -129,7 +127,6 @@ public class FilmControllerTest {
         create.setTitle("some film");
         create.setRate(8.3F);
         create.setCountry("Ukraine");
-        create.setActor(" Bob square pents");
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
         FilmReadDTO read = createFilmRead();
@@ -154,7 +151,6 @@ public class FilmControllerTest {
         patch.setTitle("film");
         patch.setRate(1.3F);
         patch.setCountry("USA");
-        patch.setActor(" Bob square pents");
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
         FilmReadDTO read = createFilmRead();

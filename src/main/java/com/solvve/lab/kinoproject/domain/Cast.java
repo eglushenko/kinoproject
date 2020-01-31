@@ -10,6 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+//TODO 'cast' is a reserved keyword and should be quoted
 public class Cast {
     @Id
     @GeneratedValue

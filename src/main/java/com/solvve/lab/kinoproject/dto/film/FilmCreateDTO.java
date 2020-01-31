@@ -12,7 +12,7 @@ public class FilmCreateDTO {
     private float rate;
     private int length;
     private Instant lastUpdate;
-    private String actor;
+    private Instant realiseYear;
     private String category;
     private String filmText;
 

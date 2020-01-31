@@ -26,6 +26,7 @@
             <column name="lang" type="varchar(50)"/>
             <column name="rate" type="double"/>
             <column name="lastUpdate" type="datetime"/>
+            <column name="realiseYear" type="datetime"/>
             <column name="category" type="varchar(50)"/>
             <column name="filmText" type="clob"/>
         </createTable>
