@@ -28,14 +28,13 @@ import java.util.UUID;
 public class CastServiceTest {
 
     @Autowired
-    CastRepository castRepository;
+    private CastRepository castRepository;
 
     @Autowired
     private CastService castService;
 
     private Cast createCast() {
         Cast cast = new Cast();
-        //cast.setName("somt");
         cast.setRoleInFilm(NameFilmRole.ACTOR);
         cast.setNameRoleInFilm("Jhon Dou");
         return castRepository.save(cast);
@@ -54,7 +53,7 @@ public class CastServiceTest {
     }
 
     @Test
-    public void createCastTest() {
+    public void testCreateCast() {
         CastCreateDTO create = new CastCreateDTO();
         CastReadDTO castReadDTO = castService.createCast(create);
         Assertions.assertThat(create).isEqualToIgnoringGivenFields(castReadDTO, "film", "name");
@@ -67,9 +66,7 @@ public class CastServiceTest {
     @Test
     public void testPatchCast() {
         Cast cast = createCast();
-
         CastPatchDTO patch = new CastPatchDTO();
-        //patch.setName("somt");
         patch.setRoleInFilm(NameFilmRole.ACTOR);
         patch.setNameRoleInFilm("Jhon Dou");
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
@@ -88,13 +85,11 @@ public class CastServiceTest {
 
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
 
-        //Assert.assertNotNull(read.getName());
         Assert.assertNotNull(read.getNameRoleInFilm());
         Assert.assertNotNull(read.getRoleInFilm());
 
         Cast castAfterUpdate = castRepository.findById(read.getId()).get();
 
-        //Assert.assertNotNull(castAfterUpdate.getName());
         Assert.assertNotNull(castAfterUpdate.getNameRoleInFilm());
         Assert.assertNotNull(castAfterUpdate.getRoleInFilm());
 
@@ -106,11 +101,9 @@ public class CastServiceTest {
         Cast cast = createCast();
 
         CastPutDTO put = new CastPutDTO();
-        //put.setName("somt");
         put.setRoleInFilm(NameFilmRole.DIRECTOR);
         put.setNameRoleInFilm("Jhon Dou");
         CastReadDTO read = castService.putCast(cast.getId(), put);
-
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "film", "name");
 
         cast = castRepository.findById(read.getId()).get();

@@ -9,7 +9,6 @@ import java.util.UUID;
 @Data
 public class CastReadDTO {
     private UUID id;
-    private String name;
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;
 }

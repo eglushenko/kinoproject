@@ -49,12 +49,11 @@ public class CastService {
 
     public CastReadDTO putCast(UUID id, CastPutDTO put) {
         Cast cast = getCastRequired(id);
-        //cast.setName(put.getName());
-        cast.setNameRoleInFilm(put.getNameRoleInFilm());
-        cast.setRoleInFilm(put.getRoleInFilm());
+        translationService.putEntityCast(put, cast);
         cast = castRepository.save(cast);
         return translationService.toReadCast(cast);
     }
+
 
     public void deleteCast(UUID id) {
         castRepository.delete(getCastRequired(id));

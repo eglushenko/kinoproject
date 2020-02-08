@@ -45,7 +45,6 @@ public class CastControllerTest {
     private CastReadDTO createCastRead() {
         CastReadDTO read = new CastReadDTO();
         read.setId(UUID.randomUUID());
-        //read.setName("somt");
         read.setRoleInFilm(NameFilmRole.ACTOR);
         read.setNameRoleInFilm("Jhon Dou");
         return read;
@@ -91,7 +90,6 @@ public class CastControllerTest {
     @Test
     public void testCreateCast() throws Exception {
         CastCreateDTO create = new CastCreateDTO();
-        //create.setName("somt");
         create.setRoleInFilm(NameFilmRole.ACTOR);
         create.setNameRoleInFilm("Jhon Dou");
 
@@ -110,7 +108,6 @@ public class CastControllerTest {
     @Test
     public void testPatchComment() throws Exception {
         CastPatchDTO patchDTO = new CastPatchDTO();
-        //patchDTO.setName("somt");
         patchDTO.setRoleInFilm(NameFilmRole.ACTOR);
         patchDTO.setNameRoleInFilm("Jhon Dou");
 
@@ -132,7 +129,6 @@ public class CastControllerTest {
     @Test
     public void testPutCast() throws Exception {
         CastPutDTO putDTO = new CastPutDTO();
-        putDTO.setName("somt");
         putDTO.setRoleInFilm(NameFilmRole.ACTOR);
         putDTO.setNameRoleInFilm("Jhon Dou");
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="load customers" author="eglushenko" runOnChange="true">
+        <loadData tableName="customer" file="db/data/customer.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="login" type="string"/>
+            <column name="first_name" type="string"/>
+            <column name="last_name" type="string"/>
+            <column name="email" type="string"/>
+            <column name="role" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load comments" author="eglushenko" runOnChange="true">
+        <loadData tableName="comment" file="db/data/comment.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="comment_text" type="string"/>
+            <column name="posted_date" type="datetime"/>
+            <column name="comment_status" type="string"/>
+            <column name="rate" type="numeric"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load names" author="eglushenko" runOnChange="true">
+        <loadData tableName="name" file="db/data/name.csv" separator=";">
+            <column name="id" type="uuid"/>
+
+        </loadData>
+    </changeSet>
+    <changeSet id="load reviews" author="eglushenko" runOnChange="true">
+        <loadData tableName="review" file="db/data/review.csv" separator=";">
+            <column name="id" type="uuid"/>
+
+        </loadData>
+    </changeSet>
+    <changeSet id="load typos" author="eglushenko" runOnChange="true">
+        <loadData tableName="typo" file="db/data/typo.csv" separator=";">
+            <column name="id" type="uuid"/>
+
+        </loadData>
+    </changeSet>
+    <changeSet id="load language" author="eglushenko" runOnChange="true">
+        <loadData tableName="language" file="db/data/language.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="language" type="string"/>
+            <column name="languageShortName" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load films" author="eglushenko" runOnChange="true">
+        <loadData tableName="film" file="db/data/film.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="title" type="string"/>
+            <column name="country" type="string"/>
+            <column name="lang" type="string"/>
+            <column name="rate" type="numeric"/>
+            <column name="lastUpdate" type="datetime"/>
+            <column name="realiseYear" type="datetime"/>
+            <column name="category" type="string"/>
+            <column name="filmText" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load casts" author="eglushenko" runOnChange="true">
+        <loadData tableName="cast" file="db/data/cast.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="roleInFilm" type="string"/>
+            <column name="nameRoleInFilm" type="string"/>
+            <column name="film_id" type="uuid"/>
+            <column name="name_id" type="uuid"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load countryes" author="eglushenko" runOnChange="true">
+        <loadData tableName="country" file="db/data/country.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="countryName" type="string"/>
+            <column name="countryShortName" type="string"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

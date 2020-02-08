@@ -4,6 +4,7 @@ import com.solvve.lab.kinoproject.domain.*;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
+import com.solvve.lab.kinoproject.dto.cast.CastPutDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastReadDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
@@ -86,7 +87,6 @@ public class TranslationService {
     //Cast
     public Cast toEntityCast(CastCreateDTO create) {
         Cast cast = new Cast();
-        //cast.setName(create.getName());
         cast.setNameRoleInFilm(create.getNameRoleInFilm());
         cast.setRoleInFilm(create.getRoleInFilm());
         return cast;
@@ -95,16 +95,12 @@ public class TranslationService {
     public CastReadDTO toReadCast(Cast cast) {
         CastReadDTO castReadDTO = new CastReadDTO();
         castReadDTO.setId(cast.getId());
-        //castReadDTO.setName(cast.getName());
         castReadDTO.setNameRoleInFilm(cast.getNameRoleInFilm());
         castReadDTO.setRoleInFilm(cast.getRoleInFilm());
         return castReadDTO;
     }
 
     public void patchEntityCast(CastPatchDTO patch, Cast cast) {
-//        if (patch.getName() != null) {
-//            cast.setName(patch.getName());
-//        }
         if (patch.getNameRoleInFilm() != null) {
             cast.setNameRoleInFilm(patch.getNameRoleInFilm());
         }
@@ -112,6 +108,12 @@ public class TranslationService {
             cast.setRoleInFilm(patch.getRoleInFilm());
         }
     }
+
+    public void putEntityCast(CastPutDTO put, Cast cast) {
+        cast.setRoleInFilm(put.getRoleInFilm());
+        cast.setNameRoleInFilm(put.getNameRoleInFilm());
+    }
+
 
 //Comment
 

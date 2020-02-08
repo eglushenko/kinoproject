@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class CastCreateDTO {
-    private String name;
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;
 }

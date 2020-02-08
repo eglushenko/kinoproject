@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
@@ -10,6 +11,7 @@ import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +161,40 @@ public class FilmServiceTest {
         FilmReadExtendedDTO read = filmService.getFilmExtended(film.getId());
         Assertions.assertThat(read).isEqualToIgnoringGivenFields(film, "casts");
         //TODO
+    }
+
+    @Test
+    public void testGetFilmByEmptyFilter() {
+        Film film1 = createFilm();
+        Film film2 = createFilm();
+
+        film1.setTitle("film1");
+        filmRepository.save(film1);
+        film2.setTitle("film2");
+        filmRepository.save(film2);
+
+        FilmFilter filmFilter = new FilmFilter();
+        Assertions.assertThat(filmService.getFilms(filmFilter)).extracting("id")
+                .containsExactlyInAnyOrder(film1.getId(), film2.getId());
+    }
+
+    @Ignore
+    @Test
+    public void testGetFilmsByLenght() {
+        Film film1 = createFilm();
+        film1.setLength(80);
+        filmRepository.save(film1);
+        Film film2 = createFilm();
+        film2.setRate(90);
+        filmRepository.save(film2);
+        Film film3 = createFilm();
+        Film film4 = createFilm();
+
+        FilmFilter filter = new FilmFilter();
+        filter.setLength(83);
+
+        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+                .containsExactlyInAnyOrder(film3.getId(), film4.getId());
     }
 
 

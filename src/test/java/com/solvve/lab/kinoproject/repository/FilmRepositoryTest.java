@@ -54,6 +54,7 @@ public class FilmRepositoryTest {
         assertTrue(filmRepository.findById(film.getId()).isPresent());
     }
 
+
     @Test
     public void testGetFilmsByRate() {
         Film film1 = createFilm();
@@ -68,7 +69,7 @@ public class FilmRepositoryTest {
     }
 
     @Test
-    public void testGetFilmInIntervalAndParaametrs() {
+    public void testGetFilmInIntervalAndParametrs() {
         ZoneOffset utc = ZoneOffset.UTC;
         Film film1 = createFilm();
         Film film2 = createFilm();
@@ -83,5 +84,6 @@ public class FilmRepositoryTest {
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film2.getId());
 
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.controller;
 
 
+import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
@@ -10,6 +11,7 @@ import com.solvve.lab.kinoproject.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +20,11 @@ public class FilmController {
 
     @Autowired
     private FilmService filmService;
+
+    @GetMapping
+    public List<FilmReadDTO> getFilms(FilmFilter filter) {
+        return filmService.getFilms(filter);
+    }
 
     @GetMapping("/{id}")
     public FilmReadDTO getFilm(@PathVariable UUID id) {

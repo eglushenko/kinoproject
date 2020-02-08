@@ -34,7 +34,7 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="firstname" type="varchar(50)"/>
+            <column name="firstName" type="varchar(50)"/>
             <column name="lastName" type="varchar(50)"/>
         </createTable>
         <createTable tableName="review" author="eglushenko">
@@ -83,6 +83,20 @@
                              referencedTableName="name"
                              referencedColumnNames="id"/>
             </column>
+        </createTable>
+        <createTable tableName="language" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="language" type="varchar(50)"/>
+            <column name="languageShortName" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="country" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="countryName" type="varchar(255)"/>
+            <column name="countryShortName" type="varchar(50)"/>
         </createTable>
 
     </changeSet>

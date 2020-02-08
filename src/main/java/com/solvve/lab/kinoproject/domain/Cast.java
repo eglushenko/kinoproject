@@ -21,5 +21,6 @@ public class Cast {
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;
     @ManyToOne
+    //@JoinColumn(nullable = false,updatable = false)
     private Film film;
 }
