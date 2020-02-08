@@ -11,7 +11,6 @@ import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,7 +159,6 @@ public class FilmServiceTest {
 
         FilmReadExtendedDTO read = filmService.getFilmExtended(film.getId());
         Assertions.assertThat(read).isEqualToIgnoringGivenFields(film, "casts");
-        //TODO
     }
 
     @Test
@@ -178,17 +176,19 @@ public class FilmServiceTest {
                 .containsExactlyInAnyOrder(film1.getId(), film2.getId());
     }
 
-    @Ignore
+
     @Test
-    public void testGetFilmsByLenght() {
+    public void testGetFilmsByFilter() {
         Film film1 = createFilm();
         film1.setLength(80);
         filmRepository.save(film1);
         Film film2 = createFilm();
-        film2.setRate(90);
+        film2.setLength(90);
         filmRepository.save(film2);
         Film film3 = createFilm();
+        filmRepository.save(film3);
         Film film4 = createFilm();
+        filmRepository.save(film4);
 
         FilmFilter filter = new FilmFilter();
         filter.setLength(83);
