@@ -21,20 +21,20 @@ public class FilmRepositoryCustomImpl implements FilmRepositoryCustom {
             stringBuilder.append(" and f.length = :length");
         }
         if (filter.getLastUpdate() != null) {
-            stringBuilder.append(" and f.lastUpdate = :lastUpdate");
+            stringBuilder.append(" and f.lastUpdate >= (:update)");
         }
         if (filter.getRealiseYear() != null) {
-            stringBuilder.append(" and f.realiseYear = :realiseYear");
+            stringBuilder.append(" and f.realiseYear = (:realise)");
         }
         TypedQuery<Film> query = entityManager.createQuery(stringBuilder.toString(), Film.class);
         if (filter.getLength() != null) {
             query.setParameter("length", filter.getLength());
         }
-        if (filter.getRealiseYear() != null) {
-            query.setParameter("lastUpdate", filter.getLastUpdate());
+        if (filter.getLastUpdate() != null) {
+            query.setParameter("update", filter.getLastUpdate());
         }
         if (filter.getRealiseYear() != null) {
-            query.setParameter("realiseYear", filter.getRealiseYear());
+            query.setParameter("realise", filter.getRealiseYear());
         }
         return query.getResultList();
     }

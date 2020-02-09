@@ -212,4 +212,79 @@ public class FilmServiceTest {
         filmService.deleteFilm(UUID.randomUUID());
     }
 
+    @Test
+    public void testGetFilmsByEmptyFilter() {
+        Film film1 = createFilm();
+        Film film2 = createFilm();
+        Film film3 = createFilm();
+
+        FilmFilter filter = new FilmFilter();
+        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+                .containsExactlyInAnyOrder(film1.getId(), film2.getId(), film3.getId());
+    }
+
+    @Test
+    public void testGetFilmsByFilterLastUpdate() {
+        Film film1 = createFilm();
+        film1.setLastUpdate(Instant.parse("2020-01-03T01:15:30.00Z"));
+        filmRepository.save(film1);
+        Film film2 = createFilm();
+        Film film3 = createFilm();
+
+        FilmFilter filter = new FilmFilter();
+        filter.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+                .containsExactlyInAnyOrder(film2.getId(), film3.getId());
+    }
+
+    @Test
+    public void testGetFilmsByFilterRelise() {
+        Film film1 = createFilm();
+        film1.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
+        filmRepository.save(film1);
+        Film film2 = createFilm();
+        film2.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
+        filmRepository.save(film2);
+        Film film3 = createFilm();
+        film3.setRealiseYear(Instant.parse("2020-01-01T00:01:00.00Z"));
+        filmRepository.save(film3);
+        Film film4 = createFilm();
+        film4.setRealiseYear(Instant.parse("2019-01-01T00:00:00.01Z"));
+        filmRepository.save(film4);
+
+        FilmFilter filter = new FilmFilter();
+        filter.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
+        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+                .containsExactlyInAnyOrder(film1.getId(), film2.getId());
+    }
+
+    @Test
+    public void testGetFilmsByFilterAllParam() {
+        Film film1 = createFilm();
+        film1.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
+        film1.setLastUpdate(Instant.parse("2020-01-01T00:01:00.00Z"));
+        filmRepository.save(film1);
+        Film film2 = createFilm();
+        film2.setLastUpdate(Instant.parse("2020-01-01T00:01:00.00Z"));
+        film2.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
+        filmRepository.save(film2);
+        Film film3 = createFilm();
+        film3.setLength(33);
+        film3.setLastUpdate(Instant.parse("2020-01-01T00:01:00.00Z"));
+        film3.setRealiseYear(Instant.parse("2020-01-01T00:01:00.00Z"));
+        filmRepository.save(film3);
+        Film film4 = createFilm();
+        film4.setLength(86);
+        film4.setLastUpdate(Instant.parse("2020-01-01T00:00:00.01Z"));
+        film4.setRealiseYear(Instant.parse("2019-01-01T00:00:00.01Z"));
+        filmRepository.save(film4);
+
+        FilmFilter filter = new FilmFilter();
+        filter.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
+        filter.setLastUpdate(Instant.parse("2020-01-01T00:01:00.00Z"));
+        filter.setLength(83);
+        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+                .containsExactlyInAnyOrder(film1.getId(), film2.getId());
+    }
+
 }
