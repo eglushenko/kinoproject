@@ -27,19 +27,35 @@
     <changeSet id="load names" author="eglushenko" runOnChange="true">
         <loadData tableName="name" file="db/data/name.csv" separator=";">
             <column name="id" type="uuid"/>
-
+            <column name="firstName" type="string"/>
+            <column name="lastName" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load reviews" author="eglushenko" runOnChange="true">
         <loadData tableName="review" file="db/data/review.csv" separator=";">
             <column name="id" type="uuid"/>
-
+            <column name="reviewText" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load posters" author="eglushenko" runOnChange="true">
+        <loadData tableName="poster" file="db/data/poster.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="posterLink" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load genre" author="eglushenko" runOnChange="true">
+        <loadData tableName="genre" file="db/data/genre.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="genreName" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load typos" author="eglushenko" runOnChange="true">
         <loadData tableName="typo" file="db/data/typo.csv" separator=";">
             <column name="id" type="uuid"/>
-
+            <column name="typoMessege" type="string"/>
+            <column name="typoLink" type="string"/>
+            <column name="commentStatus" type="string"/>
+            <column name="status" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load language" author="eglushenko" runOnChange="true">

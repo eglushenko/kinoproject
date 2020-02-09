@@ -43,6 +43,12 @@
             </column>
             <column name="reviewText" type="clob"/>
         </createTable>
+        <createTable tableName="poster" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="posterLink" type="varchar(255)"/>
+        </createTable>
         <createTable tableName="genere" author="eglushenko">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
@@ -62,8 +68,8 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="typoMessege" type="uuid"/>
-            <column name="typoLink" type="uuid"/>
+            <column name="typoMessege" type="clob"/>
+            <column name="typoLink" type="varchar(255)"/>
             <column name="commentStatus" type="varchar(50)"/>
             <column name="status" type="varchar(50)"/>
         </createTable>
