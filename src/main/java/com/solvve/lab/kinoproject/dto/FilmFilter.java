@@ -8,5 +8,5 @@ import java.time.Instant;
 public class FilmFilter {
     private Instant lastUpdate;
     private Instant realiseYear;
-    private int length;
+    private Integer length;
 }

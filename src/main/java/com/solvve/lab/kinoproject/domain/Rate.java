@@ -15,6 +15,6 @@ public class Rate {
     @Id
     @GeneratedValue
     private UUID id;
-    private float rate;
+    private Float rate;
 
 }

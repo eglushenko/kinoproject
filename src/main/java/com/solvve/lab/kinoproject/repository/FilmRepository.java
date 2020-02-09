@@ -18,6 +18,6 @@ public interface FilmRepository extends CrudRepository<Film, UUID>, FilmReposito
     @Query("select f from Film f where f.lang = :lang and f.rate >= :rate"
             + " and f.lastUpdate >= :lastUpdate and f.realiseYear >= :realiseYear order by f.lastUpdate asc")
     List<Film> findFilmSortedByRealiseYearAndlastUpdate(
-            String lang, float rate, Instant lastUpdate, Instant realiseYear);
+            String lang, Float rate, Instant lastUpdate, Instant realiseYear);
 
 }

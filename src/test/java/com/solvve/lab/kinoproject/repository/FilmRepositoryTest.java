@@ -80,7 +80,7 @@ public class FilmRepositoryTest {
 
         Instant lastUpdate = LocalDateTime.of(2019, 12, 01, 00, 01).toInstant(utc);
         Instant param2 = LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc);
-        List<Film> res = filmRepository.findFilmSortedByRealiseYearAndlastUpdate("en", 0.1F, lastUpdate, param2);
+        List<Film> res = filmRepository.findFilmSortedByRealiseYearAndlastUpdate("en", 1.1F, lastUpdate, param2);
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film2.getId());
 
     }

@@ -17,7 +17,7 @@ public class FilmRepositoryCustomImpl implements FilmRepositoryCustom {
     public List<Film> findByFilter(FilmFilter filter) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("select f from Film f where 1=1");
-        if (filter.getLength() > 0) {
+        if (filter.getLength() != null) {
             stringBuilder.append(" and f.length = :length");
         }
         if (filter.getLastUpdate() != null) {
@@ -27,7 +27,7 @@ public class FilmRepositoryCustomImpl implements FilmRepositoryCustom {
             stringBuilder.append(" and f.realiseYear = :realiseYear");
         }
         TypedQuery<Film> query = entityManager.createQuery(stringBuilder.toString(), Film.class);
-        if (filter.getLength() > 0) {
+        if (filter.getLength() != null) {
             query.setParameter("length", filter.getLength());
         }
         if (filter.getRealiseYear() != null) {

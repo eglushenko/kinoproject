@@ -11,8 +11,8 @@ public class FilmReadDTO {
     private String title;
     private String country;
     private String lang;
-    private float rate;
-    private int length;
+    private Float rate;
+    private Integer length;
     private Instant lastUpdate;
     private Instant realiseYear;
     private String category;

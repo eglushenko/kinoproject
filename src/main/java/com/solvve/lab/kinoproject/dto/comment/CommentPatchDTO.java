@@ -10,5 +10,5 @@ public class CommentPatchDTO {
     private String commentText;
     private LocalDate postedDate;
     private CommentStatus commentStatus;
-    private float rate;
+    private Float rate;
 }

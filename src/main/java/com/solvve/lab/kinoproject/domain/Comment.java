@@ -19,5 +19,5 @@ public class Comment {
     private LocalDate postedDate;
     @Enumerated(EnumType.STRING)
     private CommentStatus commentStatus;
-    private float rate;
+    private Float rate;
 }

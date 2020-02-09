@@ -24,9 +24,9 @@ public class Film {
     private String title;
     private String country;
     private String lang;
-    private float rate;
+    private Float rate;
     // film length in minutes
-    private int length;
+    private Integer length;
     private Instant lastUpdate;
     //One to Many (List of actors)
     private Instant realiseYear;

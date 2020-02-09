@@ -146,7 +146,7 @@ public class TranslationService {
         if (patch.getPostedDate() != null) {
             comment.setPostedDate(patch.getPostedDate());
         }
-        if (patch.getRate() > 0.0) {
+        if (patch.getRate() != null) {
             comment.setRate(patch.getRate());
         }
     }
@@ -234,13 +234,13 @@ public class TranslationService {
         if (patch.getLang() != null) {
             film.setLang(patch.getLang());
         }
-        if (patch.getLength() > 0) {
+        if (patch.getLength() != null) {
             film.setLength(patch.getLength());
         }
         if (patch.getLastUpdate() != null) {
             film.setLastUpdate(patch.getLastUpdate());
         }
-        if (patch.getRate() > 0.0) {
+        if (patch.getRate() != null) {
             film.setRate(patch.getRate());
         }
     }
