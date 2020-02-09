@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Review;
 import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
+import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.ReviewService;
@@ -112,6 +113,24 @@ public class ReviewControllerTest {
 
         String resultJson = mvc.perform(patch("/api/v1/reviews/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(patch))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        ReviewReadDTO actual = objectMapper.readValue(resultJson, ReviewReadDTO.class);
+        Assert.assertEquals(read, actual);
+    }
+
+    @Test
+    public void testPutReview() throws Exception {
+        ReviewPutDTO putDTO = new ReviewPutDTO();
+        putDTO.setReviewText("txt");
+
+        ReviewReadDTO read = createReviewRead();
+
+        Mockito.when(reviewService.putReview(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/reviews/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

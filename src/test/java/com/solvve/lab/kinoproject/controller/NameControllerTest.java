@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Name;
 import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
+import com.solvve.lab.kinoproject.dto.name.NamePutDTO;
 import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.NameService;
@@ -116,6 +117,25 @@ public class NameControllerTest {
 
         String resultJson = mvc.perform(patch("/api/v1/names/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(patch))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        NameReadDTO actual = objectMapper.readValue(resultJson, NameReadDTO.class);
+        Assert.assertEquals(read, actual);
+    }
+
+    @Test
+    public void testPutName() throws Exception {
+        NamePutDTO putDTO = new NamePutDTO();
+        putDTO.setFirstName("Mark");
+        putDTO.setLastName("Dou");
+
+        NameReadDTO read = createNameRead();
+
+        Mockito.when(nameService.putName(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/names/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();

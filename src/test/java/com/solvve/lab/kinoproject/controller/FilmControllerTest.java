@@ -5,6 +5,7 @@ import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
+import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.FilmService;
@@ -164,6 +165,29 @@ public class FilmControllerTest {
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
         Assert.assertEquals(actual, read);
+    }
+
+    @Test
+    public void testPutFilm() throws Exception {
+        FilmPutDTO putDTO = new FilmPutDTO();
+        putDTO.setLang("EN");
+        putDTO.setFilmText("film example text");
+        putDTO.setLength(140); // in minutes
+        putDTO.setTitle("film");
+        putDTO.setRate(1.3F);
+        putDTO.setCountry("USA");
+        putDTO.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmReadDTO read = createFilmRead();
+
+        Mockito.when(filmService.putFilm(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/films/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
+        Assert.assertEquals(read, actual);
     }
 
     @Test

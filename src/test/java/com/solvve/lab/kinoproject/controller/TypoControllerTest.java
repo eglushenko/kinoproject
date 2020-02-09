@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Review;
 import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
+import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoReadDTO;
 import com.solvve.lab.kinoproject.enums.TypoStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
@@ -119,6 +120,26 @@ public class TypoControllerTest {
 
         String resultJson = mvc.perform(patch("/api/v1/typos/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(patch))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        TypoReadDTO actual = objectMapper.readValue(resultJson, TypoReadDTO.class);
+        Assert.assertEquals(read, actual);
+    }
+
+    @Test
+    public void testPutTypo() throws Exception {
+        TypoPutDTO putDTO = new TypoPutDTO();
+        putDTO.setTypoLink("links");
+        putDTO.setStatus(TypoStatus.CHECKING);
+        putDTO.setTypoMessege("cheking");
+
+        TypoReadDTO read = createTypoRead();
+
+        Mockito.when(typoService.putTypo(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/typos/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
