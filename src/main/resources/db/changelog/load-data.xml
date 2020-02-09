@@ -43,8 +43,8 @@
             <column name="posterLink" type="string"/>
         </loadData>
     </changeSet>
-    <changeSet id="load genre" author="eglushenko" runOnChange="true">
-        <loadData tableName="genre" file="db/data/genre.csv" separator=";">
+    <changeSet id="load generes" author="eglushenko" runOnChange="true">
+        <loadData tableName="genere" file="db/data/genere.csv" separator=";">
             <column name="id" type="uuid"/>
             <column name="genreName" type="string"/>
         </loadData>
