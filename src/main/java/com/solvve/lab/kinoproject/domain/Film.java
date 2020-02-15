@@ -3,11 +3,11 @@ package com.solvve.lab.kinoproject.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +17,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Film {
     @Id
     @GeneratedValue
@@ -25,13 +26,18 @@ public class Film {
     private String country;
     private String lang;
     private Float rate;
-    // film length in minutes
     private Integer length;
     private Instant lastUpdate;
-    //One to Many (List of actors)
     private Instant realiseYear;
     private String category;
     private String filmText;
+
     @OneToMany(mappedBy = "film")
     private Set<Cast> casts = new HashSet<>();
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
 }
