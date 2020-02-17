@@ -16,6 +16,8 @@
             <column name="last_name" type="varchar(50)"/>
             <column name="email" type="varchar(255)"/>
             <column name="role" type="varchar(20)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
         </createTable>
         <createTable tableName="film" author="eglushenko">
             <column name="id" type="uuid">
@@ -29,6 +31,8 @@
             <column name="realiseYear" type="datetime"/>
             <column name="category" type="varchar(50)"/>
             <column name="filmText" type="clob"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
         </createTable>
         <createTable tableName="name" author="eglushenko">
             <column name="id" type="uuid">
@@ -36,18 +40,24 @@
             </column>
             <column name="firstName" type="varchar(50)"/>
             <column name="lastName" type="varchar(50)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
         </createTable>
         <createTable tableName="review" author="eglushenko">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="reviewText" type="clob"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
         </createTable>
         <createTable tableName="poster" author="eglushenko">
             <column name="id" type="uuid">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="posterLink" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
         </createTable>
         <createTable tableName="genere" author="eglushenko">
             <column name="id" type="uuid">
@@ -63,6 +73,8 @@
             <column name="posted_date" type="datetime"/>
             <column name="comment_status" type="varchar(50)"/>
             <column name="rate" type="double"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
         </createTable>
         <createTable tableName="typo" author="eglushenko">
             <column name="id" type="uuid">
@@ -72,6 +84,8 @@
             <column name="typoLink" type="varchar(255)"/>
             <column name="commentStatus" type="varchar(50)"/>
             <column name="status" type="varchar(50)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
         </createTable>
         <createTable tableName="cast" author="eglushenko">
             <column name="id" type="uuid">
@@ -79,6 +93,8 @@
             </column>
             <column name="roleInFilm" type="varchar(50)"/>
             <column name="nameRoleInFilm" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="film_id" type="uuid">
                 <constraints foreignKeyName="fk_ai_film_id"
                              referencedTableName="film"

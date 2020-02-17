@@ -44,7 +44,7 @@ public class TypoServiceTest {
         Typo typo = createTypo();
 
         TypoReadDTO read = typoService.getTypo(typo.getId());
-        Assertions.assertThat(read).isEqualToComparingFieldByField(typo);
+        Assertions.assertThat(read).isEqualToIgnoringGivenFields(typo, "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -60,11 +60,11 @@ public class TypoServiceTest {
         create.setStatus(TypoStatus.OPEN);
         create.setTypoLink("link");
         TypoReadDTO read = typoService.createTypo(create);
-        Assertions.assertThat(create).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(create).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
         Assert.assertNotNull(read.getId());
 
         Typo typo = typoRepository.findById(read.getId()).get();
-        Assertions.assertThat(read).isEqualToComparingFieldByField(typo);
+        Assertions.assertThat(read).isEqualToIgnoringGivenFields(typo, "createdAt", "updatedAt");
     }
 
     @Test
@@ -77,10 +77,10 @@ public class TypoServiceTest {
         patch.setTypoLink("link");
         TypoReadDTO read = typoService.patchTypo(typo.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         typo = typoRepository.findById(read.getId()).get();
-        Assertions.assertThat(typo).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(typo).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test
@@ -100,7 +100,7 @@ public class TypoServiceTest {
         Assert.assertNotNull(afterUpdate.getStatus());
         Assert.assertNotNull(afterUpdate.getTypoLink());
         Assert.assertNotNull(afterUpdate.getTypoMessege());
-        Assertions.assertThat(typo).isEqualToComparingFieldByField(afterUpdate);
+        Assertions.assertThat(typo).isEqualToIgnoringGivenFields(afterUpdate, "createdAt", "updatedAt");
 
     }
 
@@ -114,10 +114,10 @@ public class TypoServiceTest {
         put.setTypoLink("link");
         TypoReadDTO read = typoService.putTypo(typo.getId(), put);
 
-        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         typo = typoRepository.findById(read.getId()).get();
-        Assertions.assertThat(typo).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(typo).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

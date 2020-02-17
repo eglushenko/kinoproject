@@ -46,7 +46,7 @@ public class CommentServiceTest {
     public void testGetComment() {
         Comment comment = createComment();
         CommentReadDTO commentReadDTO = commentService.getComment(comment.getId());
-        Assertions.assertThat(commentReadDTO).isEqualToComparingFieldByField(comment);
+        Assertions.assertThat(commentReadDTO).isEqualToIgnoringGivenFields(comment, "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -62,11 +62,11 @@ public class CommentServiceTest {
         create.setCommentStatus(CommentStatus.UNCHECKED);
         create.setRate(0.1F);
         CommentReadDTO commentReadDTO = commentService.createComment(create);
-        Assertions.assertThat(create).isEqualToComparingFieldByField(commentReadDTO);
+        Assertions.assertThat(create).isEqualToIgnoringGivenFields(commentReadDTO, "createdAt", "updatedAt");
         Assert.assertNotNull(commentReadDTO.getId());
 
         Comment comment = commentRepository.findById(commentReadDTO.getId()).get();
-        Assertions.assertThat(commentReadDTO).isEqualToComparingFieldByField(comment);
+        Assertions.assertThat(commentReadDTO).isEqualToIgnoringGivenFields(comment, "createdAt", "updatedAt");
     }
 
     @Test
@@ -80,10 +80,10 @@ public class CommentServiceTest {
         patch.setRate(1.1F);
         CommentReadDTO read = commentService.patchComment(comment.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         comment = commentRepository.findById(read.getId()).get();
-        Assertions.assertThat(comment).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(comment).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test
@@ -107,7 +107,7 @@ public class CommentServiceTest {
         Assert.assertTrue(commentAfterUpdate.getRate() > 0.0F);
 
 
-        Assertions.assertThat(comment).isEqualToComparingFieldByField(commentAfterUpdate);
+        Assertions.assertThat(comment).isEqualToIgnoringGivenFields(commentAfterUpdate, "createdAt", "updatedAt");
     }
 
     @Test
@@ -121,10 +121,10 @@ public class CommentServiceTest {
         put.setRate(1.1F);
         CommentReadDTO read = commentService.putComment(comment.getId(), put);
 
-        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         comment = commentRepository.findById(read.getId()).get();
-        Assertions.assertThat(comment).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(comment).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

@@ -42,7 +42,7 @@ public class ReviewServiceTest {
         Review review = createReview();
 
         ReviewReadDTO read = reviewService.getReview(review.getId());
-        Assertions.assertThat(read).isEqualToComparingFieldByField(review);
+        Assertions.assertThat(read).isEqualToIgnoringGivenFields(review, "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -56,11 +56,11 @@ public class ReviewServiceTest {
         ReviewCreateDTO create = new ReviewCreateDTO();
         create.setReviewText("some txt");
         ReviewReadDTO read = reviewService.createReview(create);
-        Assertions.assertThat(create).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(create).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
         Assert.assertNotNull(read.getId());
 
         Review review = reviewRepository.findById(read.getId()).get();
-        Assertions.assertThat(read).isEqualToComparingFieldByField(review);
+        Assertions.assertThat(read).isEqualToIgnoringGivenFields(review, "createdAt", "updatedAt");
     }
 
     @Test
@@ -71,10 +71,10 @@ public class ReviewServiceTest {
         patch.setReviewText("txt");
         ReviewReadDTO read = reviewService.patchReview(review.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         review = reviewRepository.findById(read.getId()).get();
-        Assertions.assertThat(review).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(review).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test
@@ -91,7 +91,7 @@ public class ReviewServiceTest {
 
         Assert.assertNotNull(afterUpdate.getReviewText());
 
-        Assertions.assertThat(review).isEqualToComparingFieldByField(afterUpdate);
+        Assertions.assertThat(review).isEqualToIgnoringGivenFields(afterUpdate, "createdAt", "updatedAt");
     }
 
     @Test
@@ -105,7 +105,7 @@ public class ReviewServiceTest {
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
         review = reviewRepository.findById(read.getId()).get();
-        Assertions.assertThat(review).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(review).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

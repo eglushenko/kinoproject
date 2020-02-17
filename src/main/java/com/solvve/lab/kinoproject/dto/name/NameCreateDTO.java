@@ -6,6 +6,4 @@ import lombok.Data;
 public class NameCreateDTO {
     private String firstName;
     private String lastName;
-
-
 }

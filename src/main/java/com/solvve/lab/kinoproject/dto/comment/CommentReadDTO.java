@@ -3,6 +3,7 @@ package com.solvve.lab.kinoproject.dto.comment;
 import com.solvve.lab.kinoproject.enums.CommentStatus;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -13,4 +14,6 @@ public class CommentReadDTO {
     private LocalDate postedDate;
     private CommentStatus commentStatus;
     private Float rate;
+    private Instant createdAt;
+    private Instant updatedAt;
 }

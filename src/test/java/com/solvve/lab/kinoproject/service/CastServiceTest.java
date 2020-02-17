@@ -44,7 +44,7 @@ public class CastServiceTest {
     public void testGetCast() {
         Cast cast = createCast();
         CastReadDTO castReadDTO = castService.getCast(cast.getId());
-        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast, "film", "name");
+        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast, "film", "name", "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -56,11 +56,11 @@ public class CastServiceTest {
     public void testCreateCast() {
         CastCreateDTO create = new CastCreateDTO();
         CastReadDTO castReadDTO = castService.createCast(create);
-        Assertions.assertThat(create).isEqualToIgnoringGivenFields(castReadDTO, "film", "name");
+        Assertions.assertThat(create).isEqualToIgnoringGivenFields(castReadDTO, "film", "name", "createdAt", "updatedAt");
         Assert.assertNotNull(castReadDTO.getId());
 
         Cast cast = castRepository.findById(castReadDTO.getId()).get();
-        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast, "film", "name");
+        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast, "film", "name", "createdAt", "updatedAt");
     }
 
     @Test
@@ -71,10 +71,10 @@ public class CastServiceTest {
         patch.setNameRoleInFilm("Jhon Dou");
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "film", "name");
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
 
         cast = castRepository.findById(read.getId()).get();
-        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "film", "name");
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
     }
 
     @Test
@@ -93,7 +93,7 @@ public class CastServiceTest {
         Assert.assertNotNull(castAfterUpdate.getNameRoleInFilm());
         Assert.assertNotNull(castAfterUpdate.getRoleInFilm());
 
-        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(castAfterUpdate, "film", "name");
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(castAfterUpdate, "film", "name", "createdAt", "updatedAt");
     }
 
     @Test
@@ -104,10 +104,10 @@ public class CastServiceTest {
         put.setRoleInFilm(NameFilmRole.DIRECTOR);
         put.setNameRoleInFilm("Jhon Dou");
         CastReadDTO read = castService.putCast(cast.getId(), put);
-        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "film", "name");
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
 
         cast = castRepository.findById(read.getId()).get();
-        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "film", "name");
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
     }
 
     @Test

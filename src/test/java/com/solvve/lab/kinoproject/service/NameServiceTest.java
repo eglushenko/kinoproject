@@ -42,7 +42,7 @@ public class NameServiceTest {
         Name name = createName();
 
         NameReadDTO nameReadDTO = nameService.getName(name.getId());
-        Assertions.assertThat(nameReadDTO).isEqualToIgnoringGivenFields(name, "casts");
+        Assertions.assertThat(nameReadDTO).isEqualToIgnoringGivenFields(name, "casts", "createdAt", "updatedAt");
 
     }
 
@@ -62,7 +62,7 @@ public class NameServiceTest {
         Assert.assertNotNull(nameReadDTO.getId());
 
         Name name = nameRepository.findById(nameReadDTO.getId()).get();
-        Assertions.assertThat(nameReadDTO).isEqualToIgnoringGivenFields(name, "casts");
+        Assertions.assertThat(nameReadDTO).isEqualToIgnoringGivenFields(name, "casts", "createdAt", "updatedAt");
     }
 
     @Test
@@ -74,10 +74,10 @@ public class NameServiceTest {
         patch.setLastName("Smith");
         NameReadDTO read = nameService.patchName(name.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "casts");
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
 
         name = nameRepository.findById(read.getId()).get();
-        Assertions.assertThat(name).isEqualToIgnoringGivenFields(read, "casts");
+        Assertions.assertThat(name).isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
     }
 
     @Test
@@ -89,10 +89,10 @@ public class NameServiceTest {
         put.setLastName("Dou");
         NameReadDTO read = nameService.putName(name.getId(), put);
 
-        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "casts");
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
 
         name = nameRepository.findById(read.getId()).get();
-        Assertions.assertThat(name).isEqualToIgnoringGivenFields(read, "casts");
+        Assertions.assertThat(name).isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
     }
 
     @Test
@@ -111,7 +111,7 @@ public class NameServiceTest {
         Assert.assertNotNull(nameAfterUpdate.getFirstName());
         Assert.assertNotNull(nameAfterUpdate.getLastName());
 
-        Assertions.assertThat(name).isEqualToIgnoringGivenFields(nameAfterUpdate, "casts");
+        Assertions.assertThat(name).isEqualToIgnoringGivenFields(nameAfterUpdate, "casts", "createdAt", "updatedAt");
     }
 
     @Test

@@ -78,7 +78,7 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO filmActualDTO = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadDTO, "casts");
+        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadDTO, "casts", "createdAt", "updatedAt");
 
         Mockito.verify(filmService).getFilm(filmReadDTO.getId());
     }
@@ -93,7 +93,7 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadExtendedDTO filmActualDTO = objectMapper.readValue(resultJson, FilmReadExtendedDTO.class);
-        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadExtended, "casts");
+        Assertions.assertThat(filmActualDTO).isEqualToIgnoringGivenFields(filmReadExtended, "casts", "createdAt", "updatedAt");
 
         Mockito.verify(filmService).getFilmExtended(filmReadExtended.getId());
     }
@@ -140,7 +140,7 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "casts");
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
     }
 
     @Test

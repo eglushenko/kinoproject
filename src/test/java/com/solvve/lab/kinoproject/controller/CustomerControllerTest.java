@@ -122,7 +122,7 @@ public class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         CustomerReadDTO customerReadDTO = objectMapper.readValue(resultJson, CustomerReadDTO.class);
-        Assertions.assertThat(customerReadDTO).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(customerReadDTO).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

@@ -17,6 +17,8 @@ public class FilmReadDTO {
     private Instant realiseYear;
     private String category;
     private String filmText;
+    private Instant createdAt;
+    private Instant updatedAt;
 
 
 }

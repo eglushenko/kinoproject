@@ -15,6 +15,4 @@ public class FilmCreateDTO {
     private Instant realiseYear;
     private String category;
     private String filmText;
-
-
 }

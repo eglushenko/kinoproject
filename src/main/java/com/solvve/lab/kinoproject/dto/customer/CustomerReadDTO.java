@@ -3,6 +3,7 @@ package com.solvve.lab.kinoproject.dto.customer;
 import com.solvve.lab.kinoproject.enums.Role;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.UUID;
 
 @Data
@@ -13,5 +14,7 @@ public class CustomerReadDTO {
     private String lastName;
     private String email;
     private Role role;
+    private Instant createdAt;
+    private Instant updatedAt;
 
 }

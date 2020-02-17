@@ -57,7 +57,7 @@ public class ReviewControllerTest {
                 .andReturn().getResponse().getContentAsString();
         ReviewReadDTO actual = objectMapper.readValue(resultJson, ReviewReadDTO.class);
 
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(review);
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(review, "createdAt", "updatedAt");
 
         Mockito.verify(reviewService).getReview(review.getId());
 
@@ -99,7 +99,7 @@ public class ReviewControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         ReviewReadDTO actual = objectMapper.readValue(resultJson, ReviewReadDTO.class);
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

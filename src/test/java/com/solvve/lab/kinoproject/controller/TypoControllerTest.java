@@ -104,7 +104,7 @@ public class TypoControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         TypoReadDTO actual = objectMapper.readValue(resultJson, TypoReadDTO.class);
-        Assertions.assertThat(actual).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test
