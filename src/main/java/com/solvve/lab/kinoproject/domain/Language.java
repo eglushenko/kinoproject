@@ -13,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Language {
+
     @Id
     @GeneratedValue
     private UUID id;

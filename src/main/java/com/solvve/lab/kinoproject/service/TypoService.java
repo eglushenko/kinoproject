@@ -44,9 +44,9 @@ public class TypoService {
         return translationService.toReadTypo(typo);
     }
 
-    public TypoReadDTO putTypo(UUID id, TypoPutDTO put) {
+    public TypoReadDTO updateTypo(UUID id, TypoPutDTO put) {
         Typo typo = getTypoRequired(id);
-        translationService.putEntityTypo(put, typo);
+        translationService.updateEntityTypo(put, typo);
         typo = typoRepository.save(typo);
         return translationService.toReadTypo(typo);
     }

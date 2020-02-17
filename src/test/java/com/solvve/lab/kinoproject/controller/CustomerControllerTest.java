@@ -166,7 +166,7 @@ public class CustomerControllerTest {
 
         CustomerReadDTO read = createCustomerRead();
 
-        Mockito.when(customerService.putCustomer(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(customerService.updateCustomer(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/customers/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

@@ -47,9 +47,9 @@ public class CastService {
         return translationService.toReadCast(cast);
     }
 
-    public CastReadDTO putCast(UUID id, CastPutDTO put) {
+    public CastReadDTO updateCast(UUID id, CastPutDTO put) {
         Cast cast = getCastRequired(id);
-        translationService.putEntityCast(put, cast);
+        translationService.updateEntityCast(put, cast);
         cast = castRepository.save(cast);
         return translationService.toReadCast(cast);
     }

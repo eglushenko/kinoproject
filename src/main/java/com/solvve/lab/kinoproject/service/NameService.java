@@ -45,9 +45,9 @@ public class NameService {
         return translationService.toReadName(name);
     }
 
-    public NameReadDTO putName(UUID id, NamePutDTO put) {
+    public NameReadDTO updateName(UUID id, NamePutDTO put) {
         Name name = getNameRequired(id);
-        translationService.putEntityName(put, name);
+        translationService.updateEntityName(put, name);
         return translationService.toReadName(name);
     }
 

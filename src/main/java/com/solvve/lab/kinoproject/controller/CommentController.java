@@ -34,8 +34,8 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
-    public CommentReadDTO putComment(@PathVariable UUID id, @RequestBody CommentPutDTO put) {
-        return commentService.putComment(id, put);
+    public CommentReadDTO updateComment(@PathVariable UUID id, @RequestBody CommentPutDTO put) {
+        return commentService.updateComment(id, put);
     }
 
     @DeleteMapping("/{id}")

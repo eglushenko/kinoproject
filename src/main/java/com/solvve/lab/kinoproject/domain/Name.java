@@ -19,12 +19,14 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Name {
+
     @Id
     @GeneratedValue
     @NotNull
     private UUID id;
     private String firstName;
     private String lastName;
+
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "name")

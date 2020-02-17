@@ -132,7 +132,7 @@ public class NameControllerTest {
 
         NameReadDTO read = createNameRead();
 
-        Mockito.when(nameService.putName(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(nameService.updateName(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/names/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

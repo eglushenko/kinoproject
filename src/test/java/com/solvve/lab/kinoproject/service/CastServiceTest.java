@@ -103,7 +103,7 @@ public class CastServiceTest {
         CastPutDTO put = new CastPutDTO();
         put.setRoleInFilm(NameFilmRole.DIRECTOR);
         put.setNameRoleInFilm("Jhon Dou");
-        CastReadDTO read = castService.putCast(cast.getId(), put);
+        CastReadDTO read = castService.updateCast(cast.getId(), put);
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
 
         cast = castRepository.findById(read.getId()).get();

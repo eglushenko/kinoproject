@@ -46,9 +46,9 @@ public class ReviewService {
         return translationService.toReadReview(review);
     }
 
-    public ReviewReadDTO putReview(UUID id, ReviewPutDTO put) {
+    public ReviewReadDTO updateReview(UUID id, ReviewPutDTO put) {
         Review review = getReviewRequired(id);
-        translationService.putEntityReview(put, review);
+        translationService.updateEntityReview(put, review);
         return translationService.toReadReview(review);
     }
 

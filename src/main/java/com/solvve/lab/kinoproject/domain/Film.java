@@ -19,6 +19,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Film {
+
     @Id
     @GeneratedValue
     private UUID id;

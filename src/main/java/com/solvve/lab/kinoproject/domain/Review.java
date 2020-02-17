@@ -18,6 +18,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Review {
+
     @Id
     @GeneratedValue
     private UUID id;

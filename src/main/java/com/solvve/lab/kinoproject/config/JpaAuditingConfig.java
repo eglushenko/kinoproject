@@ -13,6 +13,7 @@ import java.util.Optional;
 @Configuration
 @EnableJpaAuditing(dateTimeProviderRef = "nowDateProvider")
 public class JpaAuditingConfig {
+
     @Bean
     DateTimeProvider nowDateProvider() {
         return () -> Optional.of(Instant.now().truncatedTo(ChronoUnit.MICROS));

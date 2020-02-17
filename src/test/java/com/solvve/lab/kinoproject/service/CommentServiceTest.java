@@ -119,7 +119,7 @@ public class CommentServiceTest {
         put.setPostedDate(LocalDate.of(2020, 1, 23));
         put.setCommentStatus(CommentStatus.UNCHECKED);
         put.setRate(1.1F);
-        CommentReadDTO read = commentService.putComment(comment.getId(), put);
+        CommentReadDTO read = commentService.updateComment(comment.getId(), put);
 
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 

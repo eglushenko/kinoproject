@@ -13,6 +13,7 @@ import java.util.UUID;
 @Setter
 @Entity
 public class Genere {
+
     @Id
     @GeneratedValue
     private UUID id;

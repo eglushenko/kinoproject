@@ -39,8 +39,8 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public CustomerReadDTO putCustomer(@PathVariable UUID id, @RequestBody CustomerPutDTO put) {
-        return customerService.putCustomer(id, put);
+    public CustomerReadDTO updateCustomer(@PathVariable UUID id, @RequestBody CustomerPutDTO put) {
+        return customerService.updateCustomer(id, put);
     }
 
     @DeleteMapping("/{id}")

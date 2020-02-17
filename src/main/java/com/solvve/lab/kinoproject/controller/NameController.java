@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/names")
 public class NameController {
+
     @Autowired
     private NameService nameService;
 
@@ -33,8 +34,8 @@ public class NameController {
     }
 
     @PutMapping("/{id}")
-    public NameReadDTO putName(@PathVariable UUID id, @RequestBody NamePutDTO put) {
-        return nameService.putName(id, put);
+    public NameReadDTO updateName(@PathVariable UUID id, @RequestBody NamePutDTO put) {
+        return nameService.updateName(id, put);
     }
 
     @DeleteMapping("/{id}")

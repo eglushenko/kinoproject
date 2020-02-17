@@ -99,7 +99,7 @@ public class CustomerServiceTest {
         put.setLastName("Dou");
         put.setEmail("nomail@i.ua");
         put.setRole(Role.USER);
-        CustomerReadDTO read = customerService.putCustomer(customer.getId(), put);
+        CustomerReadDTO read = customerService.updateCustomer(customer.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 

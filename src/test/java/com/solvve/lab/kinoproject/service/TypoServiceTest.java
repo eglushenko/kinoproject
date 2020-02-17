@@ -112,7 +112,7 @@ public class TypoServiceTest {
         put.setTypoMessege("some text");
         put.setStatus(TypoStatus.OPEN);
         put.setTypoLink("link");
-        TypoReadDTO read = typoService.putTypo(typo.getId(), put);
+        TypoReadDTO read = typoService.updateTypo(typo.getId(), put);
 
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 

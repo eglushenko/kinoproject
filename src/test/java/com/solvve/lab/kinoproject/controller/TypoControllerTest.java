@@ -136,7 +136,7 @@ public class TypoControllerTest {
 
         TypoReadDTO read = createTypoRead();
 
-        Mockito.when(typoService.putTypo(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(typoService.updateTypo(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/typos/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

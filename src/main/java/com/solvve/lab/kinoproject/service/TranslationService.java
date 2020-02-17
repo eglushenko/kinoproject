@@ -76,7 +76,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntityCustomer(CustomerPutDTO put, Customer customer) {
+    public void updateEntityCustomer(CustomerPutDTO put, Customer customer) {
         customer.setLogin(put.getLogin());
         customer.setFirstName(put.getFirstName());
         customer.setLastName(put.getLastName());
@@ -109,7 +109,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntityCast(CastPutDTO put, Cast cast) {
+    public void updateEntityCast(CastPutDTO put, Cast cast) {
         cast.setRoleInFilm(put.getRoleInFilm());
         cast.setNameRoleInFilm(put.getNameRoleInFilm());
     }
@@ -151,7 +151,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntityComment(CommentPutDTO put, Comment comment) {
+    public void updateEntityComment(CommentPutDTO put, Comment comment) {
         comment.setCommentText(put.getCommentText());
         comment.setCommentStatus(put.getCommentStatus());
         comment.setPostedDate(put.getPostedDate());
@@ -184,7 +184,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntityName(NamePutDTO put, Name name) {
+    public void updateEntityName(NamePutDTO put, Name name) {
         name.setFirstName(put.getFirstName());
         name.setLastName(put.getLastName());
     }
@@ -245,7 +245,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntityFilm(FilmPutDTO put, Film film) {
+    public void updateEntityFilm(FilmPutDTO put, Film film) {
         film.setTitle(put.getTitle());
         film.setFilmText(put.getFilmText());
         film.setCategory(put.getCategory());
@@ -302,7 +302,7 @@ public class TranslationService {
 
     }
 
-    public void putEntityTypo(TypoPutDTO put, Typo typo) {
+    public void updateEntityTypo(TypoPutDTO put, Typo typo) {
         typo.setTypoMessege(put.getTypoMessege());
         typo.setTypoLink(put.getTypoLink());
         typo.setStatus(put.getStatus());
@@ -328,7 +328,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntityReview(ReviewPutDTO put, Review review) {
+    public void updateEntityReview(ReviewPutDTO put, Review review) {
         review.setReviewText(put.getReviewText());
     }
 }

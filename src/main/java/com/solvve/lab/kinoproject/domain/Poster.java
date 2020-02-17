@@ -19,6 +19,7 @@ import java.util.UUID;
 @Setter
 @EntityListeners(AuditingEntityListener.class)
 public class Poster {
+
     @Id
     @GeneratedValue
     private UUID id;

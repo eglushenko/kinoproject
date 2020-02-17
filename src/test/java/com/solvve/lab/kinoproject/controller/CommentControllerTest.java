@@ -144,7 +144,7 @@ public class CommentControllerTest {
 
         CommentReadDTO read = createCommentRead();
 
-        Mockito.when(commentService.putComment(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(commentService.updateComment(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/comments/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

@@ -151,7 +151,7 @@ public class FilmServiceTest {
         put.setRate(1.3F);
         put.setTitle("FILM");
         put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
-        FilmReadDTO read = filmService.putFilm(film.getId(), put);
+        FilmReadDTO read = filmService.updateFilm(film.getId(), put);
 
         Assertions.assertThat(put)
                 .isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");

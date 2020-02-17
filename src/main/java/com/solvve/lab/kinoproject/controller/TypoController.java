@@ -34,8 +34,8 @@ public class TypoController {
     }
 
     @PutMapping("/{id}")
-    public TypoReadDTO putCast(@PathVariable UUID id, @RequestBody TypoPutDTO put) {
-        return typoService.putTypo(id, put);
+    public TypoReadDTO updateCast(@PathVariable UUID id, @RequestBody TypoPutDTO put) {
+        return typoService.updateTypo(id, put);
     }
 
     @DeleteMapping("/{id}")

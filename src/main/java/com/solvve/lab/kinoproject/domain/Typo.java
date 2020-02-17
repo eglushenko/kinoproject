@@ -16,6 +16,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Typo {
+
     @Id
     @GeneratedValue
     private UUID id;

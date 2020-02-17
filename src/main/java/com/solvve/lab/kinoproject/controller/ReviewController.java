@@ -14,6 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/reviews")
 public class ReviewController {
+
     @Autowired
     private ReviewService reviewService;
 
@@ -33,8 +34,8 @@ public class ReviewController {
     }
 
     @PutMapping("/{id}")
-    public ReviewReadDTO putReview(@PathVariable UUID id, @RequestBody ReviewPutDTO put) {
-        return reviewService.putReview(id, put);
+    public ReviewReadDTO updateReview(@PathVariable UUID id, @RequestBody ReviewPutDTO put) {
+        return reviewService.updateReview(id, put);
     }
 
     @DeleteMapping("/{id}")

@@ -47,8 +47,8 @@ public class FilmController {
     }
 
     @PutMapping("/{id}")
-    public FilmReadDTO putFilm(@PathVariable UUID id, @RequestBody FilmPutDTO put) {
-        return filmService.putFilm(id, put);
+    public FilmReadDTO updateFilm(@PathVariable UUID id, @RequestBody FilmPutDTO put) {
+        return filmService.updateFilm(id, put);
     }
 
     @DeleteMapping("/{id}")

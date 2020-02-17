@@ -100,7 +100,7 @@ public class ReviewServiceTest {
 
         ReviewPutDTO put = new ReviewPutDTO();
         put.setReviewText("some review");
-        ReviewReadDTO read = reviewService.putReview(review.getId(), put);
+        ReviewReadDTO read = reviewService.updateReview(review.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 

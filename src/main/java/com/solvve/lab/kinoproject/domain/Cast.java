@@ -17,6 +17,7 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 //TODO 'cast' is a reserved keyword and should be quoted
 public class Cast {
+
     @Id
     @GeneratedValue
     private UUID id;

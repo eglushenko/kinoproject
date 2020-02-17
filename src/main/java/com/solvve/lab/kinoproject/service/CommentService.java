@@ -45,9 +45,9 @@ public class CommentService {
         return translationService.toReadComment(comment);
     }
 
-    public CommentReadDTO putComment(UUID id, CommentPutDTO put) {
+    public CommentReadDTO updateComment(UUID id, CommentPutDTO put) {
         Comment comment = getCommentRequired(id);
-        translationService.putEntityComment(put, comment);
+        translationService.updateEntityComment(put, comment);
         comment = commentRepository.save(comment);
         return translationService.toReadComment(comment);
     }

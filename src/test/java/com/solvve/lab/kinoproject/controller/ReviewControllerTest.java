@@ -127,7 +127,7 @@ public class ReviewControllerTest {
 
         ReviewReadDTO read = createReviewRead();
 
-        Mockito.when(reviewService.putReview(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(reviewService.updateReview(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/reviews/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

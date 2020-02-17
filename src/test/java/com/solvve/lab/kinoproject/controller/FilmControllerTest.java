@@ -179,7 +179,7 @@ public class FilmControllerTest {
         putDTO.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = createFilmRead();
 
-        Mockito.when(filmService.putFilm(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(filmService.updateFilm(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/films/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

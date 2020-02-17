@@ -61,9 +61,9 @@ public class FilmService {
         return translationService.toReadFilm(film);
     }
 
-    public FilmReadDTO putFilm(UUID id, FilmPutDTO put) {
+    public FilmReadDTO updateFilm(UUID id, FilmPutDTO put) {
         Film film = getFilmRequired(id);
-        translationService.putEntityFilm(put, film);
+        translationService.updateEntityFilm(put, film);
         film = filmRepository.save(film);
         return translationService.toReadFilm(film);
     }

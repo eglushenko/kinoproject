@@ -17,6 +17,7 @@ import java.util.UUID;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Customer {
+
     @Id
     @GeneratedValue
     @NotNull

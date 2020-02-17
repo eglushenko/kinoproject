@@ -44,9 +44,9 @@ public class CustomerService {
         return translationService.toReadCustomer(customer);
     }
 
-    public CustomerReadDTO putCustomer(UUID id, CustomerPutDTO put) {
+    public CustomerReadDTO updateCustomer(UUID id, CustomerPutDTO put) {
         Customer customer = getCustomerRequired(id);
-        translationService.putEntityCustomer(put, customer);
+        translationService.updateEntityCustomer(put, customer);
         customer = customerRepository.save(customer);
         return translationService.toReadCustomer(customer);
     }

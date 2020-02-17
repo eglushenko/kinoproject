@@ -137,7 +137,7 @@ public class CastControllerTest {
 
         CastReadDTO read = createCastRead();
 
-        Mockito.when(castService.putCast(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(castService.updateCast(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/casts/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

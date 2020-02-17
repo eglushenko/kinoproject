@@ -34,8 +34,8 @@ public class CastController {
     }
 
     @PutMapping("/{id}")
-    public CastReadDTO putCast(@PathVariable UUID id, @RequestBody CastPutDTO put) {
-        return castService.putCast(id, put);
+    public CastReadDTO updateCast(@PathVariable UUID id, @RequestBody CastPutDTO put) {
+        return castService.updateCast(id, put);
     }
 
     @DeleteMapping("/{id}")

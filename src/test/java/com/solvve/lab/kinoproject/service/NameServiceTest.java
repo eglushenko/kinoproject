@@ -87,7 +87,7 @@ public class NameServiceTest {
         NamePutDTO put = new NamePutDTO();
         put.setFirstName("Jhon");
         put.setLastName("Dou");
-        NameReadDTO read = nameService.putName(name.getId(), put);
+        NameReadDTO read = nameService.updateName(name.getId(), put);
 
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
 
