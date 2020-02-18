@@ -30,11 +30,17 @@ import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoReadDTO;
+import com.solvve.lab.kinoproject.repository.RepositoryHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class TranslationService {
 
+    @Autowired
+    private RepositoryHelper repositoryHelper;
 
     //Customer
     public CustomerReadDTO toReadCustomer(Customer customer) {
@@ -89,6 +95,7 @@ public class TranslationService {
         Cast cast = new Cast();
         cast.setNameRoleInFilm(create.getNameRoleInFilm());
         cast.setRoleInFilm(create.getRoleInFilm());
+        cast.setName(repositoryHelper.getReferenceIfExist(Name.class, UUID.randomUUID())); //TODO
         return cast;
     }
 
