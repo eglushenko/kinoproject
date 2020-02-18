@@ -3,6 +3,7 @@ package com.solvve.lab.kinoproject.repository;
 
 import com.solvve.lab.kinoproject.domain.Film;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,37 @@ public class FilmRepositoryTest {
         List<Film> res = filmRepository.findFilmSortedByRealiseYearAndlastUpdate("en", 1.1F, lastUpdate, param2);
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film2.getId());
 
+    }
+
+    @Test
+    public void testFilmCreateDate() {
+        Film film = createFilm();
+        Assert.assertNotNull(film.getCreatedAt());
+
+        Instant createDateBeforeLoad = film.getCreatedAt();
+
+        film = filmRepository.findById(film.getId()).get();
+
+        Instant createDateAfterLoad = film.getCreatedAt();
+
+        Assertions.assertThat(createDateBeforeLoad).isEqualTo(createDateAfterLoad);
+    }
+
+    @Test
+    public void testFilmUpdateDate() {
+        Film film = createFilm();
+        Assert.assertNotNull(film.getUpdatedAt());
+
+        Instant updateDateBeforeLoad = film.getUpdatedAt();
+
+        film.setTitle("bla bla bla");
+        film = filmRepository.save(film);
+        film = filmRepository.findById(film.getId()).get();
+
+        Instant updateDateAfterLoad = film.getUpdatedAt();
+
+        Assert.assertNotNull(updateDateAfterLoad);
+        Assertions.assertThat(updateDateAfterLoad).isAfter(updateDateBeforeLoad);
     }
 
 }

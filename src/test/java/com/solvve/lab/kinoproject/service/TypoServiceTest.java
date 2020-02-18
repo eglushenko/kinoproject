@@ -25,6 +25,7 @@ import java.util.UUID;
 @ActiveProfiles("test")
 @Sql(statements = "delete from typo", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class TypoServiceTest {
+
     @Autowired
     private TypoRepository typoRepository;
 

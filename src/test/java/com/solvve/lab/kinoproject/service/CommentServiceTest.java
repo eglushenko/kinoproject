@@ -28,7 +28,7 @@ import java.util.UUID;
 public class CommentServiceTest {
 
     @Autowired
-    CommentRepository commentRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
     private CommentService commentService;

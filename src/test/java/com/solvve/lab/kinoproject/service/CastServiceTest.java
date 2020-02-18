@@ -18,6 +18,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.Instant;
 import java.util.UUID;
 
 
@@ -45,6 +46,20 @@ public class CastServiceTest {
         Cast cast = createCast();
         CastReadDTO castReadDTO = castService.getCast(cast.getId());
         Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast, "film", "name", "createdAt", "updatedAt");
+    }
+
+    @Test
+    public void testCastCreateDate() {
+        Cast cast = createCast();
+        Assert.assertNotNull(cast.getCreatedAt());
+
+        Instant createDateBeforeLoad = cast.getCreatedAt();
+
+        cast = castRepository.findById(cast.getId()).get();
+
+        Instant createDateAfterLoad = cast.getCreatedAt();
+
+        Assertions.assertThat(createDateBeforeLoad).isEqualTo(createDateAfterLoad);
     }
 
     @Test(expected = EntityNotFoundException.class)
