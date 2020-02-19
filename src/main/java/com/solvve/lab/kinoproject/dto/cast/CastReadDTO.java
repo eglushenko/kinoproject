@@ -14,4 +14,5 @@ public class CastReadDTO {
     private String nameRoleInFilm;
     private Instant createdAt;
     private Instant updatedAt;
+    private UUID nameId;
 }

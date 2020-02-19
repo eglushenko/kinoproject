@@ -34,8 +34,6 @@ import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class TranslationService {
 
@@ -95,7 +93,7 @@ public class TranslationService {
         Cast cast = new Cast();
         cast.setNameRoleInFilm(create.getNameRoleInFilm());
         cast.setRoleInFilm(create.getRoleInFilm());
-        cast.setName(repositoryHelper.getReferenceIfExist(Name.class, UUID.randomUUID())); //TODO
+        cast.setName(repositoryHelper.getReferenceIfExist(Name.class, create.getNameId())); //TODO
         return cast;
     }
 
@@ -104,6 +102,7 @@ public class TranslationService {
         castReadDTO.setId(cast.getId());
         castReadDTO.setNameRoleInFilm(cast.getNameRoleInFilm());
         castReadDTO.setRoleInFilm(cast.getRoleInFilm());
+        castReadDTO.setNameId(cast.getName().getId());
         return castReadDTO;
     }
 

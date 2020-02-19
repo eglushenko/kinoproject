@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Cast;
+import com.solvve.lab.kinoproject.domain.Name;
 import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPutDTO;
@@ -8,6 +9,7 @@ import com.solvve.lab.kinoproject.dto.cast.CastReadDTO;
 import com.solvve.lab.kinoproject.enums.NameFilmRole;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CastRepository;
+import com.solvve.lab.kinoproject.repository.NameRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,6 +34,9 @@ public class CastServiceTest {
     private CastRepository castRepository;
 
     @Autowired
+    private NameRepository nameRepository;
+
+    @Autowired
     private CastService castService;
 
     private Cast createCast() {
@@ -39,6 +44,14 @@ public class CastServiceTest {
         cast.setRoleInFilm(NameFilmRole.ACTOR);
         cast.setNameRoleInFilm("Jhon Dou");
         return castRepository.save(cast);
+    }
+
+    private Name createName() {
+        Name name = new Name();
+        name.setFirstName("Jhon");
+        name.setLastName("Dou");
+        name = nameRepository.save(name);
+        return name;
     }
 
     @Test
@@ -69,13 +82,15 @@ public class CastServiceTest {
 
     @Test
     public void testCreateCast() {
+        Name n = createName();
         CastCreateDTO create = new CastCreateDTO();
-        CastReadDTO castReadDTO = castService.createCast(create);
-        Assertions.assertThat(create).isEqualToIgnoringGivenFields(castReadDTO, "film", "name", "createdAt", "updatedAt");
-        Assert.assertNotNull(castReadDTO.getId());
+        create.setNameId(n.getId());
+        CastReadDTO read = castService.createCast(create);
+        Assertions.assertThat(create).isEqualToComparingFieldByField(read);
+        Assert.assertNotNull(read.getId());
 
-        Cast cast = castRepository.findById(castReadDTO.getId()).get();
-        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast, "film", "name", "createdAt", "updatedAt");
+        Cast cast = castRepository.findById(read.getId()).get();
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "name", "film", "createdAt", "updatedAt");
     }
 
     @Test
