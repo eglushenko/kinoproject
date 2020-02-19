@@ -113,11 +113,15 @@ public class TranslationService {
         if (patch.getRoleInFilm() != null) {
             cast.setRoleInFilm(patch.getRoleInFilm());
         }
+        if (patch.getNameId() != null) {
+            cast.setName(repositoryHelper.getReferenceIfExist(Name.class, patch.getNameId()));
+        }
     }
 
     public void updateEntityCast(CastPutDTO put, Cast cast) {
         cast.setRoleInFilm(put.getRoleInFilm());
         cast.setNameRoleInFilm(put.getNameRoleInFilm());
+        cast.setName(repositoryHelper.getReferenceIfExist(Name.class, put.getNameId()));
     }
 
 
