@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Cast;
+import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.domain.Name;
 import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
@@ -9,6 +10,7 @@ import com.solvve.lab.kinoproject.dto.cast.CastReadDTO;
 import com.solvve.lab.kinoproject.enums.NameFilmRole;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CastRepository;
+import com.solvve.lab.kinoproject.repository.FilmRepository;
 import com.solvve.lab.kinoproject.repository.NameRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -37,14 +39,19 @@ public class CastServiceTest {
     private NameRepository nameRepository;
 
     @Autowired
+    private FilmRepository filmRepository;
+
+    @Autowired
     private CastService castService;
 
     private Cast createCast() {
         Cast cast = new Cast();
         Name n = createName();
+        Film f = createFilm();
         cast.setRoleInFilm(NameFilmRole.ACTOR);
         cast.setNameRoleInFilm("Jhon Dou");
         cast.setName(n);
+        cast.setFilm(f);
         return castRepository.save(cast);
     }
 
@@ -56,11 +63,27 @@ public class CastServiceTest {
         return name;
     }
 
+    private Film createFilm() {
+        Film film = new Film();
+        film.setCategory("category");
+        film.setCountry("UA");
+        film.setFilmText("");
+        film.setLang("UA");
+        film.setLength(83);
+        film.setRate(4.3F);
+        film.setTitle("LEGO FILM");
+        film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        film = filmRepository.save(film);
+        return film;
+
+    }
+
     @Test
     public void testGetCast() {
         Cast cast = createCast();
         CastReadDTO castReadDTO = castService.getCast(cast.getId());
-        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast, "film", "nameId", "createdAt", "updatedAt");
+        Assertions.assertThat(castReadDTO).isEqualToIgnoringGivenFields(cast,
+                "filmId", "nameId", "createdAt", "updatedAt");
     }
 
     @Test
@@ -85,30 +108,37 @@ public class CastServiceTest {
     @Test
     public void testCreateCast() {
         Name n = createName();
+        Film f = createFilm();
         CastCreateDTO create = new CastCreateDTO();
         create.setNameId(n.getId());
+        create.setFilmId(f.getId());
         CastReadDTO read = castService.createCast(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
         Assert.assertNotNull(read.getId());
 
         Cast cast = castRepository.findById(read.getId()).get();
-        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "name", "film", "createdAt", "updatedAt");
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read,
+                "film", "name", "createdAt", "updatedAt");
     }
 
     @Test
     public void testPatchCast() {
         Cast cast = createCast();
         Name n = createName();
+        Film f = createFilm();
         CastPatchDTO patch = new CastPatchDTO();
         patch.setRoleInFilm(NameFilmRole.ACTOR);
         patch.setNameRoleInFilm("Jhon Dou");
         patch.setNameId(n.getId());
+        patch.setFilmId(f.getId());
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
+        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read,
+                "film", "name", "createdAt", "updatedAt");
 
         cast = castRepository.findById(read.getId()).get();
-        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read,
+                "film", "name", "createdAt", "updatedAt");
     }
 
     @Test
@@ -122,29 +152,36 @@ public class CastServiceTest {
         Assert.assertNotNull(read.getNameRoleInFilm());
         Assert.assertNotNull(read.getRoleInFilm());
         Assert.assertNotNull(read.getNameId());
+        Assert.assertNotNull(read.getFilmId());
 
         Cast castAfterUpdate = castRepository.findById(read.getId()).get();
 
         Assert.assertNotNull(castAfterUpdate.getNameRoleInFilm());
         Assert.assertNotNull(castAfterUpdate.getRoleInFilm());
         Assert.assertNotNull(castAfterUpdate.getName());
+        Assert.assertNotNull(castAfterUpdate.getFilm());
 
-        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(castAfterUpdate, "film", "name", "createdAt", "updatedAt");
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(castAfterUpdate,
+                "film", "name", "createdAt", "updatedAt");
     }
 
     @Test
     public void testPutCast() {
         Cast cast = createCast();
         Name name = createName();
+        Film f = createFilm();
         CastPutDTO put = new CastPutDTO();
         put.setRoleInFilm(NameFilmRole.DIRECTOR);
         put.setNameRoleInFilm("Jhon Dou");
         put.setNameId(name.getId());
+        put.setFilmId(f.getId());
         CastReadDTO read = castService.updateCast(cast.getId(), put);
-        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read,
+                "film", "name", "createdAt", "updatedAt");
 
         cast = castRepository.findById(read.getId()).get();
-        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
+        Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read,
+                "film", "name", "createdAt", "updatedAt");
     }
 
     @Test

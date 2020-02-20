@@ -15,4 +15,5 @@ public class CastReadDTO {
     private Instant createdAt;
     private Instant updatedAt;
     private UUID nameId;
+    private UUID filmId;
 }

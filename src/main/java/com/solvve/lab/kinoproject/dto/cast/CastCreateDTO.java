@@ -11,4 +11,5 @@ public class CastCreateDTO {
     private NameFilmRole roleInFilm;
     private String nameRoleInFilm;
     private UUID nameId;
+    private UUID filmId;
 }

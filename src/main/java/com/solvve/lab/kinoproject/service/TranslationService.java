@@ -94,6 +94,7 @@ public class TranslationService {
         cast.setNameRoleInFilm(create.getNameRoleInFilm());
         cast.setRoleInFilm(create.getRoleInFilm());
         cast.setName(repositoryHelper.getReferenceIfExist(Name.class, create.getNameId())); //TODO
+        cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, create.getFilmId()));
         return cast;
     }
 
@@ -103,6 +104,7 @@ public class TranslationService {
         castReadDTO.setNameRoleInFilm(cast.getNameRoleInFilm());
         castReadDTO.setRoleInFilm(cast.getRoleInFilm());
         castReadDTO.setNameId(cast.getName().getId());
+        castReadDTO.setFilmId(cast.getFilm().getId());
         return castReadDTO;
     }
 
@@ -116,12 +118,16 @@ public class TranslationService {
         if (patch.getNameId() != null) {
             cast.setName(repositoryHelper.getReferenceIfExist(Name.class, patch.getNameId()));
         }
+        if (patch.getFilmId() != null) {
+            cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, patch.getFilmId()));
+        }
     }
 
     public void updateEntityCast(CastPutDTO put, Cast cast) {
         cast.setRoleInFilm(put.getRoleInFilm());
         cast.setNameRoleInFilm(put.getNameRoleInFilm());
         cast.setName(repositoryHelper.getReferenceIfExist(Name.class, put.getNameId()));
+        cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, put.getFilmId()));
     }
 
 

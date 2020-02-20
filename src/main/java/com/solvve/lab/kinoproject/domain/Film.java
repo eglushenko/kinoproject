@@ -33,7 +33,9 @@ public class Film {
     private String category;
     private String filmText;
 
-    @OneToMany(mappedBy = "film")
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "film")
     private Set<Cast> casts = new HashSet<>();
 
     @CreatedDate
