@@ -46,7 +46,8 @@ public class CommentServiceTest {
     public void testGetComment() {
         Comment comment = createComment();
         CommentReadDTO commentReadDTO = commentService.getComment(comment.getId());
-        Assertions.assertThat(commentReadDTO).isEqualToIgnoringGivenFields(comment, "createdAt", "updatedAt");
+        Assertions.assertThat(commentReadDTO)
+                .isEqualToIgnoringGivenFields(comment, "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -62,11 +63,13 @@ public class CommentServiceTest {
         create.setCommentStatus(CommentStatus.UNCHECKED);
         create.setRate(0.1);
         CommentReadDTO commentReadDTO = commentService.createComment(create);
-        Assertions.assertThat(create).isEqualToIgnoringGivenFields(commentReadDTO, "createdAt", "updatedAt");
+        Assertions.assertThat(create)
+                .isEqualToIgnoringGivenFields(commentReadDTO, "createdAt", "updatedAt");
         Assert.assertNotNull(commentReadDTO.getId());
 
         Comment comment = commentRepository.findById(commentReadDTO.getId()).get();
-        Assertions.assertThat(commentReadDTO).isEqualToIgnoringGivenFields(comment, "createdAt", "updatedAt");
+        Assertions.assertThat(commentReadDTO)
+                .isEqualToIgnoringGivenFields(comment, "createdAt", "updatedAt");
     }
 
     @Test
@@ -80,10 +83,12 @@ public class CommentServiceTest {
         patch.setRate(1.1);
         CommentReadDTO read = commentService.patchComment(comment.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(patch)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         comment = commentRepository.findById(read.getId()).get();
-        Assertions.assertThat(comment).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(comment)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test
@@ -107,7 +112,8 @@ public class CommentServiceTest {
         Assert.assertTrue(commentAfterUpdate.getRate() > 0.0F);
 
 
-        Assertions.assertThat(comment).isEqualToIgnoringGivenFields(commentAfterUpdate, "createdAt", "updatedAt");
+        Assertions.assertThat(comment)
+                .isEqualToIgnoringGivenFields(commentAfterUpdate, "createdAt", "updatedAt");
     }
 
     @Test
@@ -124,7 +130,8 @@ public class CommentServiceTest {
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         comment = commentRepository.findById(read.getId()).get();
-        Assertions.assertThat(comment).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(comment)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

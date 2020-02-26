@@ -59,7 +59,8 @@ public class NameControllerTest {
                 .andReturn().getResponse().getContentAsString();
         NameReadDTO actual = objectMapper.readValue(resultJson, NameReadDTO.class);
 
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(name, "createdAt", "updatedAt");
+        Assertions.assertThat(actual)
+                .isEqualToIgnoringGivenFields(name, "createdAt", "updatedAt");
 
         Mockito.verify(nameService).getName(name.getId());
 
@@ -102,7 +103,8 @@ public class NameControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         NameReadDTO actual = objectMapper.readValue(resultJson, NameReadDTO.class);
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(actual)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

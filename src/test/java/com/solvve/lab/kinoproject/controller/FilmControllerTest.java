@@ -140,7 +140,8 @@ public class FilmControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         FilmReadDTO actual = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
+        Assertions.assertThat(actual)
+                .isEqualToIgnoringGivenFields(read, "casts", "createdAt", "updatedAt");
     }
 
     @Test

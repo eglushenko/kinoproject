@@ -198,4 +198,16 @@ public class CastServiceTest {
         castService.deleteCast(UUID.randomUUID());
     }
 
+    @Test(expected = EntityNotFoundException.class)
+    public void testCreateCastWithWrongFilm() {
+        Name n = createName();
+        CastCreateDTO create = new CastCreateDTO();
+        create.setNameRoleInFilm("somebody");
+        create.setRoleInFilm(NameFilmRole.ACTOR);
+        create.setNameId(n.getId());
+        create.setFilmId(UUID.randomUUID());
+
+        castService.createCast(create);
+    }
+
 }

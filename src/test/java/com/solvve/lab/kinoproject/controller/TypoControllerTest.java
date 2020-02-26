@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(TypoController.class)
 public class TypoControllerTest {
+
     @Autowired
     private MockMvc mvc;
 

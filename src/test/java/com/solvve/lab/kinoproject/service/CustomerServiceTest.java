@@ -25,6 +25,7 @@ import java.util.UUID;
 @ActiveProfiles("test")
 @Sql(statements = "delete from customer", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class CustomerServiceTest {
+
     @Autowired
     CustomerRepository customerRepository;
 
@@ -45,7 +46,8 @@ public class CustomerServiceTest {
     public void testGetCustomer() {
         Customer customer = createCustomer();
         CustomerReadDTO customerReadDTO = customerService.getCustomer(customer.getId());
-        Assertions.assertThat(customerReadDTO).isEqualToIgnoringGivenFields(customer, "createdAt", "updatedAt");
+        Assertions.assertThat(customerReadDTO)
+                .isEqualToIgnoringGivenFields(customer, "createdAt", "updatedAt");
 
     }
 
@@ -64,11 +66,13 @@ public class CustomerServiceTest {
         create.setEmail("mail@mail.ua");
         create.setRole(Role.USER);
         CustomerReadDTO customerReadDTO = customerService.createCustomer(create);
-        Assertions.assertThat(create).isEqualToIgnoringGivenFields(customerReadDTO, "createdAt", "updatedAt");
+        Assertions.assertThat(create)
+                .isEqualToIgnoringGivenFields(customerReadDTO, "createdAt", "updatedAt");
         Assert.assertNotNull(customerReadDTO.getId());
 
         Customer customer = customerRepository.findById(customerReadDTO.getId()).get();
-        Assertions.assertThat(customerReadDTO).isEqualToIgnoringGivenFields(customer, "createdAt", "updatedAt");
+        Assertions.assertThat(customerReadDTO)
+                .isEqualToIgnoringGivenFields(customer, "createdAt", "updatedAt");
     }
 
     @Test
@@ -83,10 +87,12 @@ public class CustomerServiceTest {
         patch.setRole(Role.USER);
         CustomerReadDTO read = customerService.patchCustomer(customer.getId(), patch);
 
-        Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(patch)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
 
         customer = customerRepository.findById(read.getId()).get();
-        Assertions.assertThat(customer).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(customer)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test
@@ -104,7 +110,8 @@ public class CustomerServiceTest {
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
         customer = customerRepository.findById(read.getId()).get();
-        Assertions.assertThat(customer).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(customer)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test
@@ -127,7 +134,8 @@ public class CustomerServiceTest {
         Assert.assertNotNull(customerAfterUpdate.getLastName());
         Assert.assertNotNull(customerAfterUpdate.getEmail());
 
-        Assertions.assertThat(customer).isEqualToIgnoringGivenFields(customerAfterUpdate, "createdAt", "updatedAt");
+        Assertions.assertThat(customer)
+                .isEqualToIgnoringGivenFields(customerAfterUpdate, "createdAt", "updatedAt");
     }
 
     @Test

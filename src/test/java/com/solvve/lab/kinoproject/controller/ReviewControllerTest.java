@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @WebMvcTest(ReviewController.class)
 public class ReviewControllerTest {
+
     @Autowired
     private MockMvc mvc;
 
@@ -57,7 +58,8 @@ public class ReviewControllerTest {
                 .andReturn().getResponse().getContentAsString();
         ReviewReadDTO actual = objectMapper.readValue(resultJson, ReviewReadDTO.class);
 
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(review, "createdAt", "updatedAt");
+        Assertions.assertThat(actual)
+                .isEqualToIgnoringGivenFields(review, "createdAt", "updatedAt");
 
         Mockito.verify(reviewService).getReview(review.getId());
 
@@ -99,7 +101,8 @@ public class ReviewControllerTest {
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
         ReviewReadDTO actual = objectMapper.readValue(resultJson, ReviewReadDTO.class);
-        Assertions.assertThat(actual).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(actual)
+                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
     }
 
     @Test

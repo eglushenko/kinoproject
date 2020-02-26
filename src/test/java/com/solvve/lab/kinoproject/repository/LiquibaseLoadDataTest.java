@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 
 public class LiquibaseLoadDataTest {
+
     @Autowired
     private FilmRepository filmRepository;
     @Autowired
