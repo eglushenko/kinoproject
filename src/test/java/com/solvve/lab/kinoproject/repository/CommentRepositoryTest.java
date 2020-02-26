@@ -33,7 +33,7 @@ public class CommentRepositoryTest {
         comment.setCommentText("comment text");
         comment.setPostedDate(LocalDate.of(2020, 1, 22));
         comment.setCommentStatus(CommentStatus.UNCHECKED);
-        comment.setRate(0.1F);
+        comment.setRate(0.1);
         return commentRepository.save(comment);
     }
 

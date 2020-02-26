@@ -40,7 +40,7 @@ public class FilmRepositoryTest {
         film.setFilmText("");
         film.setLang("en");
         film.setLength(83);
-        film.setRate(4.3F);
+        film.setRate(4.3);
         film.setTitle("LEGO FILM");
         film.setRealiseYear(LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc));
         film.setLastUpdate(LocalDateTime.of(2019, 12, 01, 17, 01).toInstant(utc));
@@ -60,12 +60,12 @@ public class FilmRepositoryTest {
     public void testGetFilmsByRate() {
         Film film1 = createFilm();
         Film film2 = createFilm();
-        film2.setRate(2F);
+        film2.setRate(2.0);
         filmRepository.save(film2);
         Film film3 = createFilm();
 
 
-        List<Film> res = filmRepository.findByRateGreaterThan(4F);
+        List<Film> res = filmRepository.findByRateGreaterThan(4.0);
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film3.getId());
     }
 
@@ -81,7 +81,7 @@ public class FilmRepositoryTest {
 
         Instant lastUpdate = LocalDateTime.of(2019, 12, 01, 00, 01).toInstant(utc);
         Instant param2 = LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc);
-        List<Film> res = filmRepository.findFilmSortedByRealiseYearAndlastUpdate("en", 1.1F, lastUpdate, param2);
+        List<Film> res = filmRepository.findFilmSortedByRealiseYearAndLastUpdate("en", 1.1, lastUpdate, param2);
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film2.getId());
 
     }

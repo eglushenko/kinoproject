@@ -10,7 +10,7 @@ public class FilmPutDTO {
     private String title;
     private String country;
     private String lang;
-    private Float rate;
+    private Double rate;
     private Integer length;
     private Instant lastUpdate;
     private Instant realiseYear;

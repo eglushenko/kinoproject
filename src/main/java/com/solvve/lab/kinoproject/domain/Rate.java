@@ -23,7 +23,7 @@ public class Rate {
     @GeneratedValue
     private UUID id;
 
-    private Float rate;
+    private Double rate;
 
     @CreatedDate
     private Instant createdAt;

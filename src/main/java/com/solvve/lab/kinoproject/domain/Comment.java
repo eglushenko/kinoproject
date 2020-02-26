@@ -29,7 +29,7 @@ public class Comment {
     @Enumerated(EnumType.STRING)
     private CommentStatus commentStatus;
 
-    private Float rate;
+    private Double rate;
 
     @CreatedDate
     private Instant createdAt;

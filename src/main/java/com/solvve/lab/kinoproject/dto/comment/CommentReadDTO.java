@@ -13,7 +13,7 @@ public class CommentReadDTO {
     private String commentText;
     private LocalDate postedDate;
     private CommentStatus commentStatus;
-    private Float rate;
+    private Double rate;
     private Instant createdAt;
     private Instant updatedAt;
 }

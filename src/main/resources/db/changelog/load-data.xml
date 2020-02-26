@@ -19,7 +19,7 @@
         <loadData tableName="comment" file="db/data/comment.csv" separator=";">
             <column name="id" type="uuid"/>
             <column name="comment_text" type="string"/>
-            <column name="posted_date" type="datetime"/>
+            <column name="posted_date" type="date"/>
             <column name="comment_status" type="string"/>
             <column name="rate" type="numeric"/>
         </loadData>
@@ -27,34 +27,34 @@
     <changeSet id="load names" author="eglushenko" runOnChange="true">
         <loadData tableName="name" file="db/data/name.csv" separator=";">
             <column name="id" type="uuid"/>
-            <column name="firstName" type="string"/>
-            <column name="lastName" type="string"/>
+            <column name="first_name" type="string"/>
+            <column name="last_name" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load reviews" author="eglushenko" runOnChange="true">
         <loadData tableName="review" file="db/data/review.csv" separator=";">
             <column name="id" type="uuid"/>
-            <column name="reviewText" type="string"/>
+            <column name="review_text" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load posters" author="eglushenko" runOnChange="true">
         <loadData tableName="poster" file="db/data/poster.csv" separator=";">
             <column name="id" type="uuid"/>
-            <column name="posterLink" type="string"/>
+            <column name="posterL_link" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load generes" author="eglushenko" runOnChange="true">
         <loadData tableName="genere" file="db/data/genere.csv" separator=";">
             <column name="id" type="uuid"/>
-            <column name="genreName" type="string"/>
+            <column name="genre_name" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load typos" author="eglushenko" runOnChange="true">
         <loadData tableName="typo" file="db/data/typo.csv" separator=";">
             <column name="id" type="uuid"/>
-            <column name="typoMessege" type="string"/>
-            <column name="typoLink" type="string"/>
-            <column name="commentStatus" type="string"/>
+            <column name="typo_messege" type="string"/>
+            <column name="typo_link" type="string"/>
+            <column name="comment_status" type="string"/>
             <column name="status" type="string"/>
         </loadData>
     </changeSet>
@@ -62,7 +62,7 @@
         <loadData tableName="language" file="db/data/language.csv" separator=";">
             <column name="id" type="uuid"/>
             <column name="language" type="string"/>
-            <column name="languageShortName" type="string"/>
+            <column name="languageS_short_name" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load films" author="eglushenko" runOnChange="true">
@@ -72,26 +72,26 @@
             <column name="country" type="string"/>
             <column name="lang" type="string"/>
             <column name="rate" type="numeric"/>
-            <column name="lastUpdate" type="datetime"/>
-            <column name="realiseYear" type="datetime"/>
+            <column name="last_update" type="datetime"/>
+            <column name="realise_year" type="datetime"/>
             <column name="category" type="string"/>
-            <column name="filmText" type="string"/>
+            <column name="film_text" type="string"/>
         </loadData>
     </changeSet>
     <changeSet id="load casts" author="eglushenko" runOnChange="true">
         <loadData tableName="cast" file="db/data/cast.csv" separator=";">
             <column name="id" type="uuid"/>
-            <column name="roleInFilm" type="string"/>
-            <column name="nameRoleInFilm" type="string"/>
+            <column name="role_in_film" type="string"/>
+            <column name="nameR_role_in_film" type="string"/>
             <column name="film_id" type="uuid"/>
             <column name="name_id" type="uuid"/>
         </loadData>
     </changeSet>
-    <changeSet id="load countryes" author="eglushenko" runOnChange="true">
+    <changeSet id="load country" author="eglushenko" runOnChange="true">
         <loadData tableName="country" file="db/data/country.csv" separator=";">
             <column name="id" type="uuid"/>
-            <column name="countryName" type="string"/>
-            <column name="countryShortName" type="string"/>
+            <column name="country_name" type="string"/>
+            <column name="country_short_name" type="string"/>
         </loadData>
     </changeSet>
 

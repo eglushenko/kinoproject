@@ -1,4 +1,4 @@
-id;title;country;lang;rate;lastUpdate;realiseYear;category;filmText
+id;title;country;lang;rate;last_update;realise_year;category;film_text
 faf96594-c5f8-4ad2-b642-70d0c9f14805;film1;US;US;2.4;;;;some text film1
 ac640fcb-c679-4b7c-9ba4-5058e5f8be1a;film2;RU;RU;3.0;;;;some text film2
 5373e794-b36d-47c7-938d-d19e0fafc760;film3;US;RU;5.2;;;;some text film3

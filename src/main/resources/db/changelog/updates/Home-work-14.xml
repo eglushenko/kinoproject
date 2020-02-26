@@ -5,5 +5,169 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
+    <property name="val" dbms="postgresql" value="test"/>
+    <property name="val" dbms="h2" value="testdb"/>
+
+    <changeSet id="drop tables" author="eglushenko">
+        <dropTable catalogName="${val}" schemaName="public" tableName="cast"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="customer"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="name"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="review"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="poster"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="genere"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="comment"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="film"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="typo"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="language"/>
+        <dropTable catalogName="${val}" schemaName="public" tableName="country"/>
+    </changeSet>
+
+    <changeSet id="2" author="eglushenko">
+        <createTable tableName="customer">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="varchar(50)"/>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="email" type="varchar(255)"/>
+            <column name="role" type="varchar(20)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="film" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(255)"/>
+            <column name="country" type="varchar(50)"/>
+            <column name="lang" type="varchar(50)"/>
+            <column name="length" type="int"/>
+            <column name="rate" type="double"/>
+            <column name="last_update" type="datetime"/>
+            <column name="realise_year" type="datetime"/>
+            <column name="category" type="varchar(50)"/>
+            <column name="film_text" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="name" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="review" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="review_text" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="poster" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="poster_link" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="genere" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="genere_name" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="comment" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="comment_text" type="varchar(255)"/>
+            <column name="posted_date" type="date"/>
+            <column name="comment_status" type="varchar(50)"/>
+            <column name="rate" type="double"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="typo" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="typo_messege" type="varchar(255)"/>
+            <column name="typo_link" type="varchar(255)"/>
+            <column name="comment_status" type="varchar(50)"/>
+            <column name="status" type="varchar(50)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="cast" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_in_film" type="varchar(50)"/>
+            <column name="name_role_in_film" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+            <column name="film_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_film_id"
+                             referencedTableName="film"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="name_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_name_id"
+                             referencedTableName="name"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <createTable tableName="language" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="language" type="varchar(50)"/>
+            <column name="language_short_name" type="varchar(50)"/>
+        </createTable>
+        <createTable tableName="country" author="eglushenko">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="country_name" type="varchar(255)"/>
+            <column name="country_short_name" type="varchar(50)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="3" author="eglushenko">
+        <createTable tableName="stil">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="stil_link" type="varchar(255)"/>
+            <column name="film_id" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="rate">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="rate" type="double"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="video">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="video_link" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+    </changeSet>
 
 </databaseChangeLog>

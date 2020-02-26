@@ -49,7 +49,7 @@ public class CommentControllerTest {
         read.setCommentText("comment text");
         read.setPostedDate(LocalDate.of(2020, 1, 22));
         read.setCommentStatus(UNCHECKED);
-        read.setRate(1.1F);
+        read.setRate(1.1);
         return read;
     }
 
@@ -96,7 +96,7 @@ public class CommentControllerTest {
         create.setCommentText("comment text");
         create.setPostedDate(LocalDate.of(2020, 1, 22));
         create.setCommentStatus(UNCHECKED);
-        create.setRate(1.1F);
+        create.setRate(1.1);
 
         CommentReadDTO read = createCommentRead();
 
@@ -117,7 +117,7 @@ public class CommentControllerTest {
         patchDTO.setCommentText("comment text");
         patchDTO.setPostedDate(LocalDate.of(2020, 1, 22));
         patchDTO.setCommentStatus(CHECK);
-        patchDTO.setRate(1.1F);
+        patchDTO.setRate(1.1);
 
         CommentReadDTO read = createCommentRead();
 
@@ -140,7 +140,7 @@ public class CommentControllerTest {
         putDTO.setCommentText("comment text");
         putDTO.setPostedDate(LocalDate.of(2020, 1, 22));
         putDTO.setCommentStatus(CHECK);
-        putDTO.setRate(1.1F);
+        putDTO.setRate(1.1);
 
         CommentReadDTO read = createCommentRead();
 

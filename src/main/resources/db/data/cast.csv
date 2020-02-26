@@ -1,4 +1,4 @@
-id;roleInFilm;nameRoleInFilm;film_id;name_id
+id;role_in_film;name_role_in_film;film_id;name_id
 2764142f-30e1-403f-b396-57b1825c8ee0;ACTOR;Agent Smith;faf96594-c5f8-4ad2-b642-70d0c9f14805;ea8b5802-9d4e-47b8-acc8-e441cff5fe28
 caff9543-95f3-4aca-8514-4659e2b9cb1d;ACTOR;Губка Боб;ac640fcb-c679-4b7c-9ba4-5058e5f8be1a;83ee7389-2d55-403f-9435-64637456808c
 f904e8b0-f700-4a51-b3f7-fe6bb439cb87;DiRECTOR;;5373e794-b36d-47c7-938d-d19e0fafc760;a5423c08-8662-4363-9983-d84a5545f6fd

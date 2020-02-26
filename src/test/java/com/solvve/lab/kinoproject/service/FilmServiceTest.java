@@ -42,7 +42,7 @@ public class FilmServiceTest {
         film.setFilmText("");
         film.setLang("UA");
         film.setLength(83);
-        film.setRate(4.3F);
+        film.setRate(4.3);
         film.setTitle("LEGO FILM");
         film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return filmRepository.save(film);
@@ -71,7 +71,7 @@ public class FilmServiceTest {
         create.setFilmText("");
         create.setLang("UA");
         create.setLength(83);
-        create.setRate(4.3F);
+        create.setRate(4.3);
         create.setTitle("LEGO FILM");
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO filmReadDTO = filmService.createFilm(create);
@@ -94,7 +94,7 @@ public class FilmServiceTest {
         patch.setFilmText("some text");
         patch.setLang("UA");
         patch.setLength(83);
-        patch.setRate(1.3F);
+        patch.setRate(1.3);
         patch.setTitle("FILM");
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
@@ -122,7 +122,7 @@ public class FilmServiceTest {
         Assert.assertNotNull(read.getLastUpdate());
         Assert.assertNotNull(read.getTitle());
         Assert.assertTrue(read.getLength() > 0);
-        Assert.assertTrue(read.getRate() > 0.0F);
+        Assert.assertTrue(read.getRate() > 0.0);
         Film filmAfterUpdate = filmRepository.findById(read.getId()).get();
 
         Assert.assertNotNull(filmAfterUpdate.getCategory());
@@ -132,7 +132,7 @@ public class FilmServiceTest {
         Assert.assertNotNull(filmAfterUpdate.getLastUpdate());
         Assert.assertNotNull(filmAfterUpdate.getTitle());
         Assert.assertTrue(filmAfterUpdate.getLength() > 0);
-        Assert.assertTrue(filmAfterUpdate.getRate() > 0.0F);
+        Assert.assertTrue(filmAfterUpdate.getRate() > 0.0);
 
         Assertions.assertThat(film)
                 .isEqualToIgnoringGivenFields(filmAfterUpdate, "casts", "createdAt", "updatedAt");
@@ -148,7 +148,7 @@ public class FilmServiceTest {
         put.setFilmText("some text");
         put.setLang("UA");
         put.setLength(83);
-        put.setRate(1.3F);
+        put.setRate(1.3);
         put.setTitle("FILM");
         put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.updateFilm(film.getId(), put);

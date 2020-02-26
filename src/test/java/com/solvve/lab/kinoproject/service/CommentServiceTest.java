@@ -38,7 +38,7 @@ public class CommentServiceTest {
         comment.setCommentText("comment text");
         comment.setPostedDate(LocalDate.of(2020, 1, 22));
         comment.setCommentStatus(CommentStatus.UNCHECKED);
-        comment.setRate(0.1F);
+        comment.setRate(0.1);
         return commentRepository.save(comment);
     }
 
@@ -60,7 +60,7 @@ public class CommentServiceTest {
         create.setCommentText("comment text");
         create.setPostedDate(LocalDate.of(2020, 1, 22));
         create.setCommentStatus(CommentStatus.UNCHECKED);
-        create.setRate(0.1F);
+        create.setRate(0.1);
         CommentReadDTO commentReadDTO = commentService.createComment(create);
         Assertions.assertThat(create).isEqualToIgnoringGivenFields(commentReadDTO, "createdAt", "updatedAt");
         Assert.assertNotNull(commentReadDTO.getId());
@@ -77,7 +77,7 @@ public class CommentServiceTest {
         patch.setCommentText("comment");
         patch.setPostedDate(LocalDate.of(2020, 1, 23));
         patch.setCommentStatus(CommentStatus.UNCHECKED);
-        patch.setRate(1.1F);
+        patch.setRate(1.1);
         CommentReadDTO read = commentService.patchComment(comment.getId(), patch);
 
         Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
@@ -118,7 +118,7 @@ public class CommentServiceTest {
         put.setCommentText("comment");
         put.setPostedDate(LocalDate.of(2020, 1, 23));
         put.setCommentStatus(CommentStatus.UNCHECKED);
-        put.setRate(1.1F);
+        put.setRate(1.1);
         CommentReadDTO read = commentService.updateComment(comment.getId(), put);
 
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");

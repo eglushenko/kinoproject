@@ -49,7 +49,7 @@ public class FilmControllerTest {
         read.setFilmText("film example text");
         read.setLength(140); // in minutes
         read.setTitle("some film");
-        read.setRate(8.3F);
+        read.setRate(8.3);
         read.setCountry("Ukraine");
         read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return read;
@@ -62,7 +62,7 @@ public class FilmControllerTest {
         read.setFilmText("film example text");
         read.setLength(140); // in minutes
         read.setTitle("some film");
-        read.setRate(8.3F);
+        read.setRate(8.3);
         read.setCountry("Ukraine");
         read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return read;
@@ -126,7 +126,7 @@ public class FilmControllerTest {
         create.setFilmText("film example text");
         create.setLength(140); // in minutes
         create.setTitle("some film");
-        create.setRate(8.3F);
+        create.setRate(8.3);
         create.setCountry("Ukraine");
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
@@ -150,7 +150,7 @@ public class FilmControllerTest {
         patch.setFilmText("film example text");
         patch.setLength(140); // in minutes
         patch.setTitle("film");
-        patch.setRate(1.3F);
+        patch.setRate(1.3);
         patch.setCountry("USA");
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
@@ -174,7 +174,7 @@ public class FilmControllerTest {
         putDTO.setFilmText("film example text");
         putDTO.setLength(140); // in minutes
         putDTO.setTitle("film");
-        putDTO.setRate(1.3F);
+        putDTO.setRate(1.3);
         putDTO.setCountry("USA");
         putDTO.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = createFilmRead();

@@ -13,11 +13,11 @@ import java.util.UUID;
 @Repository
 public interface FilmRepository extends CrudRepository<Film, UUID>, FilmRepositoryCustom {
 
-    List<Film> findByRateGreaterThan(float rate);
+    List<Film> findByRateGreaterThan(Double rate);
 
     @Query("select f from Film f where f.lang = :lang and f.rate >= :rate"
             + " and f.lastUpdate >= :lastUpdate and f.realiseYear >= :realiseYear order by f.lastUpdate asc")
-    List<Film> findFilmSortedByRealiseYearAndlastUpdate(
-            String lang, Float rate, Instant lastUpdate, Instant realiseYear);
+    List<Film> findFilmSortedByRealiseYearAndLastUpdate(
+            String lang, Double rate, Instant lastUpdate, Instant realiseYear);
 
 }
