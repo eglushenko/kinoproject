@@ -131,8 +131,7 @@ public class TranslationService {
     }
 
 
-//Comment
-
+    //Comment
     public Comment toEntityComment(CommentCreateDTO create) {
         Comment comment = new Comment();
         comment.setCommentText(create.getCommentText());
@@ -174,8 +173,7 @@ public class TranslationService {
         comment.setRate(put.getRate());
     }
 
-//Name
-
+    //Name
     public Name toEntityName(NameCreateDTO create) {
         Name name = new Name();
         name.setFirstName(create.getFirstName());
@@ -205,8 +203,7 @@ public class TranslationService {
         name.setLastName(put.getLastName());
     }
 
-//Film
-
+    //Film
     public Film toEntityFilm(FilmCreateDTO create) {
         Film film = new Film();
         film.setCategory(create.getCategory());
@@ -286,8 +283,7 @@ public class TranslationService {
         return filmReadExtendedDTO;
     }
 
-//Typo
-
+    //Typo
     public TypoReadDTO toReadTypo(Typo typo) {
         TypoReadDTO read = new TypoReadDTO();
         read.setId(typo.getId());
