@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.domain;
 
 
+import com.solvve.lab.kinoproject.enums.RateMPAA;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,6 +33,9 @@ public class Film {
     private Instant realiseYear;
     private String category;
     private String filmText;
+
+    @Enumerated(EnumType.STRING)
+    private RateMPAA mpaa;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

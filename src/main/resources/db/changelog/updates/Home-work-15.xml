@@ -20,11 +20,15 @@
             <column name="updated_at" type="datetime"/>
         </createTable>
     </changeSet>
-    <changeSet id="add customer columns" author="eglushenko">
+    <changeSet id="add customer columns gender" author="eglushenko">
         <addColumn catalogName="${val}" schemaName="public" tableName="customer">
             <column name="gender" type="varchar(50)"/>
         </addColumn>
     </changeSet>
-
+    <changeSet id="add film columns mpaa" author="eglushenko">
+        <addColumn catalogName="${val}" schemaName="public" tableName="film">
+            <column name="mpaa" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

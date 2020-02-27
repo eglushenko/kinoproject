@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.dto.film;
 
+import com.solvve.lab.kinoproject.enums.RateMPAA;
 import lombok.Data;
 
 import java.time.Instant;
@@ -16,4 +17,5 @@ public class FilmPutDTO {
     private Instant realiseYear;
     private String category;
     private String filmText;
+    private RateMPAA mpaa;
 }

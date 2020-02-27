@@ -7,6 +7,7 @@ import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
+import com.solvve.lab.kinoproject.enums.RateMPAA;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.FilmService;
 import org.assertj.core.api.Assertions;
@@ -51,6 +52,7 @@ public class FilmControllerTest {
         read.setTitle("some film");
         read.setRate(8.3);
         read.setCountry("Ukraine");
+        read.setMpaa(RateMPAA.PG);
         read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return read;
     }
@@ -64,6 +66,7 @@ public class FilmControllerTest {
         read.setTitle("some film");
         read.setRate(8.3);
         read.setCountry("Ukraine");
+        read.setMpaa(RateMPAA.PG);
         read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return read;
     }
@@ -128,6 +131,7 @@ public class FilmControllerTest {
         create.setTitle("some film");
         create.setRate(8.3);
         create.setCountry("Ukraine");
+        create.setMpaa(RateMPAA.PG);
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
         FilmReadDTO read = createFilmRead();
@@ -153,6 +157,7 @@ public class FilmControllerTest {
         patch.setTitle("film");
         patch.setRate(1.3);
         patch.setCountry("USA");
+        patch.setMpaa(RateMPAA.PG);
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
 
         FilmReadDTO read = createFilmRead();
@@ -177,6 +182,7 @@ public class FilmControllerTest {
         putDTO.setTitle("film");
         putDTO.setRate(1.3);
         putDTO.setCountry("USA");
+        putDTO.setMpaa(RateMPAA.PG);
         putDTO.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = createFilmRead();
 

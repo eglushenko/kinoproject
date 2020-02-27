@@ -220,6 +220,7 @@ public class TranslationService {
         film.setRate(create.getRate());
         film.setTitle(create.getTitle());
         film.setLastUpdate(create.getLastUpdate());
+        film.setMpaa(create.getMpaa());
         return film;
     }
 
@@ -234,6 +235,7 @@ public class TranslationService {
         filmReadDTO.setLength(film.getLength());
         filmReadDTO.setFilmText(film.getFilmText());
         filmReadDTO.setLastUpdate(film.getLastUpdate());
+        filmReadDTO.setMpaa(film.getMpaa());
         return filmReadDTO;
     }
 
@@ -262,6 +264,9 @@ public class TranslationService {
         if (patch.getRate() != null) {
             film.setRate(patch.getRate());
         }
+        if (patch.getMpaa() != null) {
+            film.setMpaa(patch.getMpaa());
+        }
     }
 
     public void updateEntityFilm(FilmPutDTO put, Film film) {
@@ -273,6 +278,7 @@ public class TranslationService {
         film.setLength(put.getLength());
         film.setLastUpdate(put.getLastUpdate());
         film.setRate(put.getRate());
+        film.setMpaa(put.getMpaa());
     }
 
     public FilmReadExtendedDTO toReadExtendedFilm(Film film) {
@@ -286,6 +292,7 @@ public class TranslationService {
         filmReadExtendedDTO.setLength(film.getLength());
         filmReadExtendedDTO.setFilmText(film.getFilmText());
         filmReadExtendedDTO.setLastUpdate(film.getLastUpdate());
+        filmReadExtendedDTO.setMpaa(film.getMpaa());
         return filmReadExtendedDTO;
     }
 

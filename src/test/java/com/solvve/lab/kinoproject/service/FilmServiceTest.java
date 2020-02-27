@@ -7,6 +7,7 @@ import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
+import com.solvve.lab.kinoproject.enums.RateMPAA;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
@@ -44,6 +45,7 @@ public class FilmServiceTest {
         film.setLength(83);
         film.setRate(4.3);
         film.setTitle("LEGO FILM");
+        film.setMpaa(RateMPAA.PG);
         film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         return filmRepository.save(film);
     }
@@ -73,6 +75,7 @@ public class FilmServiceTest {
         create.setLength(83);
         create.setRate(4.3);
         create.setTitle("LEGO FILM");
+        create.setMpaa(RateMPAA.PG);
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO filmReadDTO = filmService.createFilm(create);
         Assertions.assertThat(create)
@@ -96,6 +99,7 @@ public class FilmServiceTest {
         patch.setLength(83);
         patch.setRate(1.3);
         patch.setTitle("FILM");
+        patch.setMpaa(RateMPAA.PG);
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
 
@@ -123,6 +127,7 @@ public class FilmServiceTest {
         Assert.assertNotNull(read.getTitle());
         Assert.assertTrue(read.getLength() > 0);
         Assert.assertTrue(read.getRate() > 0.0);
+        Assert.assertNotNull(read.getMpaa());
         Film filmAfterUpdate = filmRepository.findById(read.getId()).get();
 
         Assert.assertNotNull(filmAfterUpdate.getCategory());
@@ -133,6 +138,7 @@ public class FilmServiceTest {
         Assert.assertNotNull(filmAfterUpdate.getTitle());
         Assert.assertTrue(filmAfterUpdate.getLength() > 0);
         Assert.assertTrue(filmAfterUpdate.getRate() > 0.0);
+        Assert.assertNotNull(filmAfterUpdate.getMpaa());
 
         Assertions.assertThat(film)
                 .isEqualToIgnoringGivenFields(filmAfterUpdate, "casts", "createdAt", "updatedAt");
@@ -150,6 +156,7 @@ public class FilmServiceTest {
         put.setLength(83);
         put.setRate(1.3);
         put.setTitle("FILM");
+        put.setMpaa(RateMPAA.PG);
         put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         FilmReadDTO read = filmService.updateFilm(film.getId(), put);
 
