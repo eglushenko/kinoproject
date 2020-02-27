@@ -49,6 +49,7 @@ public class TranslationService {
         customerReadDTO.setLastName(customer.getLastName());
         customerReadDTO.setEmail(customer.getEmail());
         customerReadDTO.setRole(customer.getRole());
+        customerReadDTO.setGender(customer.getGender());
         return customerReadDTO;
     }
 
@@ -59,6 +60,7 @@ public class TranslationService {
         customer.setLastName(create.getLastName());
         customer.setEmail(create.getEmail());
         customer.setRole(create.getRole());
+        customer.setGender(create.getGender());
         return customer;
     }
 
@@ -78,6 +80,9 @@ public class TranslationService {
         if (patch.getRole() != null) {
             customer.setRole(patch.getRole());
         }
+        if (patch.getGender() != null) {
+            customer.setGender(patch.getGender());
+        }
     }
 
     public void updateEntityCustomer(CustomerPutDTO put, Customer customer) {
@@ -86,6 +91,7 @@ public class TranslationService {
         customer.setLastName(put.getLastName());
         customer.setEmail(put.getEmail());
         customer.setRole(put.getRole());
+        customer.setGender(put.getGender());
     }
 
     //Cast

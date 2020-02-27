@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.dto.customer;
 
+import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.Role;
 import lombok.Data;
 
@@ -10,4 +11,5 @@ public class CustomerPutDTO {
     private String lastName;
     private String email;
     private Role role;
+    private Gender gender;
 }

@@ -5,6 +5,7 @@ import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
+import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
@@ -39,6 +40,7 @@ public class CustomerServiceTest {
         customer.setLastName("Dou");
         customer.setEmail("mail@mail.ua");
         customer.setRole(Role.USER);
+        customer.setGender(Gender.MALE);
         return customerRepository.save(customer);
     }
 
@@ -65,6 +67,7 @@ public class CustomerServiceTest {
         create.setLastName("Dou");
         create.setEmail("mail@mail.ua");
         create.setRole(Role.USER);
+        create.setGender(Gender.MALE);
         CustomerReadDTO customerReadDTO = customerService.createCustomer(create);
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(customerReadDTO, "createdAt", "updatedAt");
@@ -85,6 +88,7 @@ public class CustomerServiceTest {
         patch.setLastName("Dou");
         patch.setEmail("nomail@i.ua");
         patch.setRole(Role.USER);
+        patch.setGender(Gender.ALIEN);
         CustomerReadDTO read = customerService.patchCustomer(customer.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -105,6 +109,7 @@ public class CustomerServiceTest {
         put.setLastName("Dou");
         put.setEmail("nomail@i.ua");
         put.setRole(Role.USER);
+        put.setGender(Gender.MALE);
         CustomerReadDTO read = customerService.updateCustomer(customer.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
@@ -126,6 +131,8 @@ public class CustomerServiceTest {
         Assert.assertNotNull(read.getFirstName());
         Assert.assertNotNull(read.getLastName());
         Assert.assertNotNull(read.getEmail());
+        Assert.assertNotNull(read.getRole());
+        Assert.assertNotNull(read.getGender());
 
         Customer customerAfterUpdate = customerRepository.findById(read.getId()).get();
 
@@ -133,6 +140,8 @@ public class CustomerServiceTest {
         Assert.assertNotNull(customerAfterUpdate.getFirstName());
         Assert.assertNotNull(customerAfterUpdate.getLastName());
         Assert.assertNotNull(customerAfterUpdate.getEmail());
+        Assert.assertNotNull(customerAfterUpdate.getRole());
+        Assert.assertNotNull(customerAfterUpdate.getGender());
 
         Assertions.assertThat(customer)
                 .isEqualToIgnoringGivenFields(customerAfterUpdate, "createdAt", "updatedAt");

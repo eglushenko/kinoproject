@@ -7,6 +7,7 @@ import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
+import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CustomerService;
@@ -49,6 +50,7 @@ public class CustomerControllerTest {
         read.setFirstName("Jhon");
         read.setLastName("Dou");
         read.setEmail("mail@mail.ua");
+        read.setGender(Gender.ALIEN);
         return read;
     }
 
@@ -164,6 +166,7 @@ public class CustomerControllerTest {
         putDTO.setLastName("Dou");
         putDTO.setEmail("mail@mail.ua");
         putDTO.setRole(Role.GUEST);
+        putDTO.setGender(Gender.MALE);
 
         CustomerReadDTO read = createCustomerRead();
 

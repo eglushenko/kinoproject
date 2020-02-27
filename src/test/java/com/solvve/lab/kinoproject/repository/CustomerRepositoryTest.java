@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.repository;
 
 import com.solvve.lab.kinoproject.domain.Customer;
+import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -33,6 +34,7 @@ public class CustomerRepositoryTest {
         customer.setLastName("Dou");
         customer.setEmail("mail@mail.ua");
         customer.setRole(Role.USER);
+        customer.setGender(Gender.MALE);
         return customerRepository.save(customer);
     }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="val" dbms="postgresql" value="test"/>
+    <property name="val" dbms="h2" value="testdb"/>
+
+    <changeSet id="4" author="eglushenko">
+        <createTable tableName="like">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="like" type="boolean"/>
+            <column name="liked_object_id" type="uuid"/>
+            <column name="type" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="add customer columns" author="eglushenko">
+        <addColumn catalogName="${val}" schemaName="public" tableName="customer">
+            <column name="gender" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+
+
+</databaseChangeLog>
