@@ -104,7 +104,8 @@ public class CastControllerTest {
                 .andReturn().getResponse().getContentAsString();
         CastReadDTO castReadDTO = objectMapper.readValue(resultJson, CastReadDTO.class);
         Assertions.assertThat(castReadDTO)
-                .isEqualToIgnoringGivenFields(read, "film", "name", "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read,
+                        "film", "name", "createdAt", "updatedAt");
     }
 
     @Test

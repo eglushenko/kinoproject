@@ -42,6 +42,11 @@ public class Film {
             mappedBy = "film")
     private Set<Cast> casts = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "film")
+    private Set<Stil> stils = new HashSet<>();
+
     @CreatedDate
     private Instant createdAt;
 

@@ -25,7 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SpringBootTest
 @Sql(statements = {
         "delete from film",
-        "delete from cast"},
+        "delete from cast",
+        "delete from stil"},
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class FilmRepositoryTest {
 

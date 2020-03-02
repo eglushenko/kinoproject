@@ -127,7 +127,8 @@ public class CommentServiceTest {
         put.setRate(1.1);
         CommentReadDTO read = commentService.updateComment(comment.getId(), put);
 
-        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+        Assertions.assertThat(put).isEqualToIgnoringGivenFields(read,
+                "createdAt", "updatedAt");
 
         comment = commentRepository.findById(read.getId()).get();
         Assertions.assertThat(comment)

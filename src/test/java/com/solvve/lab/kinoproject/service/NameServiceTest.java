@@ -119,7 +119,8 @@ public class NameServiceTest {
         Assert.assertNotNull(nameAfterUpdate.getLastName());
 
         Assertions.assertThat(name)
-                .isEqualToIgnoringGivenFields(nameAfterUpdate, "casts", "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(nameAfterUpdate,
+                        "casts", "createdAt", "updatedAt");
     }
 
     @Test

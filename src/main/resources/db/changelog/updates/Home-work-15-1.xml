@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="val" dbms="postgresql" value="test"/>
+    <property name="val" dbms="h2" value="testdb"/>
+    <changeSet id="change column format still" author="eglushenko">
+        <modifyDataType tableName="stil" columnName="film_id" newDataType="uuid"/>
+
+    </changeSet>
+    <changeSet id="add constain stil" author="eglushenko">
+        <addForeignKeyConstraint baseTableName="stil" baseColumnNames="film_id" constraintName="fk_ai_stil_film_id"
+                                 referencedTableName="film"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="5" author="eglushenko">
+        <createTable tableName="news">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="text_news" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <createTable tableName="media">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="link" type="varchar(255)"/>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>
