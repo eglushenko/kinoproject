@@ -1,16 +1,20 @@
-package com.solvve.lab.kinoproject.dto.review;
-
+package com.solvve.lab.kinoproject.dto.scene;
 
 import lombok.Data;
 
 import java.time.Instant;
 import java.util.UUID;
 
+
 @Data
-public class ReviewReadDTO {
+public class SceneReadDTO {
     private UUID id;
-    private String reviewText;
-    private UUID customerId;
+
+    private String sceneLink;
+
+    private UUID filmId;
+
     private Instant createdAt;
+
     private Instant updatedAt;
 }

@@ -49,7 +49,7 @@ public class CustomerServiceTest {
         Customer customer = createCustomer();
         CustomerReadDTO customerReadDTO = customerService.getCustomer(customer.getId());
         Assertions.assertThat(customerReadDTO)
-                .isEqualToIgnoringGivenFields(customer, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(customer, "reviews", "rates", "createdAt", "updatedAt");
 
     }
 
@@ -70,12 +70,14 @@ public class CustomerServiceTest {
         create.setGender(Gender.MALE);
         CustomerReadDTO customerReadDTO = customerService.createCustomer(create);
         Assertions.assertThat(create)
-                .isEqualToIgnoringGivenFields(customerReadDTO, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(customerReadDTO,
+                        "reviews", "rates", "createdAt", "updatedAt");
         Assert.assertNotNull(customerReadDTO.getId());
 
         Customer customer = customerRepository.findById(customerReadDTO.getId()).get();
         Assertions.assertThat(customerReadDTO)
-                .isEqualToIgnoringGivenFields(customer, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(customer,
+                        "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test
@@ -92,11 +94,13 @@ public class CustomerServiceTest {
         CustomerReadDTO read = customerService.patchCustomer(customer.getId(), patch);
 
         Assertions.assertThat(patch)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read,
+                        "reviews", "rates", "createdAt", "updatedAt");
 
         customer = customerRepository.findById(read.getId()).get();
         Assertions.assertThat(customer)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read,
+                        "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test
@@ -116,7 +120,8 @@ public class CustomerServiceTest {
 
         customer = customerRepository.findById(read.getId()).get();
         Assertions.assertThat(customer)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read,
+                        "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test
@@ -144,7 +149,8 @@ public class CustomerServiceTest {
         Assert.assertNotNull(customerAfterUpdate.getGender());
 
         Assertions.assertThat(customer)
-                .isEqualToIgnoringGivenFields(customerAfterUpdate, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(customerAfterUpdate,
+                        "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test

@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Sql(statements = {
         "delete from film",
         "delete from cast",
-        "delete from stil"},
+        "delete from scene"},
         executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class FilmRepositoryTest {
 
@@ -117,5 +117,6 @@ public class FilmRepositoryTest {
         Assert.assertNotNull(updateDateAfterLoad);
         Assertions.assertThat(updateDateAfterLoad).isAfter(updateDateBeforeLoad);
     }
+
 
 }

@@ -15,13 +15,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Stil {
+public class Scene {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    private String stilLink;
+    private String sceneLink;
 
     @ManyToOne
     private Film film;

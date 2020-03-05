@@ -45,7 +45,12 @@ public class Film {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "film")
-    private Set<Stil> stils = new HashSet<>();
+    private Set<Scene> scenes = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "film")
+    private Set<Media> mediaSet = new HashSet<>();
 
     @CreatedDate
     private Instant createdAt;

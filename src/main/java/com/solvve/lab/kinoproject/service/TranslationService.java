@@ -18,14 +18,26 @@ import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
+import com.solvve.lab.kinoproject.dto.like.LikeCreateDTO;
+import com.solvve.lab.kinoproject.dto.like.LikePatchDTO;
+import com.solvve.lab.kinoproject.dto.like.LikePutDTO;
+import com.solvve.lab.kinoproject.dto.like.LikeReadDTO;
 import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePutDTO;
 import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
+import com.solvve.lab.kinoproject.dto.news.NewsCreateDTO;
+import com.solvve.lab.kinoproject.dto.news.NewsPatchDTO;
+import com.solvve.lab.kinoproject.dto.news.NewsPutDTO;
+import com.solvve.lab.kinoproject.dto.news.NewsReadDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewReadDTO;
+import com.solvve.lab.kinoproject.dto.scene.SceneCreateDTO;
+import com.solvve.lab.kinoproject.dto.scene.ScenePatchDTO;
+import com.solvve.lab.kinoproject.dto.scene.ScenePutDTO;
+import com.solvve.lab.kinoproject.dto.scene.SceneReadDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
@@ -356,4 +368,95 @@ public class TranslationService {
     public void updateEntityReview(ReviewPutDTO put, Review review) {
         review.setReviewText(put.getReviewText());
     }
+
+    //Like
+    public LikeReadDTO toReadLike(Like like) {
+        LikeReadDTO read = new LikeReadDTO();
+        read.setId(like.getId());
+        read.setLike(like.getLike());
+        read.setType(like.getType());
+        read.setLikedObjectId(like.getLikedObjectId());
+        return read;
+    }
+
+    public Like toEntityLike(LikeCreateDTO create) {
+        Like like = new Like();
+        like.setLike(create.getLike());
+        like.setType(create.getType());
+        like.setLikedObjectId(create.getLikedObjectId());
+        return like;
+    }
+
+    public void patchEntityLike(LikePatchDTO patch, Like like) {
+        if (patch.getLike() != null) {
+            like.setLike(patch.getLike());
+        }
+        if (patch.getLikedObjectId() != null) {
+            like.setLikedObjectId(patch.getLikedObjectId());
+        }
+        if (patch.getType() != null) {
+            like.setType(patch.getType());
+        }
+    }
+
+    public void updateEntityLike(LikePutDTO put, Like like) {
+        like.setLike(put.getLike());
+        like.setType(put.getType());
+        like.setLikedObjectId(put.getLikedObjectId());
+    }
+
+    //News
+    public NewsReadDTO toReadNews(News news) {
+        NewsReadDTO read = new NewsReadDTO();
+        read.setId(news.getId());
+        read.setTextNews(news.getTextNews());
+        return read;
+    }
+
+    public News toEntityNews(NewsCreateDTO create) {
+        News news = new News();
+        news.setTextNews(create.getTextNews());
+        return news;
+    }
+
+    public void patchEntityNews(NewsPatchDTO patch, News news) {
+        if (patch.getTextNews() != null) {
+            news.setTextNews(patch.getTextNews());
+        }
+    }
+
+    public void updateEntityNews(NewsPutDTO put, News news) {
+        news.setTextNews(put.getTextNews());
+    }
+
+    //Scene
+    public SceneReadDTO toReadScene(Scene scene) {
+        SceneReadDTO read = new SceneReadDTO();
+        read.setId(scene.getId());
+        read.setSceneLink(scene.getSceneLink());
+        read.setFilmId(scene.getFilm().getId());
+        return read;
+    }
+
+    public Scene toEntityScene(SceneCreateDTO create) {
+        Scene scene = new Scene();
+        scene.setSceneLink(create.getSceneLink());
+        scene.setFilm(repositoryHelper.getReferenceIfExist(Film.class, create.getFilmId()));
+        return scene;
+    }
+
+    public void patchEntityScene(ScenePatchDTO patch, Scene scene) {
+        if (patch.getSceneLink() != null) {
+            scene.setSceneLink(patch.getSceneLink());
+        }
+        if (patch.getFilmId() != null) {
+            scene.setFilm(repositoryHelper.getReferenceIfExist(Film.class, patch.getFilmId()));
+        }
+    }
+
+    public void updateEntityScene(ScenePutDTO put, Scene scene) {
+        scene.setSceneLink(put.getSceneLink());
+        scene.setFilm(repositoryHelper.getReferenceIfExist(Film.class, put.getFilmId()));
+    }
+
 }

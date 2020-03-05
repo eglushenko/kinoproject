@@ -17,7 +17,10 @@ public class Genere {
     @Id
     @GeneratedValue
     private UUID id;
+
     private String genereName;
+
+    private String genreDescription;
 
 
 }

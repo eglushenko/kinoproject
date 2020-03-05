@@ -6,10 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -24,6 +21,9 @@ public class Review {
     private UUID id;
 
     private String reviewText;
+
+    @ManyToOne
+    private Customer customer;
 
     @CreatedDate
     private Instant createdAt;

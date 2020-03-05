@@ -1,5 +1,4 @@
-package com.solvve.lab.kinoproject.dto.review;
-
+package com.solvve.lab.kinoproject.dto.news;
 
 import lombok.Data;
 
@@ -7,10 +6,9 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-public class ReviewReadDTO {
+public class NewsReadDTO {
     private UUID id;
-    private String reviewText;
-    private UUID customerId;
+    private String textNews;
     private Instant createdAt;
     private Instant updatedAt;
 }
