@@ -96,10 +96,12 @@ public class SceneServiceTest {
 
     @Test
     public void testPatchScene() {
+        Film film = createFilm();
         Scene scene = createScene();
 
         ScenePatchDTO patch = new ScenePatchDTO();
         patch.setSceneLink("11111");
+        patch.setFilmId(film.getId());
         SceneReadDTO read = sceneService.patchScene(scene.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -137,10 +139,12 @@ public class SceneServiceTest {
         SceneReadDTO read = sceneService.patchScene(scene.getId(), patch);
 
         Assert.assertNotNull(read.getSceneLink());
+        Assert.assertNotNull(read.getFilmId());
 
         Scene sceneAfterUpdate = sceneRepository.findById(read.getId()).get();
 
         Assert.assertNotNull(sceneAfterUpdate.getSceneLink());
+        Assert.assertNotNull(sceneAfterUpdate.getFilm().getId());
 
         Assertions.assertThat(scene)
                 .isEqualToIgnoringGivenFields(sceneAfterUpdate,
@@ -159,6 +163,14 @@ public class SceneServiceTest {
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteSceneNotFoundId() {
         sceneService.deleteScene(UUID.randomUUID());
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testCreateSceneWithWrongFilm() {
+        SceneCreateDTO create = new SceneCreateDTO();
+        create.setSceneLink("link");
+        create.setFilmId(UUID.randomUUID());
+        sceneService.createScene(create);
     }
 
 }

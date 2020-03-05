@@ -9,8 +9,6 @@ import java.util.UUID;
 @Data
 public class LikePutDTO {
 
-    private UUID id;
-
     private Boolean like;
 
     private UUID likedObjectId;

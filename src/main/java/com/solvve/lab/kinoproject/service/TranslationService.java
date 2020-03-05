@@ -42,6 +42,10 @@ import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoReadDTO;
+import com.solvve.lab.kinoproject.dto.video.VideoCreateDTO;
+import com.solvve.lab.kinoproject.dto.video.VideoPatchDTO;
+import com.solvve.lab.kinoproject.dto.video.VideoPutDTO;
+import com.solvve.lab.kinoproject.dto.video.VideoReadDTO;
 import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -457,6 +461,30 @@ public class TranslationService {
     public void updateEntityScene(ScenePutDTO put, Scene scene) {
         scene.setSceneLink(put.getSceneLink());
         scene.setFilm(repositoryHelper.getReferenceIfExist(Film.class, put.getFilmId()));
+    }
+
+    //Video
+    public VideoReadDTO toReadVideo(Video video) {
+        VideoReadDTO read = new VideoReadDTO();
+        read.setId(video.getId());
+        read.setVideoLink(video.getVideoLink());
+        return read;
+    }
+
+    public Video toEntityVideo(VideoCreateDTO create) {
+        Video video = new Video();
+        video.setVideoLink(create.getVideoLink());
+        return video;
+    }
+
+    public void patchEntityVideo(VideoPatchDTO patch, Video video) {
+        if (patch.getVideoLink() != null) {
+            video.setVideoLink(patch.getVideoLink());
+        }
+    }
+
+    public void updateEntityVideo(VideoPutDTO put, Video video) {
+        video.setVideoLink(put.getVideoLink());
     }
 
 }
