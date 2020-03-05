@@ -52,6 +52,11 @@ public class Film {
             mappedBy = "film")
     private Set<Media> mediaSet = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "film")
+    private Set<Review> reviews = new HashSet<>();
+
     @CreatedDate
     private Instant createdAt;
 

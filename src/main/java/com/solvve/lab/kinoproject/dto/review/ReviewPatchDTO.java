@@ -9,4 +9,6 @@ import java.util.UUID;
 public class ReviewPatchDTO {
     private String reviewText;
     private UUID customerId;
+    private UUID filmId;
+
 }

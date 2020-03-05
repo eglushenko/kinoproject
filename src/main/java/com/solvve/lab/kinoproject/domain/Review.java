@@ -23,6 +23,9 @@ public class Review {
     private String reviewText;
 
     @ManyToOne
+    private Film film;
+
+    @ManyToOne
     private Customer customer;
 
     @CreatedDate

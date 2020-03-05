@@ -45,7 +45,7 @@ public class ReviewServiceTest {
         ReviewReadDTO read = reviewService.getReview(review.getId());
         Assertions.assertThat(read)
                 .isEqualToIgnoringGivenFields(review,
-                        "customerId", "createdAt", "updatedAt");
+                        "filmId", "customerId", "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -61,13 +61,13 @@ public class ReviewServiceTest {
         ReviewReadDTO read = reviewService.createReview(create);
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(read,
-                        "customerId", "createdAt", "updatedAt");
+                        "filmId", "customerId", "createdAt", "updatedAt");
         Assert.assertNotNull(read.getId());
 
         Review review = reviewRepository.findById(read.getId()).get();
         Assertions.assertThat(read)
                 .isEqualToIgnoringGivenFields(review,
-                        "customerId", "createdAt", "updatedAt");
+                        "filmId", "customerId", "createdAt", "updatedAt");
     }
 
     @Test
@@ -80,12 +80,12 @@ public class ReviewServiceTest {
 
         Assertions.assertThat(patch)
                 .isEqualToIgnoringGivenFields(read,
-                        "customerId", "createdAt", "updatedAt");
+                        "filmId", "customerId", "createdAt", "updatedAt");
 
         review = reviewRepository.findById(read.getId()).get();
         Assertions.assertThat(review)
                 .isEqualToIgnoringGivenFields(read,
-                        "customer", "createdAt", "updatedAt");
+                        "film", "customer", "createdAt", "updatedAt");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class ReviewServiceTest {
 
         Assertions.assertThat(review)
                 .isEqualToIgnoringGivenFields(afterUpdate,
-                        "customerId", "createdAt", "updatedAt");
+                        "filmId", "customerId", "createdAt", "updatedAt");
     }
 
     @Test
@@ -120,7 +120,7 @@ public class ReviewServiceTest {
         review = reviewRepository.findById(read.getId()).get();
         Assertions.assertThat(review)
                 .isEqualToIgnoringGivenFields(read,
-                        "customer", "createdAt", "updatedAt");
+                        "film", "customer", "createdAt", "updatedAt");
     }
 
     @Test

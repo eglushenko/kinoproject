@@ -11,6 +11,7 @@ public class ReviewReadDTO {
     private UUID id;
     private String reviewText;
     private UUID customerId;
+    private UUID filmId;
     private Instant createdAt;
     private Instant updatedAt;
 }

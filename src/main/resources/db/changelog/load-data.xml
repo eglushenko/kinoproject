@@ -83,7 +83,7 @@
         <loadData tableName="cast" file="db/data/cast.csv" separator=";">
             <column name="id" type="uuid"/>
             <column name="role_in_film" type="string"/>
-            <column name="nameR_role_in_film" type="string"/>
+            <column name="name_role_in_film" type="string"/>
             <column name="film_id" type="uuid"/>
             <column name="name_id" type="uuid"/>
         </loadData>
@@ -93,6 +93,12 @@
             <column name="id" type="uuid"/>
             <column name="country_name" type="string"/>
             <column name="country_short_name" type="string"/>
+        </loadData>
+    </changeSet>
+    <changeSet id="load scenes" author="eglushenko" runOnChange="true">
+        <loadData tableName="scene" file="db/data/scene.csv" separator=";">
+            <column name="id" type="uuid"/>
+            <column name="scene_link" type="string"/>
         </loadData>
     </changeSet>
 
