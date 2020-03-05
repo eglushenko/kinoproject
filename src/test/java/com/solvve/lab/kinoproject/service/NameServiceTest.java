@@ -27,7 +27,8 @@ import java.util.UUID;
 public class NameServiceTest {
 
     @Autowired
-    NameRepository nameRepository;
+    private NameRepository nameRepository;
+
     @Autowired
     private NameService nameService;
 
