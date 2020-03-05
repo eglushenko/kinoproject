@@ -26,7 +26,9 @@ import java.util.UUID;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(statements = "delete from scene", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(statements = {
+        "delete from scene",
+        "delete from film"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class SceneServiceTest {
 
     @Autowired
