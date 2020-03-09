@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="val" dbms="postgresql" value="test"/>
+    <property name="val" dbms="h2" value="testdb"/>
+    <changeSet id="6" author="eglushenko">
+        <dropTable catalogName="${val}" schemaName="public" tableName="stil"/>
+    </changeSet>
+    <changeSet id="7" author="eglushenko">
+        <createTable tableName="scene">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="scene_link" type="varchar(255)"/>
+            <column name="film_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_scene_film_id"
+                             referencedTableName="film"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+        </createTable>
+        <addColumn catalogName="${val}" schemaName="public" tableName="genere">
+            <column name="genre_description" type="varchar(255)"/>
+        </addColumn>
+        <addColumn catalogName="${val}" schemaName="public" tableName="media">
+            <column name="film_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_media_film_id"
+                             referencedTableName="film"
+                             referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+        <addColumn catalogName="${val}" schemaName="public" tableName="rate">
+            <column name="rated_object_id" type="uuid"/>
+            <column name="type" type="varchar(255)"/>
+            <column name="customer_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_rate_customer_id"
+                             referencedTableName="customer"
+                             referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+        <addColumn catalogName="${val}" schemaName="public" tableName="review">
+            <column name="customer_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_review_customer_id"
+                             referencedTableName="customer"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="film_id" type="uuid">
+                <constraints foreignKeyName="fk_ai_review_film_id"
+                             referencedTableName="film"
+                             referencedColumnNames="id"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="8" author="eglushenko">
+        <renameColumn catalogName="${val}"
+                      newColumnName="average_rate"
+                      oldColumnName="rate"
+                      schemaName="public"
+                      tableName="film"/>
+    </changeSet>
+
+
+</databaseChangeLog>
