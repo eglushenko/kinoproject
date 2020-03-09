@@ -11,18 +11,26 @@ import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
+import com.solvve.lab.kinoproject.repository.RateRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class FilmService {
 
     @Autowired
     private FilmRepository filmRepository;
+
+    @Autowired
+    private RateRepository rateRepository;
 
     @Autowired
     private TranslationService translationService;
@@ -68,8 +76,19 @@ public class FilmService {
         return translationService.toReadFilm(film);
     }
 
-
     public void deleteFilm(UUID id) {
         filmRepository.delete(getFilmRequired(id));
+    }
+
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void updateAverageRateOfFilm(UUID filmId) {
+        Double averageRate = rateRepository.calcAverageMarkOfObjectId(filmId);
+        Film film = filmRepository.findById(filmId).orElseThrow(() -> new EntityNotFoundException(Film.class, filmId));
+        log.info("Setting avg rate film: {}. Old value: {}, new value: {}",
+                filmId, film.getAverageRate(), averageRate);
+        film.setAverageRate(averageRate);
+        filmRepository.save(film);
+
     }
 }

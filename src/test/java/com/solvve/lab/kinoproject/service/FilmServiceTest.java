@@ -43,7 +43,7 @@ public class FilmServiceTest {
         film.setFilmText("");
         film.setLang("UA");
         film.setLength(83);
-        film.setRate(4.3);
+        film.setAverageRate(4.3);
         film.setTitle("LEGO FILM");
         film.setMpaa(RateMPAA.PG);
         film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
@@ -74,7 +74,7 @@ public class FilmServiceTest {
         create.setFilmText("");
         create.setLang("UA");
         create.setLength(83);
-        create.setRate(4.3);
+        create.setAverageRate(4.3);
         create.setTitle("LEGO FILM");
         create.setMpaa(RateMPAA.PG);
         create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
@@ -100,7 +100,7 @@ public class FilmServiceTest {
         patch.setFilmText("some text");
         patch.setLang("UA");
         patch.setLength(83);
-        patch.setRate(1.3);
+        patch.setAverageRate(1.3);
         patch.setTitle("FILM");
         patch.setMpaa(RateMPAA.PG);
         patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
@@ -130,8 +130,8 @@ public class FilmServiceTest {
         Assert.assertNotNull(read.getLang());
         Assert.assertNotNull(read.getLastUpdate());
         Assert.assertNotNull(read.getTitle());
-        Assert.assertTrue(read.getLength() > 0);
-        Assert.assertTrue(read.getRate() > 0.0);
+        Assert.assertNotNull(read.getLength());
+        Assert.assertNotNull(read.getAverageRate());
         Assert.assertNotNull(read.getMpaa());
         Film filmAfterUpdate = filmRepository.findById(read.getId()).get();
 
@@ -141,8 +141,8 @@ public class FilmServiceTest {
         Assert.assertNotNull(filmAfterUpdate.getLang());
         Assert.assertNotNull(filmAfterUpdate.getLastUpdate());
         Assert.assertNotNull(filmAfterUpdate.getTitle());
-        Assert.assertTrue(filmAfterUpdate.getLength() > 0);
-        Assert.assertTrue(filmAfterUpdate.getRate() > 0.0);
+        Assert.assertNotNull(filmAfterUpdate.getLength());
+        Assert.assertNotNull(filmAfterUpdate.getAverageRate());
         Assert.assertNotNull(filmAfterUpdate.getMpaa());
 
         Assertions.assertThat(film)
@@ -160,7 +160,7 @@ public class FilmServiceTest {
         put.setFilmText("some text");
         put.setLang("UA");
         put.setLength(83);
-        put.setRate(1.3);
+        put.setAverageRate(1.3);
         put.setTitle("FILM");
         put.setMpaa(RateMPAA.PG);
         put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));

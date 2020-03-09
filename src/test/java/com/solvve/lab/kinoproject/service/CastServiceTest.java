@@ -73,7 +73,7 @@ public class CastServiceTest {
         film.setFilmText("");
         film.setLang("UA");
         film.setLength(83);
-        film.setRate(4.3);
+        film.setAverageRate(4.3);
         film.setTitle("LEGO FILM");
         film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
         film = filmRepository.save(film);

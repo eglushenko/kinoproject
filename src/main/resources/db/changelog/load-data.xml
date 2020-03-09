@@ -72,7 +72,7 @@
             <column name="title" type="string"/>
             <column name="country" type="string"/>
             <column name="lang" type="string"/>
-            <column name="rate" type="numeric"/>
+            <column name="average_rate" type="numeric"/>
             <column name="last_update" type="datetime"/>
             <column name="realise_year" type="datetime"/>
             <column name="category" type="string"/>

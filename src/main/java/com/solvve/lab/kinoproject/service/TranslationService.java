@@ -30,6 +30,10 @@ import com.solvve.lab.kinoproject.dto.news.NewsCreateDTO;
 import com.solvve.lab.kinoproject.dto.news.NewsPatchDTO;
 import com.solvve.lab.kinoproject.dto.news.NewsPutDTO;
 import com.solvve.lab.kinoproject.dto.news.NewsReadDTO;
+import com.solvve.lab.kinoproject.dto.rate.RateCreateDTO;
+import com.solvve.lab.kinoproject.dto.rate.RatePatchDTO;
+import com.solvve.lab.kinoproject.dto.rate.RatePutDTO;
+import com.solvve.lab.kinoproject.dto.rate.RateReadDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
@@ -233,7 +237,7 @@ public class TranslationService {
         film.setFilmText(create.getFilmText());
         film.setLang(create.getLang());
         film.setLength(create.getLength());
-        film.setRate(create.getRate());
+        film.setAverageRate(create.getAverageRate());
         film.setTitle(create.getTitle());
         film.setLastUpdate(create.getLastUpdate());
         film.setMpaa(create.getMpaa());
@@ -247,7 +251,7 @@ public class TranslationService {
         filmReadDTO.setCategory(film.getCategory());
         filmReadDTO.setCountry(film.getCountry());
         filmReadDTO.setLang(film.getLang());
-        filmReadDTO.setRate(film.getRate());
+        filmReadDTO.setAverageRate(film.getAverageRate());
         filmReadDTO.setLength(film.getLength());
         filmReadDTO.setFilmText(film.getFilmText());
         filmReadDTO.setLastUpdate(film.getLastUpdate());
@@ -277,8 +281,8 @@ public class TranslationService {
         if (patch.getLastUpdate() != null) {
             film.setLastUpdate(patch.getLastUpdate());
         }
-        if (patch.getRate() != null) {
-            film.setRate(patch.getRate());
+        if (patch.getAverageRate() != null) {
+            film.setAverageRate(patch.getAverageRate());
         }
         if (patch.getMpaa() != null) {
             film.setMpaa(patch.getMpaa());
@@ -293,7 +297,7 @@ public class TranslationService {
         film.setLang(put.getLang());
         film.setLength(put.getLength());
         film.setLastUpdate(put.getLastUpdate());
-        film.setRate(put.getRate());
+        film.setAverageRate(put.getAverageRate());
         film.setMpaa(put.getMpaa());
     }
 
@@ -304,7 +308,7 @@ public class TranslationService {
         filmReadExtendedDTO.setCategory(film.getCategory());
         filmReadExtendedDTO.setCountry(film.getCountry());
         filmReadExtendedDTO.setLang(film.getLang());
-        filmReadExtendedDTO.setRate(film.getRate());
+        filmReadExtendedDTO.setAverageRate(film.getAverageRate());
         filmReadExtendedDTO.setLength(film.getLength());
         filmReadExtendedDTO.setFilmText(film.getFilmText());
         filmReadExtendedDTO.setLastUpdate(film.getLastUpdate());
@@ -485,6 +489,48 @@ public class TranslationService {
 
     public void updateEntityVideo(VideoPutDTO put, Video video) {
         video.setVideoLink(put.getVideoLink());
+    }
+
+    //Rate
+    public RateReadDTO toReadRate(Rate rate) {
+        RateReadDTO read = new RateReadDTO();
+        read.setId(rate.getId());
+        read.setCustomerId(rate.getCustomer().getId());
+        read.setRate(rate.getRate());
+        read.setRatedObjectId(rate.getRatedObjectId());
+        read.setType(rate.getType());
+        return read;
+    }
+
+    public Rate toEntityRate(RateCreateDTO create) {
+        Rate rate = new Rate();
+        rate.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, create.getCustomerId()));
+        rate.setRate(create.getRate());
+        rate.setRatedObjectId(create.getRatedObjectId());
+        rate.setType(create.getType());
+        return rate;
+    }
+
+    public void patchEntityRate(RatePatchDTO patch, Rate rate) {
+        if (patch.getCustomerId() != null) {
+            rate.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, patch.getCustomerId()));
+        }
+        if (patch.getRate() != null) {
+            rate.setRate(patch.getRate());
+        }
+        if (patch.getRatedObjectId() != null) {
+            rate.setRatedObjectId(patch.getRatedObjectId());
+        }
+        if (patch.getType() != null) {
+            rate.setType(patch.getType());
+        }
+    }
+
+    public void updateEntityRate(RatePutDTO put, Rate rate) {
+        rate.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, put.getCustomerId()));
+        rate.setRate(put.getRate());
+        rate.setRatedObjectId(put.getRatedObjectId());
+        rate.setType(put.getType());
     }
 
 }

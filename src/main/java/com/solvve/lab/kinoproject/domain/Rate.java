@@ -11,9 +11,10 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
+
+@Entity
 @Getter
 @Setter
-@Entity
 @EntityListeners(AuditingEntityListener.class)
 public class Rate {
 

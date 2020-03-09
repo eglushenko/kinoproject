@@ -11,11 +11,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -33,6 +38,10 @@ public class FilmRepositoryTest {
     @Autowired
     private FilmRepository filmRepository;
 
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
+
     private Film createFilm() {
         ZoneOffset utc = ZoneOffset.UTC;
         Film film = new Film();
@@ -41,7 +50,7 @@ public class FilmRepositoryTest {
         film.setFilmText("");
         film.setLang("en");
         film.setLength(83);
-        film.setRate(4.3);
+        film.setAverageRate(4.3);
         film.setTitle("LEGO FILM");
         film.setRealiseYear(LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc));
         film.setLastUpdate(LocalDateTime.of(2019, 12, 01, 17, 01).toInstant(utc));
@@ -58,15 +67,15 @@ public class FilmRepositoryTest {
 
 
     @Test
-    public void testGetFilmsByRate() {
+    public void testGetFilmsByAverageRate() {
         Film film1 = createFilm();
         Film film2 = createFilm();
-        film2.setRate(2.0);
+        film2.setAverageRate(2.0);
         filmRepository.save(film2);
         Film film3 = createFilm();
 
 
-        List<Film> res = filmRepository.findByRateGreaterThan(4.0);
+        List<Film> res = filmRepository.findByAverageRateGreaterThan(4.0);
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film3.getId());
     }
 
@@ -116,6 +125,20 @@ public class FilmRepositoryTest {
 
         Assert.assertNotNull(updateDateAfterLoad);
         Assertions.assertThat(updateDateAfterLoad).isAfter(updateDateBeforeLoad);
+    }
+
+    @Test
+    public void testGetIdsOfFilms() {
+        Set<UUID> expectedIds = new HashSet<>();
+        expectedIds.add(createFilm().getId());
+        expectedIds.add(createFilm().getId());
+
+
+        transactionTemplate.executeWithoutResult(transactionStatus -> {
+            Assert.assertEquals(expectedIds, new HashSet<>(filmRepository.getIdsOfFilms()
+                    .collect(Collectors.toSet())));
+        });
+
     }
 
 

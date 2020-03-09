@@ -12,7 +12,7 @@ public class FilmReadExtendedDTO {
     private String title;
     private String country;
     private String lang;
-    private Double rate;
+    private Double averageRate;
     private Integer length;
     private Instant lastUpdate;
     private Instant realiseYear;
