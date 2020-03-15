@@ -46,7 +46,7 @@ public class TypoControllerTest {
         read.setId(UUID.randomUUID());
         read.setTypoLink("link");
         read.setStatus(TypoStatus.OPEN);
-        read.setTypoMessege("msg");
+        read.setTypoMessage("msg");
         return read;
     }
 
@@ -93,7 +93,7 @@ public class TypoControllerTest {
         TypoCreateDTO create = new TypoCreateDTO();
         create.setTypoLink("link");
         create.setStatus(TypoStatus.OPEN);
-        create.setTypoMessege("msg");
+        create.setTypoMessage("msg");
 
         TypoReadDTO read = createTypoRead();
 
@@ -113,7 +113,7 @@ public class TypoControllerTest {
         TypoPatchDTO patch = new TypoPatchDTO();
         patch.setTypoLink("links");
         patch.setStatus(TypoStatus.CHECKING);
-        patch.setTypoMessege("cheking");
+        patch.setTypoMessage("cheking");
 
         TypoReadDTO read = createTypoRead();
 
@@ -133,7 +133,7 @@ public class TypoControllerTest {
         TypoPutDTO putDTO = new TypoPutDTO();
         putDTO.setTypoLink("links");
         putDTO.setStatus(TypoStatus.CHECKING);
-        putDTO.setTypoMessege("cheking");
+        putDTO.setTypoMessage("cheking");
 
         TypoReadDTO read = createTypoRead();
 

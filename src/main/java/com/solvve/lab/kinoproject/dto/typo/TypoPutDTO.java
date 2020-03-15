@@ -5,7 +5,9 @@ import lombok.Data;
 
 @Data
 public class TypoPutDTO {
-    private String typoMessege;
+    private String typoMessage;
+    private String errorText;
+    private String rightText;
     private String typoLink;
     private TypoStatus status;
 }

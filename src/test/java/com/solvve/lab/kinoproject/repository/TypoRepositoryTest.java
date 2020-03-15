@@ -25,7 +25,7 @@ public class TypoRepositoryTest {
 
     private Typo createTypo() {
         Typo typo = new Typo();
-        typo.setTypoMessege("some text");
+        typo.setTypoMessage("some text");
         typo.setStatus(TypoStatus.OPEN);
         typo.setTypoLink("link");
         return typoRepository.save(typo);

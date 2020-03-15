@@ -21,7 +21,11 @@ public class Typo {
     @GeneratedValue
     private UUID id;
 
-    private String typoMessege;
+    private String typoMessage;
+
+    private String errorText;
+
+    private String rightText;
 
     private String typoLink;
 

@@ -320,7 +320,9 @@ public class TranslationService {
     public TypoReadDTO toReadTypo(Typo typo) {
         TypoReadDTO read = new TypoReadDTO();
         read.setId(typo.getId());
-        read.setTypoMessege(typo.getTypoMessege());
+        read.setTypoMessage(typo.getTypoMessage());
+        read.setErrorText(typo.getErrorText());
+        read.setRightText(typo.getRightText());
         read.setStatus(typo.getStatus());
         read.setTypoLink(typo.getTypoLink());
         return read;
@@ -328,15 +330,23 @@ public class TranslationService {
 
     public Typo toEntityTypo(TypoCreateDTO create) {
         Typo typo = new Typo();
-        typo.setTypoMessege(create.getTypoMessege());
+        typo.setTypoMessage(create.getTypoMessage());
+        typo.setErrorText(create.getErrorText());
+        typo.setRightText(create.getRightText());
         typo.setTypoLink(create.getTypoLink());
         typo.setStatus(create.getStatus());
         return typo;
     }
 
     public void patchEntityTypo(TypoPatchDTO patch, Typo typo) {
-        if (patch.getTypoMessege() != null) {
-            typo.setTypoMessege(patch.getTypoMessege());
+        if (patch.getTypoMessage() != null) {
+            typo.setTypoMessage(patch.getTypoMessage());
+        }
+        if (patch.getErrorText() != null) {
+            typo.setErrorText(patch.getErrorText());
+        }
+        if (patch.getRightText() != null) {
+            typo.setRightText(patch.getRightText());
         }
         if (patch.getTypoLink() != null) {
             typo.setTypoLink(patch.getTypoLink());
@@ -348,7 +358,9 @@ public class TranslationService {
     }
 
     public void updateEntityTypo(TypoPutDTO put, Typo typo) {
-        typo.setTypoMessege(put.getTypoMessege());
+        typo.setTypoMessage(put.getTypoMessage());
+        typo.setErrorText(put.getErrorText());
+        typo.setRightText(put.getRightText());
         typo.setTypoLink(put.getTypoLink());
         typo.setStatus(put.getStatus());
     }

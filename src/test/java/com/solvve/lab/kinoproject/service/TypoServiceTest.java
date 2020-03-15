@@ -34,7 +34,7 @@ public class TypoServiceTest {
 
     private Typo createTypo() {
         Typo typo = new Typo();
-        typo.setTypoMessege("some text");
+        typo.setTypoMessage("some text");
         typo.setStatus(TypoStatus.OPEN);
         typo.setTypoLink("link");
         return typoRepository.save(typo);
@@ -58,7 +58,7 @@ public class TypoServiceTest {
     @Test
     public void testCreateTypo() {
         TypoCreateDTO create = new TypoCreateDTO();
-        create.setTypoMessege("some text");
+        create.setTypoMessage("some text");
         create.setStatus(TypoStatus.OPEN);
         create.setTypoLink("link");
         TypoReadDTO read = typoService.createTypo(create);
@@ -76,7 +76,7 @@ public class TypoServiceTest {
         Typo typo = createTypo();
 
         TypoPatchDTO patch = new TypoPatchDTO();
-        patch.setTypoMessege("some text");
+        patch.setTypoMessage("some text");
         patch.setStatus(TypoStatus.OPEN);
         patch.setTypoLink("link");
         TypoReadDTO read = typoService.patchTypo(typo.getId(), patch);
@@ -99,13 +99,13 @@ public class TypoServiceTest {
 
         Assert.assertNotNull(read.getStatus());
         Assert.assertNotNull(read.getTypoLink());
-        Assert.assertNotNull(read.getTypoMessege());
+        Assert.assertNotNull(read.getTypoMessage());
 
         Typo afterUpdate = typoRepository.findById(read.getId()).get();
 
         Assert.assertNotNull(afterUpdate.getStatus());
         Assert.assertNotNull(afterUpdate.getTypoLink());
-        Assert.assertNotNull(afterUpdate.getTypoMessege());
+        Assert.assertNotNull(afterUpdate.getTypoMessage());
         Assertions.assertThat(typo)
                 .isEqualToIgnoringGivenFields(afterUpdate, "createdAt", "updatedAt");
 
@@ -116,7 +116,7 @@ public class TypoServiceTest {
         Typo typo = createTypo();
 
         TypoPutDTO put = new TypoPutDTO();
-        put.setTypoMessege("some text");
+        put.setTypoMessage("some text");
         put.setStatus(TypoStatus.OPEN);
         put.setTypoLink("link");
         TypoReadDTO read = typoService.updateTypo(typo.getId(), put);
