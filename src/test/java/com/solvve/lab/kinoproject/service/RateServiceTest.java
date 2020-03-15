@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.Customer;
+import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.domain.Rate;
 import com.solvve.lab.kinoproject.dto.rate.RateCreateDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePatchDTO;
@@ -10,25 +11,33 @@ import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.RateObjectType;
 import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
+import com.solvve.lab.kinoproject.job.UpdateAverageRateOfFilmJob;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
+import com.solvve.lab.kinoproject.repository.FilmRepository;
 import com.solvve.lab.kinoproject.repository.RateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(statements = "delete from rate", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(statements = {
+        "delete from rate",
+        "delete from film"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class RateServiceTest {
 
     @Autowired
@@ -37,8 +46,17 @@ public class RateServiceTest {
     @Autowired
     private RateService rateService;
 
+    @SpyBean
+    private FilmService filmService;
+
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private FilmRepository filmRepository;
+
+    @Autowired
+    private UpdateAverageRateOfFilmJob updateAverageRateOfFilmJob;
 
     private Customer createCustomer() {
         Customer customer = new Customer();
@@ -49,6 +67,20 @@ public class RateServiceTest {
         customer.setRole(Role.USER);
         customer.setGender(Gender.MALE);
         return customerRepository.save(customer);
+    }
+
+    private Film createFilm() {
+        ZoneOffset utc = ZoneOffset.UTC;
+        Film film = new Film();
+        film.setCategory("category");
+        film.setCountry("UA");
+        film.setFilmText("");
+        film.setLang("en");
+        film.setLength(83);
+        film.setTitle("LEGO FILM");
+        film.setRealiseYear(LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc));
+        film.setLastUpdate(LocalDateTime.of(2019, 12, 01, 17, 01).toInstant(utc));
+        return filmRepository.save(film);
     }
 
 
@@ -166,6 +198,74 @@ public class RateServiceTest {
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteRateNotFoundId() {
         rateService.deleteRate(UUID.randomUUID());
+    }
+
+    @Test
+    public void testUpdateAverageRateOfFilms() {
+        Customer c1 = createCustomer();
+        Customer c2 = createCustomer();
+        Film film = createFilm();
+        film.setAverageRate(0.0);
+        filmRepository.save(film);
+
+        Rate r1 = new Rate();
+        r1.setCustomer(c1);
+        r1.setType(RateObjectType.FILM);
+        r1.setRate(2.0);
+        r1.setRatedObjectId(film.getId());
+        rateRepository.save(r1);
+
+        Rate r2 = new Rate();
+        r2.setCustomer(c2);
+        r2.setType(RateObjectType.FILM);
+        r2.setRate(5.0);
+        r2.setRatedObjectId(film.getId());
+        rateRepository.save(r2);
+
+        updateAverageRateOfFilmJob.updateAverageRateOfFilm();
+
+        film = filmRepository.findById(film.getId()).get();
+        Assert.assertEquals(3.5, film.getAverageRate(), Double.MIN_NORMAL);
+    }
+
+    @Test
+    public void testFilmsUpdatedIndependently() {
+        Customer c1 = createCustomer();
+        Customer c2 = createCustomer();
+        Film film = createFilm();
+
+        Rate r1 = new Rate();
+        r1.setCustomer(c1);
+        r1.setType(RateObjectType.FILM);
+        r1.setRate(2.0);
+        r1.setRatedObjectId(film.getId());
+        rateRepository.save(r1);
+
+        Rate r2 = new Rate();
+        r2.setCustomer(c2);
+        r2.setType(RateObjectType.FILM);
+        r2.setRate(5.0);
+        r2.setRatedObjectId(film.getId());
+        rateRepository.save(r2);
+
+        UUID[] filedId = new UUID[1];
+        Mockito.doAnswer(invocationOnMock -> {
+            if (filedId[0] == null) {
+                filedId[0] = invocationOnMock.getArgument(0);
+                throw new RuntimeException();
+            }
+            return invocationOnMock.callRealMethod();
+        }).when(filmService).updateAverageRateOfFilm(Mockito.any());
+
+        updateAverageRateOfFilmJob.updateAverageRateOfFilm();
+
+        for (Film f : filmRepository.findAll()) {
+            if (f.getId().equals(filedId[0])) {
+                Assert.assertNull(f.getAverageRate());
+            } else {
+                Assert.assertNotNull(f.getAverageRate());
+            }
+        }
     }
 
 

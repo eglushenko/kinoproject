@@ -28,14 +28,19 @@ public class LiquibaseLoadDataTest {
 
     @Autowired
     private FilmRepository filmRepository;
+
     @Autowired
     private CastRepository castRepository;
+
     @Autowired
     private CommentRepository commentRepository;
+
     @Autowired
     private NameRepository nameRepository;
+
     @Autowired
     private TypoRepository typoRepository;
+
     @Autowired
     private CustomerRepository customerRepository;
 

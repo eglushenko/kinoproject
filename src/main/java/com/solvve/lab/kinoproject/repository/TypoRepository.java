@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface TypoRepository extends CrudRepository<Typo, UUID> {
+
 }

@@ -50,7 +50,7 @@ public class Film {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "film")
-    private Set<Media> mediaSet = new HashSet<>();
+    private Set<Media> media = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,

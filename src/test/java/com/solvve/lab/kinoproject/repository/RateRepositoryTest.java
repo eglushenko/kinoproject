@@ -53,13 +53,13 @@ public class RateRepositoryTest {
         rate.setRate(2.0);
         rate.setRatedObjectId(film.getId());
         rate.setType(RateObjectType.FILM);
-        rate = rateRepository.save(rate);
+        rateRepository.save(rate);
 
         Rate rate2 = new Rate();
         rate2.setRatedObjectId(film.getId());
         rate2.setRate(1.0);
         rate2.setType(RateObjectType.FILM);
-        rate2 = rateRepository.save(rate2);
+        rateRepository.save(rate2);
 
         Rate rate3 = new Rate();
         rate3.setType(RateObjectType.FILM);

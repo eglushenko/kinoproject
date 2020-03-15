@@ -57,7 +57,7 @@ public class FilmServiceTest {
         FilmReadDTO readDTO = filmService.getFilm(film.getId());
         Assertions.assertThat(readDTO)
                 .isEqualToIgnoringGivenFields(film,
-                        "reviews", "mediaSet", "casts", "scenes", "createdAt", "updatedAt");
+                        "reviews", "media", "casts", "scenes", "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -81,13 +81,13 @@ public class FilmServiceTest {
         FilmReadDTO filmReadDTO = filmService.createFilm(create);
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(filmReadDTO,
-                        "reviews", "mediaSet", "casts", "scenes", "createdAt", "updatedAt");
+                        "reviews", "media", "casts", "scenes", "createdAt", "updatedAt");
         Assert.assertNotNull(filmReadDTO.getId());
 
         Film film = filmRepository.findById(filmReadDTO.getId()).get();
         Assertions.assertThat(filmReadDTO)
                 .isEqualToIgnoringGivenFields(film,
-                        "reviews", "mediaSet", "casts", "scenes", "createdAt", "updatedAt");
+                        "reviews", "media", "casts", "scenes", "createdAt", "updatedAt");
     }
 
     @Test
@@ -108,12 +108,12 @@ public class FilmServiceTest {
 
         Assertions.assertThat(patch)
                 .isEqualToIgnoringGivenFields(read,
-                        "reviews", "mediaSet", "casts", "scenes", "createdAt", "updatedAt");
+                        "reviews", "media", "casts", "scenes", "createdAt", "updatedAt");
 
         film = filmRepository.findById(read.getId()).get();
         Assertions.assertThat(film)
                 .isEqualToIgnoringGivenFields(read,
-                        "reviews", "mediaSet", "casts", "scenes", "createdAt", "updatedAt");
+                        "reviews", "media", "casts", "scenes", "createdAt", "updatedAt");
     }
 
     @Test
@@ -147,7 +147,7 @@ public class FilmServiceTest {
 
         Assertions.assertThat(film)
                 .isEqualToIgnoringGivenFields(filmAfterUpdate,
-                        "reviews", "mediaSet", "casts", "scenes", "createdAt", "updatedAt");
+                        "reviews", "media", "casts", "scenes", "createdAt", "updatedAt");
     }
 
     @Test
@@ -168,12 +168,12 @@ public class FilmServiceTest {
 
         Assertions.assertThat(put)
                 .isEqualToIgnoringGivenFields(read,
-                        "reviews", "mediaSet", "casts", "scenes", "createdAt", "updatedAt");
+                        "reviews", "media", "casts", "scenes", "createdAt", "updatedAt");
 
         film = filmRepository.findById(read.getId()).get();
         Assertions.assertThat(film)
                 .isEqualToIgnoringGivenFields(read,
-                        "reviews", "mediaSet", "mediaSet",
+                        "reviews", "media", "mediaSet",
                         "casts", "scenes", "createdAt", "updatedAt");
     }
 
@@ -184,7 +184,7 @@ public class FilmServiceTest {
         FilmReadExtendedDTO read = filmService.getFilmExtended(film.getId());
         Assertions.assertThat(read)
                 .isEqualToIgnoringGivenFields(film,
-                        "reviews", "mediaSet", "casts", "scenes",
+                        "reviews", "media", "casts", "scenes",
                         "createdAt", "updatedAt");
     }
 
