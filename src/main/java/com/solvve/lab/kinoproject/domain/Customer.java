@@ -47,6 +47,11 @@ public class Customer {
             mappedBy = "customer")
     private Set<Review> reviews = new HashSet<>();
 
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "customer")
+    private Set<Typo> typos = new HashSet<>();
+
     @Enumerated(EnumType.STRING)
     private Gender gender;
 

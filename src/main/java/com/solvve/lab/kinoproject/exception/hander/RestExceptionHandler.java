@@ -12,10 +12,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 
 @ControllerAdvice
-public class RestExeptionHender {
+public class RestExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<Object> handleExeption(Exception ex) {
+    public ResponseEntity<Object> handleException(Exception ex) {
         ResponseStatus status = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
         HttpStatus httpStatus = status != null ? status.code() : HttpStatus.INTERNAL_SERVER_ERROR;
 

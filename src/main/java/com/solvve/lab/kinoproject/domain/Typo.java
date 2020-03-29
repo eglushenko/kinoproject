@@ -32,6 +32,9 @@ public class Typo {
     @Enumerated(EnumType.STRING)
     private TypoStatus status;
 
+    @ManyToOne
+    private Customer customer;
+
     @CreatedDate
     private Instant createdAt;
 

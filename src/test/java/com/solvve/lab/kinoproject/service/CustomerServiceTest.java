@@ -49,7 +49,8 @@ public class CustomerServiceTest {
         Customer customer = createCustomer();
         CustomerReadDTO customerReadDTO = customerService.getCustomer(customer.getId());
         Assertions.assertThat(customerReadDTO)
-                .isEqualToIgnoringGivenFields(customer, "reviews", "rates", "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(customer,
+                        "typos", "reviews", "rates", "createdAt", "updatedAt");
 
     }
 
@@ -71,13 +72,13 @@ public class CustomerServiceTest {
         CustomerReadDTO customerReadDTO = customerService.createCustomer(create);
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(customerReadDTO,
-                        "reviews", "rates", "createdAt", "updatedAt");
+                        "typos", "reviews", "rates", "createdAt", "updatedAt");
         Assert.assertNotNull(customerReadDTO.getId());
 
         Customer customer = customerRepository.findById(customerReadDTO.getId()).get();
         Assertions.assertThat(customerReadDTO)
                 .isEqualToIgnoringGivenFields(customer,
-                        "reviews", "rates", "createdAt", "updatedAt");
+                        "typos", "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test
@@ -95,12 +96,12 @@ public class CustomerServiceTest {
 
         Assertions.assertThat(patch)
                 .isEqualToIgnoringGivenFields(read,
-                        "reviews", "rates", "createdAt", "updatedAt");
+                        "typos", "reviews", "rates", "createdAt", "updatedAt");
 
         customer = customerRepository.findById(read.getId()).get();
         Assertions.assertThat(customer)
                 .isEqualToIgnoringGivenFields(read,
-                        "reviews", "rates", "createdAt", "updatedAt");
+                        "typos", "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test
@@ -121,7 +122,7 @@ public class CustomerServiceTest {
         customer = customerRepository.findById(read.getId()).get();
         Assertions.assertThat(customer)
                 .isEqualToIgnoringGivenFields(read,
-                        "reviews", "rates", "createdAt", "updatedAt");
+                        "typos", "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test
@@ -150,7 +151,7 @@ public class CustomerServiceTest {
 
         Assertions.assertThat(customer)
                 .isEqualToIgnoringGivenFields(customerAfterUpdate,
-                        "reviews", "rates", "createdAt", "updatedAt");
+                        "typos", "reviews", "rates", "createdAt", "updatedAt");
     }
 
     @Test

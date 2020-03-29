@@ -24,17 +24,22 @@ public class TypoController {
     }
 
     @PostMapping
-    public TypoReadDTO createCast(@RequestBody TypoCreateDTO create) {
+    public TypoReadDTO createTypo(@RequestBody TypoCreateDTO create) {
         return typoService.createTypo(create);
     }
 
+    @PostMapping("/{id}/fix/{objectId}/{status}")
+    public void fixTypo(@PathVariable UUID id, UUID objectId, String status, @RequestParam UUID customerId) {
+        typoService.fixTypoNews(id, objectId, status, customerId);
+    }
+
     @PatchMapping("/{id}")
-    public TypoReadDTO patchCast(@PathVariable UUID id, @RequestBody TypoPatchDTO patch) {
+    public TypoReadDTO patchTypo(@PathVariable UUID id, @RequestBody TypoPatchDTO patch) {
         return typoService.patchTypo(id, patch);
     }
 
     @PutMapping("/{id}")
-    public TypoReadDTO updateCast(@PathVariable UUID id, @RequestBody TypoPutDTO put) {
+    public TypoReadDTO updateTypo(@PathVariable UUID id, @RequestBody TypoPutDTO put) {
         return typoService.updateTypo(id, put);
     }
 

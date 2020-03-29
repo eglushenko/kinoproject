@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="val" dbms="postgresql" value="test"/>
+    <property name="val" dbms="h2" value="testdb"/>
+    <changeSet id="9" author="eglushenko">
+        <addColumn tableName="typo">
+            <column name="error_text" type="varchar(255)"/>
+            <column name="right_text" type="varchar(255)"/>
+            <column name="typo_message" type="varchar(255)"/>
+            <column name="customer_id" type="uuid"/>
+        </addColumn>
+    </changeSet>
+
+
+</databaseChangeLog>

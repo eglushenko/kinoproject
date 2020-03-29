@@ -325,6 +325,7 @@ public class TranslationService {
         read.setRightText(typo.getRightText());
         read.setStatus(typo.getStatus());
         read.setTypoLink(typo.getTypoLink());
+        read.setCustomerId(typo.getCustomer().getId());
         return read;
     }
 
@@ -335,6 +336,7 @@ public class TranslationService {
         typo.setRightText(create.getRightText());
         typo.setTypoLink(create.getTypoLink());
         typo.setStatus(create.getStatus());
+        typo.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, create.getCustomerId()));
         return typo;
     }
 
@@ -354,6 +356,9 @@ public class TranslationService {
         if (patch.getStatus() != null) {
             typo.setStatus(patch.getStatus());
         }
+        if (patch.getCustomerId() != null) {
+            typo.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, patch.getCustomerId()));
+        }
 
     }
 
@@ -363,6 +368,7 @@ public class TranslationService {
         typo.setRightText(put.getRightText());
         typo.setTypoLink(put.getTypoLink());
         typo.setStatus(put.getStatus());
+        typo.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, put.getCustomerId()));
     }
 
     //Review

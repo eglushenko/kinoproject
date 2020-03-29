@@ -1,12 +1,19 @@
 package com.solvve.lab.kinoproject.service;
 
+import com.solvve.lab.kinoproject.domain.Customer;
+import com.solvve.lab.kinoproject.domain.News;
 import com.solvve.lab.kinoproject.domain.Typo;
 import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoReadDTO;
+import com.solvve.lab.kinoproject.enums.Gender;
+import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.enums.TypoStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
+import com.solvve.lab.kinoproject.exception.EntityWrongStatusException;
+import com.solvve.lab.kinoproject.repository.CustomerRepository;
+import com.solvve.lab.kinoproject.repository.NewsRepository;
 import com.solvve.lab.kinoproject.repository.TypoRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -23,7 +30,11 @@ import java.util.UUID;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-@Sql(statements = "delete from typo", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(statements = {
+        "delete from typo",
+        "delete from customer",
+        "delete from news"
+}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class TypoServiceTest {
 
     @Autowired
@@ -32,11 +43,30 @@ public class TypoServiceTest {
     @Autowired
     private TypoService typoService;
 
+    @Autowired
+    private NewsRepository newsRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    private Customer createCustomer() {
+        Customer customer = new Customer();
+        customer.setLogin("user");
+        customer.setFirstName("Jhon");
+        customer.setLastName("Dou");
+        customer.setEmail("mail@mail.ua");
+        customer.setRole(Role.USER);
+        customer.setGender(Gender.MALE);
+        return customerRepository.save(customer);
+    }
+
     private Typo createTypo() {
+        Customer c = createCustomer();
         Typo typo = new Typo();
         typo.setTypoMessage("some text");
         typo.setStatus(TypoStatus.OPEN);
         typo.setTypoLink("link");
+        typo.setCustomer(c);
         return typoRepository.save(typo);
     }
 
@@ -46,7 +76,7 @@ public class TypoServiceTest {
 
         TypoReadDTO read = typoService.getTypo(typo.getId());
         Assertions.assertThat(read)
-                .isEqualToIgnoringGivenFields(typo, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(typo, "customerId", "createdAt", "updatedAt");
     }
 
     @Test(expected = EntityNotFoundException.class)
@@ -57,18 +87,20 @@ public class TypoServiceTest {
 
     @Test
     public void testCreateTypo() {
+        Customer customer = createCustomer();
         TypoCreateDTO create = new TypoCreateDTO();
         create.setTypoMessage("some text");
         create.setStatus(TypoStatus.OPEN);
         create.setTypoLink("link");
+        create.setCustomerId(customer.getId());
         TypoReadDTO read = typoService.createTypo(create);
         Assertions.assertThat(create)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read, "customer", "createdAt", "updatedAt");
         Assert.assertNotNull(read.getId());
 
         Typo typo = typoRepository.findById(read.getId()).get();
         Assertions.assertThat(read)
-                .isEqualToIgnoringGivenFields(typo, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(typo, "customerId", "createdAt", "updatedAt");
     }
 
     @Test
@@ -82,11 +114,11 @@ public class TypoServiceTest {
         TypoReadDTO read = typoService.patchTypo(typo.getId(), patch);
 
         Assertions.assertThat(patch)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read, "customerId", "createdAt", "updatedAt");
 
         typo = typoRepository.findById(read.getId()).get();
         Assertions.assertThat(typo)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read, "customer", "createdAt", "updatedAt");
     }
 
     @Test
@@ -107,26 +139,72 @@ public class TypoServiceTest {
         Assert.assertNotNull(afterUpdate.getTypoLink());
         Assert.assertNotNull(afterUpdate.getTypoMessage());
         Assertions.assertThat(typo)
-                .isEqualToIgnoringGivenFields(afterUpdate, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(afterUpdate,
+                        "customer", "createdAt", "updatedAt");
 
     }
 
     @Test
     public void testPutTypo() {
+        Customer c = createCustomer();
         Typo typo = createTypo();
-
         TypoPutDTO put = new TypoPutDTO();
         put.setTypoMessage("some text");
         put.setStatus(TypoStatus.OPEN);
         put.setTypoLink("link");
+        put.setCustomerId(c.getId());
         TypoReadDTO read = typoService.updateTypo(typo.getId(), put);
 
         Assertions.assertThat(put)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read,
+                        "customerId", "createdAt", "updatedAt");
 
         typo = typoRepository.findById(read.getId()).get();
         Assertions.assertThat(typo)
-                .isEqualToIgnoringGivenFields(read, "createdAt", "updatedAt");
+                .isEqualToIgnoringGivenFields(read,
+                        "customer", "createdAt", "updatedAt");
+    }
+
+    @Test
+    public void testFixNews() {
+        Customer customer = createCustomer();
+        News news = new News();
+        news.setTextNews("error txt");
+        newsRepository.save(news);
+
+        Typo typo = createTypo();
+        Typo typo1 = createTypo();
+        Typo typo2 = createTypo();
+        typo.setErrorText("error txt");
+        typo.setRightText("all works fine");
+        typo1.setErrorText("error txt");
+        typo2.setErrorText("error txt");
+        typoRepository.save(typo);
+        typoRepository.save(typo1);
+        typoRepository.save(typo2);
+        typoService.fixTypoNews(typo.getId(), news.getId(), "CLOSED", customer.getId());
+        typo2 = typoRepository.findById(typo2.getId()).get();
+        Assert.assertEquals(TypoStatus.CLOSED, typo2.getStatus());
+    }
+
+    @Test(expected = EntityWrongStatusException.class)
+    public void testFixNewsErrorStatus() {
+        Customer customer = createCustomer();
+        News news = new News();
+        news.setTextNews("error txt");
+        newsRepository.save(news);
+
+        Typo typo = createTypo();
+        Typo typo1 = createTypo();
+        Typo typo2 = createTypo();
+        typo.setErrorText("error txt");
+        typo.setRightText("all works fine");
+        typo1.setErrorText("error txt");
+        typo2.setErrorText("error txt");
+        typoRepository.save(typo);
+        typoRepository.save(typo1);
+        typoRepository.save(typo2);
+        typoService.fixTypoNews(typo.getId(), news.getId(), "None", customer.getId());
     }
 
     @Test

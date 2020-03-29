@@ -41,6 +41,7 @@ public class TypoControllerTest {
     @MockBean
     private TypoService typoService;
 
+
     private TypoReadDTO createTypoRead() {
         TypoReadDTO read = new TypoReadDTO();
         read.setId(UUID.randomUUID());
@@ -156,5 +157,6 @@ public class TypoControllerTest {
 
         Mockito.verify(typoService).deleteTypo(id);
     }
+
 
 }
