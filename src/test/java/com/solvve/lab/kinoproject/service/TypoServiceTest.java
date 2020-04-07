@@ -12,8 +12,10 @@ import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.enums.TypoStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.exception.EntityWrongStatusException;
+import com.solvve.lab.kinoproject.job.UpdateTypoStatusCheckingToOpenJob;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
 import com.solvve.lab.kinoproject.repository.NewsRepository;
+import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import com.solvve.lab.kinoproject.repository.TypoRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -48,6 +50,12 @@ public class TypoServiceTest {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private RepositoryHelper repositoryHelper;
+
+    @Autowired
+    private UpdateTypoStatusCheckingToOpenJob updateTypoStatusCheckingToOpenJob;
 
     private Customer createCustomer() {
         Customer customer = new Customer();
@@ -182,7 +190,7 @@ public class TypoServiceTest {
         typoRepository.save(typo);
         typoRepository.save(typo1);
         typoRepository.save(typo2);
-        typoService.fixTypoNews(typo.getId(), news.getId(), "CLOSED", customer.getId());
+        typoService.fixTypoNews(typo.getId(), news.getId(), customer.getId());
         typo2 = typoRepository.findById(typo2.getId()).get();
         Assert.assertEquals(TypoStatus.CLOSED, typo2.getStatus());
     }
@@ -195,17 +203,13 @@ public class TypoServiceTest {
         newsRepository.save(news);
 
         Typo typo = createTypo();
-        Typo typo1 = createTypo();
-        Typo typo2 = createTypo();
+        typo.setStatus(TypoStatus.CHECKING);
         typo.setErrorText("error txt");
         typo.setRightText("all works fine");
-        typo1.setErrorText("error txt");
-        typo2.setErrorText("error txt");
         typoRepository.save(typo);
-        typoRepository.save(typo1);
-        typoRepository.save(typo2);
-        typoService.fixTypoNews(typo.getId(), news.getId(), "None", customer.getId());
+        typoService.fixTypoNews(typo.getId(), news.getId(), customer.getId());
     }
+
 
     @Test
     public void testDeleteTypo() {

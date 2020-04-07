@@ -28,9 +28,9 @@ public class TypoController {
         return typoService.createTypo(create);
     }
 
-    @PostMapping("/{id}/fix/{objectId}/{status}")
+    @PostMapping("/{id}/fix/{objectId}/")
     public void fixTypo(@PathVariable UUID id, UUID objectId, String status, @RequestParam UUID customerId) {
-        typoService.fixTypoNews(id, objectId, status, customerId);
+        typoService.fixTypoNews(id, objectId, customerId);
     }
 
     @PatchMapping("/{id}")
