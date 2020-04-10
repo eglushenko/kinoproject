@@ -135,6 +135,11 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.bitbucket.brunneng.ot</groupId>
+            <artifactId>object-translator</artifactId>
+            <version>1.0.8</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -51,6 +51,8 @@ import com.solvve.lab.kinoproject.dto.video.VideoPatchDTO;
 import com.solvve.lab.kinoproject.dto.video.VideoPutDTO;
 import com.solvve.lab.kinoproject.dto.video.VideoReadDTO;
 import com.solvve.lab.kinoproject.repository.RepositoryHelper;
+import org.bitbucket.brunneng.ot.Configuration;
+import org.bitbucket.brunneng.ot.ObjectTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,17 +62,55 @@ public class TranslationService {
     @Autowired
     private RepositoryHelper repositoryHelper;
 
+    private ObjectTranslator objectTranslator;
+
+    {
+        new ObjectTranslator();
+    }
+
+    public TranslationService() {
+        objectTranslator = new ObjectTranslator(createConfiguration());
+
+    }
+
+    private Configuration createConfiguration() {
+        Configuration c = new Configuration();
+        configurationForCast(c);
+        configurationForRate(c);
+        configurationForScene(c);
+        configurationForTypo(c);
+        return c;
+    }
+
+    private void configurationForCast(Configuration c) {
+        Configuration.Translation t = c.beanOfClass(Cast.class).translationTo(CastReadDTO.class);
+        t.srcProperty("name.id").translatesTo("nameId");
+        t.srcProperty("film.id").translatesTo("filmId");
+
+    }
+
+    private void configurationForRate(Configuration c) {
+        Configuration.Translation t = c.beanOfClass(Rate.class).translationTo(RateReadDTO.class);
+        t.srcProperty("customer.id").translatesTo("customerId");
+
+    }
+
+    private void configurationForScene(Configuration c) {
+        Configuration.Translation t = c.beanOfClass(Scene.class).translationTo(SceneReadDTO.class);
+        t.srcProperty("film.id").translatesTo("filmId");
+
+    }
+
+    private void configurationForTypo(Configuration c) {
+        Configuration.Translation t = c.beanOfClass(Typo.class).translationTo(TypoReadDTO.class);
+        t.srcProperty("customer.id").translatesTo("customerId");
+
+    }
+
+
     //Customer
     public CustomerReadDTO toReadCustomer(Customer customer) {
-        CustomerReadDTO customerReadDTO = new CustomerReadDTO();
-        customerReadDTO.setId(customer.getId());
-        customerReadDTO.setLogin(customer.getLogin());
-        customerReadDTO.setFirstName(customer.getFirstName());
-        customerReadDTO.setLastName(customer.getLastName());
-        customerReadDTO.setEmail(customer.getEmail());
-        customerReadDTO.setRole(customer.getRole());
-        customerReadDTO.setGender(customer.getGender());
-        return customerReadDTO;
+        return objectTranslator.translate(customer, CustomerReadDTO.class);
     }
 
     public Customer toEntityCustomer(CustomerCreateDTO create) {
@@ -125,13 +165,7 @@ public class TranslationService {
     }
 
     public CastReadDTO toReadCast(Cast cast) {
-        CastReadDTO castReadDTO = new CastReadDTO();
-        castReadDTO.setId(cast.getId());
-        castReadDTO.setNameRoleInFilm(cast.getNameRoleInFilm());
-        castReadDTO.setRoleInFilm(cast.getRoleInFilm());
-        castReadDTO.setNameId(cast.getName().getId());
-        castReadDTO.setFilmId(cast.getFilm().getId());
-        return castReadDTO;
+        return objectTranslator.translate(cast, CastReadDTO.class);
     }
 
     public void patchEntityCast(CastPatchDTO patch, Cast cast) {
@@ -208,11 +242,7 @@ public class TranslationService {
     }
 
     public NameReadDTO toReadName(Name name) {
-        NameReadDTO nameReadDTO = new NameReadDTO();
-        nameReadDTO.setId(name.getId());
-        nameReadDTO.setFirstName(name.getFirstName());
-        nameReadDTO.setLastName(name.getLastName());
-        return nameReadDTO;
+        return objectTranslator.translate(name, NameReadDTO.class);
     }
 
     public void patchEntityName(NamePatchDTO patch, Name name) {
@@ -245,18 +275,7 @@ public class TranslationService {
     }
 
     public FilmReadDTO toReadFilm(Film film) {
-        FilmReadDTO filmReadDTO = new FilmReadDTO();
-        filmReadDTO.setId(film.getId());
-        filmReadDTO.setTitle(film.getTitle());
-        filmReadDTO.setCategory(film.getCategory());
-        filmReadDTO.setCountry(film.getCountry());
-        filmReadDTO.setLang(film.getLang());
-        filmReadDTO.setAverageRate(film.getAverageRate());
-        filmReadDTO.setLength(film.getLength());
-        filmReadDTO.setFilmText(film.getFilmText());
-        filmReadDTO.setLastUpdate(film.getLastUpdate());
-        filmReadDTO.setMpaa(film.getMpaa());
-        return filmReadDTO;
+        return objectTranslator.translate(film, FilmReadDTO.class);
     }
 
     public void patchEntityFilm(FilmPatchDTO patch, Film film) {
@@ -318,15 +337,7 @@ public class TranslationService {
 
     //Typo
     public TypoReadDTO toReadTypo(Typo typo) {
-        TypoReadDTO read = new TypoReadDTO();
-        read.setId(typo.getId());
-        read.setTypoMessage(typo.getTypoMessage());
-        read.setErrorText(typo.getErrorText());
-        read.setRightText(typo.getRightText());
-        read.setStatus(typo.getStatus());
-        read.setTypoLink(typo.getTypoLink());
-        read.setCustomerId(typo.getCustomer().getId());
-        return read;
+        return objectTranslator.translate(typo, TypoReadDTO.class);
     }
 
     public Typo toEntityTypo(TypoCreateDTO create) {
@@ -373,10 +384,7 @@ public class TranslationService {
 
     //Review
     public ReviewReadDTO toReadReview(Review review) {
-        ReviewReadDTO read = new ReviewReadDTO();
-        read.setId(review.getId());
-        read.setReviewText(review.getReviewText());
-        return read;
+        return objectTranslator.translate(review, ReviewReadDTO.class);
     }
 
     public Review toEntityReview(ReviewCreateDTO create) {
@@ -397,12 +405,7 @@ public class TranslationService {
 
     //Like
     public LikeReadDTO toReadLike(Like like) {
-        LikeReadDTO read = new LikeReadDTO();
-        read.setId(like.getId());
-        read.setLike(like.getLike());
-        read.setType(like.getType());
-        read.setLikedObjectId(like.getLikedObjectId());
-        return read;
+        return objectTranslator.translate(like, LikeReadDTO.class);
     }
 
     public Like toEntityLike(LikeCreateDTO create) {
@@ -433,10 +436,7 @@ public class TranslationService {
 
     //News
     public NewsReadDTO toReadNews(News news) {
-        NewsReadDTO read = new NewsReadDTO();
-        read.setId(news.getId());
-        read.setTextNews(news.getTextNews());
-        return read;
+        return objectTranslator.translate(news, NewsReadDTO.class);
     }
 
     public News toEntityNews(NewsCreateDTO create) {
@@ -457,11 +457,7 @@ public class TranslationService {
 
     //Scene
     public SceneReadDTO toReadScene(Scene scene) {
-        SceneReadDTO read = new SceneReadDTO();
-        read.setId(scene.getId());
-        read.setSceneLink(scene.getSceneLink());
-        read.setFilmId(scene.getFilm().getId());
-        return read;
+        return objectTranslator.translate(scene, SceneReadDTO.class);
     }
 
     public Scene toEntityScene(SceneCreateDTO create) {
@@ -487,10 +483,7 @@ public class TranslationService {
 
     //Video
     public VideoReadDTO toReadVideo(Video video) {
-        VideoReadDTO read = new VideoReadDTO();
-        read.setId(video.getId());
-        read.setVideoLink(video.getVideoLink());
-        return read;
+        return objectTranslator.translate(video, VideoReadDTO.class);
     }
 
     public Video toEntityVideo(VideoCreateDTO create) {
@@ -511,13 +504,8 @@ public class TranslationService {
 
     //Rate
     public RateReadDTO toReadRate(Rate rate) {
-        RateReadDTO read = new RateReadDTO();
-        read.setId(rate.getId());
-        read.setCustomerId(rate.getCustomer().getId());
-        read.setRate(rate.getRate());
-        read.setRatedObjectId(rate.getRatedObjectId());
-        read.setType(rate.getType());
-        return read;
+
+        return objectTranslator.translate(rate, RateReadDTO.class);
     }
 
     public Rate toEntityRate(RateCreateDTO create) {
