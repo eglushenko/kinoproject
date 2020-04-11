@@ -42,14 +42,14 @@ public class NewsService {
 
     public NewsReadDTO patchNews(UUID id, NewsPatchDTO patch) {
         News news = getNewsRequired(id);
-        translationService.patchEntityNews(patch, news);
+        translationService.map(patch, news);
         news = newsRepository.save(news);
         return translationService.translate(news, NewsReadDTO.class);
     }
 
     public NewsReadDTO updateNews(UUID id, NewsPutDTO put) {
         News news = getNewsRequired(id);
-        translationService.updateEntityNews(put, news);
+        translationService.map(put, news);
         news = newsRepository.save(news);
         return translationService.translate(news, NewsReadDTO.class);
     }

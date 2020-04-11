@@ -40,14 +40,14 @@ public class ReviewService {
 
     public ReviewReadDTO patchReview(UUID id, ReviewPatchDTO patch) {
         Review review = getReviewRequired(id);
-        translationService.patchEntityReview(patch, review);
+        translationService.map(patch, review);
         review = reviewRepository.save(review);
         return translationService.translate(review, ReviewReadDTO.class);
     }
 
     public ReviewReadDTO updateReview(UUID id, ReviewPutDTO put) {
         Review review = getReviewRequired(id);
-        translationService.updateEntityReview(put, review);
+        translationService.map(put, review);
         return translationService.translate(review, ReviewReadDTO.class);
     }
 

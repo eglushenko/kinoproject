@@ -62,14 +62,14 @@ public class FilmService {
 
     public FilmReadDTO patchFilm(UUID id, FilmPatchDTO patch) {
         Film film = getFilmRequired(id);
-        translationService.patchEntityFilm(patch, film);
+        translationService.map(patch, film);
         film = filmRepository.save(film);
         return translationService.translate(film, FilmReadDTO.class);
     }
 
     public FilmReadDTO updateFilm(UUID id, FilmPutDTO put) {
         Film film = getFilmRequired(id);
-        translationService.updateEntityFilm(put, film);
+        translationService.map(put, film);
         film = filmRepository.save(film);
         return translationService.translate(film, FilmReadDTO.class);
     }

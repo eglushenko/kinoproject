@@ -39,14 +39,14 @@ public class NameService {
 
     public NameReadDTO patchName(UUID id, NamePatchDTO patch) {
         Name name = getNameRequired(id);
-        translationService.patchEntityName(patch, name);
+        translationService.map(patch, name);
         name = nameRepository.save(name);
         return translationService.translate(name, NameReadDTO.class);
     }
 
     public NameReadDTO updateName(UUID id, NamePutDTO put) {
         Name name = getNameRequired(id);
-        translationService.updateEntityName(put, name);
+        translationService.map(put, name);
         return translationService.translate(name, NameReadDTO.class);
     }
 

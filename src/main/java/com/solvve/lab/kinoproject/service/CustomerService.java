@@ -42,7 +42,7 @@ public class CustomerService {
 
     public CustomerReadDTO patchCustomer(UUID id, CustomerPatchDTO patch) {
         Customer customer = getCustomerRequired(id);
-        translationService.patchEntityCustomer(patch, customer);
+        translationService.map(patch, customer);
         customer = customerRepository.save(customer);
         return translationService.translate(customer, CustomerReadDTO.class);
     }
@@ -50,7 +50,7 @@ public class CustomerService {
 
     public CustomerReadDTO updateCustomer(UUID id, CustomerPutDTO put) {
         Customer customer = getCustomerRequired(id);
-        translationService.updateEntityCustomer(put, customer);
+        translationService.map(put, customer);
         customer = customerRepository.save(customer);
         return translationService.translate(customer, CustomerReadDTO.class);
     }

@@ -40,14 +40,14 @@ public class VideoService {
 
     public VideoReadDTO patchVideo(UUID id, VideoPatchDTO patch) {
         Video video = getVideoRequired(id);
-        translationService.patchEntityVideo(patch, video);
+        translationService.map(patch, video);
         video = videoRepository.save(video);
         return translationService.translate(video, VideoReadDTO.class);
     }
 
     public VideoReadDTO updateVideo(UUID id, VideoPutDTO put) {
         Video video = getVideoRequired(id);
-        translationService.updateEntityVideo(put, video);
+        translationService.map(put, video);
         video = videoRepository.save(video);
         return translationService.translate(video, VideoReadDTO.class);
     }

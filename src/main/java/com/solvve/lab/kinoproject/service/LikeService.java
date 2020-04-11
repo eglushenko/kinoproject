@@ -42,14 +42,14 @@ public class LikeService {
 
     public LikeReadDTO patchLike(UUID id, LikePatchDTO patch) {
         Like like = getLikeRequired(id);
-        translationService.patchEntityLike(patch, like);
+        translationService.map(patch, like);
         like = likeRepository.save(like);
         return translationService.translate(like, LikeReadDTO.class);
     }
 
     public LikeReadDTO updateLike(UUID id, LikePutDTO put) {
         Like like = getLikeRequired(id);
-        translationService.updateEntityLike(put, like);
+        translationService.map(put, like);
         like = likeRepository.save(like);
         return translationService.translate(like, LikeReadDTO.class);
     }

@@ -40,14 +40,14 @@ public class CommentService {
 
     public CommentReadDTO patchComment(UUID id, CommentPatchDTO patch) {
         Comment comment = getCommentRequired(id);
-        translationService.patchEntityComment(patch, comment);
+        translationService.map(patch, comment);
         comment = commentRepository.save(comment);
         return translationService.translate(comment, CommentReadDTO.class);
     }
 
     public CommentReadDTO updateComment(UUID id, CommentPutDTO put) {
         Comment comment = getCommentRequired(id);
-        translationService.updateEntityComment(put, comment);
+        translationService.map(put, comment);
         comment = commentRepository.save(comment);
         return translationService.translate(comment, CommentReadDTO.class);
     }
