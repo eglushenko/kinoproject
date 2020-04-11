@@ -9,17 +9,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Typo {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Typo extends AbstractEntity {
 
     private String typoMessage;
 

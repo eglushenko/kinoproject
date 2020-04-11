@@ -16,11 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Rate {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Rate extends AbstractEntity {
 
     private Double rate;
 

@@ -41,30 +41,29 @@ public class TypoService {
                 new EntityNotFoundException(Typo.class, id));
     }
 
-
     public TypoReadDTO getTypo(UUID id) {
         Typo typo = getTypoRequired(id);
-        return translationService.toReadTypo(typo);
+        return translationService.translate(typo, TypoReadDTO.class);
     }
 
     public TypoReadDTO createTypo(TypoCreateDTO create) {
-        Typo typo = translationService.toEntityTypo(create);
+        Typo typo = translationService.translate(create, Typo.class);
         typo = typoRepository.save(typo);
-        return translationService.toReadTypo(typo);
+        return translationService.translate(typo, TypoReadDTO.class);
     }
 
     public TypoReadDTO patchTypo(UUID id, TypoPatchDTO patch) {
         Typo typo = getTypoRequired(id);
         translationService.patchEntityTypo(patch, typo);
         typo = typoRepository.save(typo);
-        return translationService.toReadTypo(typo);
+        return translationService.translate(typo, TypoReadDTO.class);
     }
 
     public TypoReadDTO updateTypo(UUID id, TypoPutDTO put) {
         Typo typo = getTypoRequired(id);
         translationService.updateEntityTypo(put, typo);
         typo = typoRepository.save(typo);
-        return translationService.toReadTypo(typo);
+        return translationService.translate(typo, TypoReadDTO.class);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

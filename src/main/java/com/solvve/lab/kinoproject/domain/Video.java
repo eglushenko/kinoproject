@@ -8,20 +8,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.Instant;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Video {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Video extends AbstractEntity {
 
     private String videoLink;
 

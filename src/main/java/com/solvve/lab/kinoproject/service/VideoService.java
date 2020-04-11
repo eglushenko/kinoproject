@@ -29,27 +29,27 @@ public class VideoService {
 
     public VideoReadDTO getVideo(UUID id) {
         Video video = getVideoRequired(id);
-        return translationService.toReadVideo(video);
+        return translationService.translate(video, VideoReadDTO.class);
     }
 
     public VideoReadDTO createVideo(VideoCreateDTO create) {
-        Video video = translationService.toEntityVideo(create);
+        Video video = translationService.translate(create, Video.class);
         video = videoRepository.save(video);
-        return translationService.toReadVideo(video);
+        return translationService.translate(video, VideoReadDTO.class);
     }
 
     public VideoReadDTO patchVideo(UUID id, VideoPatchDTO patch) {
         Video video = getVideoRequired(id);
         translationService.patchEntityVideo(patch, video);
         video = videoRepository.save(video);
-        return translationService.toReadVideo(video);
+        return translationService.translate(video, VideoReadDTO.class);
     }
 
     public VideoReadDTO updateVideo(UUID id, VideoPutDTO put) {
         Video video = getVideoRequired(id);
         translationService.updateEntityVideo(put, video);
         video = videoRepository.save(video);
-        return translationService.toReadVideo(video);
+        return translationService.translate(video, VideoReadDTO.class);
     }
 
     public void deleteVideo(UUID id) {

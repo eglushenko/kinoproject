@@ -29,29 +29,29 @@ public class RateService {
 
     public RateReadDTO getRate(UUID id) {
         Rate rate = getRateRequired(id);
-        return translationService.toReadRate(rate);
+        return translationService.translate(rate, RateReadDTO.class);
 
     }
 
 
     public RateReadDTO createRate(RateCreateDTO create) {
-        Rate rate = translationService.toEntityRate(create);
+        Rate rate = translationService.translate(create, Rate.class);
         rate = rateRepository.save(rate);
-        return translationService.toReadRate(rate);
+        return translationService.translate(rate, RateReadDTO.class);
     }
 
     public RateReadDTO patchRate(UUID id, RatePatchDTO patch) {
         Rate rate = getRateRequired(id);
         translationService.patchEntityRate(patch, rate);
         rate = rateRepository.save(rate);
-        return translationService.toReadRate(rate);
+        return translationService.translate(rate, RateReadDTO.class);
     }
 
     public RateReadDTO updateRate(UUID id, RatePutDTO put) {
         Rate rate = getRateRequired(id);
         translationService.updateEntityRate(put, rate);
         rate = rateRepository.save(rate);
-        return translationService.toReadRate(rate);
+        return translationService.translate(rate, RateReadDTO.class);
     }
 
 

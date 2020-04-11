@@ -1,43 +1,29 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.*;
-import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPutDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastReadDTO;
-import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPutDTO;
-import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
-import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
-import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
-import com.solvve.lab.kinoproject.dto.like.LikeCreateDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePatchDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePutDTO;
-import com.solvve.lab.kinoproject.dto.like.LikeReadDTO;
-import com.solvve.lab.kinoproject.dto.name.NameCreateDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePutDTO;
-import com.solvve.lab.kinoproject.dto.name.NameReadDTO;
-import com.solvve.lab.kinoproject.dto.news.NewsCreateDTO;
 import com.solvve.lab.kinoproject.dto.news.NewsPatchDTO;
 import com.solvve.lab.kinoproject.dto.news.NewsPutDTO;
-import com.solvve.lab.kinoproject.dto.news.NewsReadDTO;
 import com.solvve.lab.kinoproject.dto.rate.RateCreateDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePatchDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePutDTO;
 import com.solvve.lab.kinoproject.dto.rate.RateReadDTO;
-import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
-import com.solvve.lab.kinoproject.dto.review.ReviewReadDTO;
 import com.solvve.lab.kinoproject.dto.scene.SceneCreateDTO;
 import com.solvve.lab.kinoproject.dto.scene.ScenePatchDTO;
 import com.solvve.lab.kinoproject.dto.scene.ScenePutDTO;
@@ -46,16 +32,20 @@ import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoReadDTO;
-import com.solvve.lab.kinoproject.dto.video.VideoCreateDTO;
 import com.solvve.lab.kinoproject.dto.video.VideoPatchDTO;
 import com.solvve.lab.kinoproject.dto.video.VideoPutDTO;
-import com.solvve.lab.kinoproject.dto.video.VideoReadDTO;
 import com.solvve.lab.kinoproject.repository.RepositoryHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.bitbucket.brunneng.ot.Configuration;
 import org.bitbucket.brunneng.ot.ObjectTranslator;
+import org.bitbucket.brunneng.ot.exceptions.TranslationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
+@Slf4j
 @Service
 public class TranslationService {
 
@@ -64,22 +54,43 @@ public class TranslationService {
 
     private ObjectTranslator objectTranslator;
 
-    {
-        new ObjectTranslator();
-    }
-
     public TranslationService() {
         objectTranslator = new ObjectTranslator(createConfiguration());
+
+    }
+
+    public <T> T translate(Object srcObject, Class<T> targetClass) {
+        try {
+            return objectTranslator.translate(srcObject, targetClass);
+        } catch (TranslationException ex) {
+            log.warn(ex.getMessage());
+            throw (RuntimeException) ex.getCause();
+        }
 
     }
 
     private Configuration createConfiguration() {
         Configuration c = new Configuration();
         configurationForCast(c);
+        configurationForComment(c);
+        configurationForFilm(c);
+        configurationForNews(c);
         configurationForRate(c);
+        configurationForName(c);
+        configurationForReview(c);
         configurationForScene(c);
+        configurationForVideo(c);
         configurationForTypo(c);
+        configurationForCustomer(c);
+        configurationForLike(c);
+        configurationForAbstractEntity(c);
         return c;
+    }
+
+    private void configurationForAbstractEntity(Configuration c) {
+        c.beanOfClass(AbstractEntity.class).setIdentifierProperty("id");
+        c.beanOfClass(AbstractEntity.class).setBeanFinder((beanClass, id) ->
+                repositoryHelper.getReferenceIfExist(beanClass, (UUID) id));
     }
 
     private void configurationForCast(Configuration c) {
@@ -87,11 +98,26 @@ public class TranslationService {
         t.srcProperty("name.id").translatesTo("nameId");
         t.srcProperty("film.id").translatesTo("filmId");
 
+        Configuration.Translation fromCreateToEntity = c.beanOfClass(CastCreateDTO.class)
+                .translationTo(Cast.class);
+        fromCreateToEntity.srcProperty("nameId").translatesTo("name.id");
+        fromCreateToEntity.srcProperty("filmId").translatesTo("film.id");
+
+        c.beanOfClass(CastPatchDTO.class).translationTo(Cast.class).mapOnlyNotNullProperties();
+        c.beanOfClass(CastPutDTO.class).translationTo(Cast.class);
+
     }
 
     private void configurationForRate(Configuration c) {
         Configuration.Translation t = c.beanOfClass(Rate.class).translationTo(RateReadDTO.class);
         t.srcProperty("customer.id").translatesTo("customerId");
+
+        Configuration.Translation fromCreateToEntity = c.beanOfClass(RateCreateDTO.class)
+                .translationTo(Rate.class);
+        fromCreateToEntity.srcProperty("customerId").translatesTo("customer.id");
+
+        c.beanOfClass(RatePatchDTO.class).translationTo(Rate.class).mapOnlyNotNullProperties();
+        c.beanOfClass(RatePutDTO.class).translationTo(Rate.class);
 
     }
 
@@ -99,75 +125,78 @@ public class TranslationService {
         Configuration.Translation t = c.beanOfClass(Scene.class).translationTo(SceneReadDTO.class);
         t.srcProperty("film.id").translatesTo("filmId");
 
+        Configuration.Translation fromCreateToEntity = c.beanOfClass(SceneCreateDTO.class)
+                .translationTo(Scene.class);
+        fromCreateToEntity.srcProperty("filmId").translatesTo("film.id");
+
+        c.beanOfClass(ScenePatchDTO.class).translationTo(Scene.class).mapOnlyNotNullProperties();
+        c.beanOfClass(ScenePutDTO.class).translationTo(Scene.class);
+
     }
 
     private void configurationForTypo(Configuration c) {
         Configuration.Translation t = c.beanOfClass(Typo.class).translationTo(TypoReadDTO.class);
         t.srcProperty("customer.id").translatesTo("customerId");
 
+        Configuration.Translation fromCreateToEntity = c.beanOfClass(TypoCreateDTO.class)
+                .translationTo(Typo.class);
+        fromCreateToEntity.srcProperty("customerId").translatesTo("customer.id");
+
+        c.beanOfClass(TypoPatchDTO.class).translationTo(Typo.class).mapOnlyNotNullProperties();
+        c.beanOfClass(TypoPutDTO.class).translationTo(Typo.class);
+
     }
 
+    private void configurationForCustomer(Configuration c) {
+        c.beanOfClass(CustomerPatchDTO.class).translationTo(Customer.class).mapOnlyNotNullProperties();
+        c.beanOfClass(CustomerPutDTO.class).translationTo(Customer.class);
+    }
+
+    private void configurationForVideo(Configuration c) {
+        c.beanOfClass(VideoPatchDTO.class).translationTo(Video.class).mapOnlyNotNullProperties();
+        c.beanOfClass(VideoPutDTO.class).translationTo(Video.class);
+    }
+
+    private void configurationForFilm(Configuration c) {
+        c.beanOfClass(FilmPatchDTO.class).translationTo(Film.class).mapOnlyNotNullProperties();
+        c.beanOfClass(FilmPutDTO.class).translationTo(Film.class);
+    }
+
+    private void configurationForNews(Configuration c) {
+        c.beanOfClass(NewsPatchDTO.class).translationTo(News.class).mapOnlyNotNullProperties();
+        c.beanOfClass(NewsPutDTO.class).translationTo(News.class);
+    }
+
+    private void configurationForLike(Configuration c) {
+        c.beanOfClass(LikePatchDTO.class).translationTo(Like.class).mapOnlyNotNullProperties();
+        c.beanOfClass(LikePutDTO.class).translationTo(Like.class);
+    }
+
+    private void configurationForComment(Configuration c) {
+        c.beanOfClass(CommentPatchDTO.class).translationTo(Comment.class).mapOnlyNotNullProperties();
+        c.beanOfClass(CommentPutDTO.class).translationTo(Comment.class);
+    }
+
+    private void configurationForName(Configuration c) {
+        c.beanOfClass(NamePatchDTO.class).translationTo(Name.class).mapOnlyNotNullProperties();
+        c.beanOfClass(NamePutDTO.class).translationTo(Name.class);
+    }
+
+    private void configurationForReview(Configuration c) {
+        c.beanOfClass(ReviewPatchDTO.class).translationTo(Review.class).mapOnlyNotNullProperties();
+        c.beanOfClass(ReviewPutDTO.class).translationTo(Review.class);
+    }
 
     //Customer
-    public CustomerReadDTO toReadCustomer(Customer customer) {
-        return objectTranslator.translate(customer, CustomerReadDTO.class);
-    }
-
-    public Customer toEntityCustomer(CustomerCreateDTO create) {
-        Customer customer = new Customer();
-        customer.setLogin(create.getLogin());
-        customer.setFirstName(create.getFirstName());
-        customer.setLastName(create.getLastName());
-        customer.setEmail(create.getEmail());
-        customer.setRole(create.getRole());
-        customer.setGender(create.getGender());
-        return customer;
-    }
-
     public void patchEntityCustomer(CustomerPatchDTO patch, Customer customer) {
-        if (patch.getFirstName() != null) {
-            customer.setFirstName(patch.getFirstName());
-        }
-        if (patch.getLastName() != null) {
-            customer.setLastName(patch.getLastName());
-        }
-        if (patch.getLogin() != null) {
-            customer.setLogin(patch.getLogin());
-        }
-        if (patch.getEmail() != null) {
-            customer.setEmail(patch.getEmail());
-        }
-        if (patch.getRole() != null) {
-            customer.setRole(patch.getRole());
-        }
-        if (patch.getGender() != null) {
-            customer.setGender(patch.getGender());
-        }
+        objectTranslator.mapBean(patch, customer);
     }
 
     public void updateEntityCustomer(CustomerPutDTO put, Customer customer) {
-        customer.setLogin(put.getLogin());
-        customer.setFirstName(put.getFirstName());
-        customer.setLastName(put.getLastName());
-        customer.setEmail(put.getEmail());
-        customer.setRole(put.getRole());
-        customer.setGender(put.getGender());
+        objectTranslator.mapBean(put, customer);
     }
 
     //Cast
-    public Cast toEntityCast(CastCreateDTO create) {
-        Cast cast = new Cast();
-        cast.setNameRoleInFilm(create.getNameRoleInFilm());
-        cast.setRoleInFilm(create.getRoleInFilm());
-        cast.setName(repositoryHelper.getReferenceIfExist(Name.class, create.getNameId())); //TODO
-        cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, create.getFilmId()));
-        return cast;
-    }
-
-    public CastReadDTO toReadCast(Cast cast) {
-        return objectTranslator.translate(cast, CastReadDTO.class);
-    }
-
     public void patchEntityCast(CastPatchDTO patch, Cast cast) {
         if (patch.getNameRoleInFilm() != null) {
             cast.setNameRoleInFilm(patch.getNameRoleInFilm());
@@ -188,42 +217,13 @@ public class TranslationService {
         cast.setNameRoleInFilm(put.getNameRoleInFilm());
         cast.setName(repositoryHelper.getReferenceIfExist(Name.class, put.getNameId()));
         cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, put.getFilmId()));
+
     }
 
 
     //Comment
-    public Comment toEntityComment(CommentCreateDTO create) {
-        Comment comment = new Comment();
-        comment.setCommentText(create.getCommentText());
-        comment.setCommentStatus(create.getCommentStatus());
-        comment.setPostedDate(create.getPostedDate());
-        comment.setRate(create.getRate());
-        return comment;
-    }
-
-    public CommentReadDTO toReadComment(Comment comment) {
-        CommentReadDTO commentReadDTO = new CommentReadDTO();
-        commentReadDTO.setId(comment.getId());
-        commentReadDTO.setCommentText(comment.getCommentText());
-        commentReadDTO.setPostedDate(comment.getPostedDate());
-        commentReadDTO.setCommentStatus(comment.getCommentStatus());
-        commentReadDTO.setRate(comment.getRate());
-        return commentReadDTO;
-    }
-
     public void patchEntityComment(CommentPatchDTO patch, Comment comment) {
-        if (patch.getCommentText() != null) {
-            comment.setCommentText(patch.getCommentText());
-        }
-        if (patch.getCommentStatus() != null) {
-            comment.setCommentStatus(patch.getCommentStatus());
-        }
-        if (patch.getPostedDate() != null) {
-            comment.setPostedDate(patch.getPostedDate());
-        }
-        if (patch.getRate() != null) {
-            comment.setRate(patch.getRate());
-        }
+        objectTranslator.mapBean(patch, comment);
     }
 
     public void updateEntityComment(CommentPutDTO put, Comment comment) {
@@ -234,123 +234,29 @@ public class TranslationService {
     }
 
     //Name
-    public Name toEntityName(NameCreateDTO create) {
-        Name name = new Name();
-        name.setFirstName(create.getFirstName());
-        name.setLastName(create.getLastName());
-        return name;
-    }
-
-    public NameReadDTO toReadName(Name name) {
-        return objectTranslator.translate(name, NameReadDTO.class);
-    }
-
     public void patchEntityName(NamePatchDTO patch, Name name) {
-        if (patch.getFirstName() != null) {
-            name.setFirstName(patch.getFirstName());
-        }
-        if (patch.getLastName() != null) {
-            name.setLastName(patch.getLastName());
-        }
+        objectTranslator.mapBean(patch, name);
     }
 
     public void updateEntityName(NamePutDTO put, Name name) {
-        name.setFirstName(put.getFirstName());
-        name.setLastName(put.getLastName());
+        objectTranslator.mapBean(put, name);
     }
 
     //Film
-    public Film toEntityFilm(FilmCreateDTO create) {
-        Film film = new Film();
-        film.setCategory(create.getCategory());
-        film.setCountry(create.getCountry());
-        film.setFilmText(create.getFilmText());
-        film.setLang(create.getLang());
-        film.setLength(create.getLength());
-        film.setAverageRate(create.getAverageRate());
-        film.setTitle(create.getTitle());
-        film.setLastUpdate(create.getLastUpdate());
-        film.setMpaa(create.getMpaa());
-        return film;
-    }
-
     public FilmReadDTO toReadFilm(Film film) {
         return objectTranslator.translate(film, FilmReadDTO.class);
     }
 
     public void patchEntityFilm(FilmPatchDTO patch, Film film) {
-        if (patch.getTitle() != null) {
-            film.setTitle(patch.getTitle());
-        }
-        if (patch.getFilmText() != null) {
-            film.setFilmText(patch.getFilmText());
-        }
-        if (patch.getCategory() != null) {
-            film.setCategory(patch.getCategory());
-        }
-        if (patch.getCountry() != null) {
-            film.setCountry(patch.getCountry());
-        }
-        if (patch.getLang() != null) {
-            film.setLang(patch.getLang());
-        }
-        if (patch.getLength() != null) {
-            film.setLength(patch.getLength());
-        }
-        if (patch.getLastUpdate() != null) {
-            film.setLastUpdate(patch.getLastUpdate());
-        }
-        if (patch.getAverageRate() != null) {
-            film.setAverageRate(patch.getAverageRate());
-        }
-        if (patch.getMpaa() != null) {
-            film.setMpaa(patch.getMpaa());
-        }
+        objectTranslator.mapBean(patch, film);
     }
 
     public void updateEntityFilm(FilmPutDTO put, Film film) {
-        film.setTitle(put.getTitle());
-        film.setFilmText(put.getFilmText());
-        film.setCategory(put.getCategory());
-        film.setCountry(put.getCountry());
-        film.setLang(put.getLang());
-        film.setLength(put.getLength());
-        film.setLastUpdate(put.getLastUpdate());
-        film.setAverageRate(put.getAverageRate());
-        film.setMpaa(put.getMpaa());
+        objectTranslator.mapBean(put, film);
     }
 
-    public FilmReadExtendedDTO toReadExtendedFilm(Film film) {
-        FilmReadExtendedDTO filmReadExtendedDTO = new FilmReadExtendedDTO();
-        filmReadExtendedDTO.setId(film.getId());
-        filmReadExtendedDTO.setTitle(film.getTitle());
-        filmReadExtendedDTO.setCategory(film.getCategory());
-        filmReadExtendedDTO.setCountry(film.getCountry());
-        filmReadExtendedDTO.setLang(film.getLang());
-        filmReadExtendedDTO.setAverageRate(film.getAverageRate());
-        filmReadExtendedDTO.setLength(film.getLength());
-        filmReadExtendedDTO.setFilmText(film.getFilmText());
-        filmReadExtendedDTO.setLastUpdate(film.getLastUpdate());
-        filmReadExtendedDTO.setMpaa(film.getMpaa());
-        return filmReadExtendedDTO;
-    }
 
     //Typo
-    public TypoReadDTO toReadTypo(Typo typo) {
-        return objectTranslator.translate(typo, TypoReadDTO.class);
-    }
-
-    public Typo toEntityTypo(TypoCreateDTO create) {
-        Typo typo = new Typo();
-        typo.setTypoMessage(create.getTypoMessage());
-        typo.setErrorText(create.getErrorText());
-        typo.setRightText(create.getRightText());
-        typo.setTypoLink(create.getTypoLink());
-        typo.setStatus(create.getStatus());
-        typo.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, create.getCustomerId()));
-        return typo;
-    }
-
     public void patchEntityTypo(TypoPatchDTO patch, Typo typo) {
         if (patch.getTypoMessage() != null) {
             typo.setTypoMessage(patch.getTypoMessage());
@@ -383,85 +289,36 @@ public class TranslationService {
     }
 
     //Review
-    public ReviewReadDTO toReadReview(Review review) {
-        return objectTranslator.translate(review, ReviewReadDTO.class);
-    }
-
-    public Review toEntityReview(ReviewCreateDTO create) {
-        Review review = new Review();
-        review.setReviewText(create.getReviewText());
-        return review;
-    }
-
     public void patchEntityReview(ReviewPatchDTO patch, Review review) {
-        if (patch.getReviewText() != null) {
-            review.setReviewText(patch.getReviewText());
-        }
+        objectTranslator.mapBean(patch, review);
     }
 
     public void updateEntityReview(ReviewPutDTO put, Review review) {
-        review.setReviewText(put.getReviewText());
+        objectTranslator.mapBean(put, review);
     }
 
     //Like
-    public LikeReadDTO toReadLike(Like like) {
-        return objectTranslator.translate(like, LikeReadDTO.class);
-    }
-
-    public Like toEntityLike(LikeCreateDTO create) {
-        Like like = new Like();
-        like.setLike(create.getLike());
-        like.setType(create.getType());
-        like.setLikedObjectId(create.getLikedObjectId());
-        return like;
-    }
-
     public void patchEntityLike(LikePatchDTO patch, Like like) {
-        if (patch.getLike() != null) {
-            like.setLike(patch.getLike());
-        }
-        if (patch.getLikedObjectId() != null) {
-            like.setLikedObjectId(patch.getLikedObjectId());
-        }
-        if (patch.getType() != null) {
-            like.setType(patch.getType());
-        }
+        objectTranslator.mapBean(patch, like);
     }
 
     public void updateEntityLike(LikePutDTO put, Like like) {
-        like.setLike(put.getLike());
-        like.setType(put.getType());
-        like.setLikedObjectId(put.getLikedObjectId());
+        objectTranslator.mapBean(put, like);
     }
 
     //News
-    public NewsReadDTO toReadNews(News news) {
-        return objectTranslator.translate(news, NewsReadDTO.class);
-    }
-
-    public News toEntityNews(NewsCreateDTO create) {
-        News news = new News();
-        news.setTextNews(create.getTextNews());
-        return news;
-    }
-
     public void patchEntityNews(NewsPatchDTO patch, News news) {
-        if (patch.getTextNews() != null) {
-            news.setTextNews(patch.getTextNews());
-        }
+        objectTranslator.mapBean(patch, news);
     }
 
     public void updateEntityNews(NewsPutDTO put, News news) {
-        news.setTextNews(put.getTextNews());
+        objectTranslator.mapBean(put, news);
     }
 
     //Scene
-    public SceneReadDTO toReadScene(Scene scene) {
-        return objectTranslator.translate(scene, SceneReadDTO.class);
-    }
-
+    @Transactional
     public Scene toEntityScene(SceneCreateDTO create) {
-        Scene scene = new Scene();
+        Scene scene = translate(create, Scene.class);
         scene.setSceneLink(create.getSceneLink());
         scene.setFilm(repositoryHelper.getReferenceIfExist(Film.class, create.getFilmId()));
         return scene;
@@ -482,41 +339,15 @@ public class TranslationService {
     }
 
     //Video
-    public VideoReadDTO toReadVideo(Video video) {
-        return objectTranslator.translate(video, VideoReadDTO.class);
-    }
-
-    public Video toEntityVideo(VideoCreateDTO create) {
-        Video video = new Video();
-        video.setVideoLink(create.getVideoLink());
-        return video;
-    }
-
     public void patchEntityVideo(VideoPatchDTO patch, Video video) {
-        if (patch.getVideoLink() != null) {
-            video.setVideoLink(patch.getVideoLink());
-        }
+        objectTranslator.mapBean(patch, video);
     }
 
     public void updateEntityVideo(VideoPutDTO put, Video video) {
-        video.setVideoLink(put.getVideoLink());
+        objectTranslator.mapBean(put, video);
     }
 
     //Rate
-    public RateReadDTO toReadRate(Rate rate) {
-
-        return objectTranslator.translate(rate, RateReadDTO.class);
-    }
-
-    public Rate toEntityRate(RateCreateDTO create) {
-        Rate rate = new Rate();
-        rate.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, create.getCustomerId()));
-        rate.setRate(create.getRate());
-        rate.setRatedObjectId(create.getRatedObjectId());
-        rate.setType(create.getType());
-        return rate;
-    }
-
     public void patchEntityRate(RatePatchDTO patch, Rate rate) {
         if (patch.getCustomerId() != null) {
             rate.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, patch.getCustomerId()));

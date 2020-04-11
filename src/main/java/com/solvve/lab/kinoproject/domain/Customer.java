@@ -9,22 +9,15 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Customer {
-
-    @Id
-    @GeneratedValue
-    @NotNull
-    private UUID id;
+public class Customer extends AbstractEntity {
 
     private String login;
 

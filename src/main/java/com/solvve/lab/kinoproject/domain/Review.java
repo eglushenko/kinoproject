@@ -6,19 +6,16 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.ManyToOne;
 import java.time.Instant;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Review {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Review extends AbstractEntity {
 
     private String reviewText;
 

@@ -22,33 +22,32 @@ public class NameService {
     private TranslationService translationService;
 
     public Name getNameRequired(UUID id) {
-        return nameRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException(Name.class, id));
+        return nameRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(Name.class, id));
     }
 
     public NameReadDTO getName(UUID id) {
         Name name = getNameRequired(id);
-        return translationService.toReadName(name);
+        return translationService.translate(name, NameReadDTO.class);
     }
 
     public NameReadDTO createName(NameCreateDTO create) {
-        Name name = translationService.toEntityName(create);
+        Name name = translationService.translate(create, Name.class);
         name = nameRepository.save(name);
-        return translationService.toReadName(name);
+        return translationService.translate(name, NameReadDTO.class);
     }
 
     public NameReadDTO patchName(UUID id, NamePatchDTO patch) {
         Name name = getNameRequired(id);
         translationService.patchEntityName(patch, name);
         name = nameRepository.save(name);
-        return translationService.toReadName(name);
+        return translationService.translate(name, NameReadDTO.class);
     }
 
     public NameReadDTO updateName(UUID id, NamePutDTO put) {
         Name name = getNameRequired(id);
         translationService.updateEntityName(put, name);
-        return translationService.toReadName(name);
+        return translationService.translate(name, NameReadDTO.class);
     }
 
     public void deleteName(UUID id) {

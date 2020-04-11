@@ -28,28 +28,28 @@ public class CommentService {
 
     public CommentReadDTO getComment(UUID id) {
         Comment comment = getCommentRequired(id);
-        return translationService.toReadComment(comment);
+        return translationService.translate(comment, CommentReadDTO.class);
 
     }
 
     public CommentReadDTO createComment(CommentCreateDTO create) {
-        Comment comment = translationService.toEntityComment(create);
+        Comment comment = translationService.translate(create, Comment.class);
         comment = commentRepository.save(comment);
-        return translationService.toReadComment(comment);
+        return translationService.translate(comment, CommentReadDTO.class);
     }
 
     public CommentReadDTO patchComment(UUID id, CommentPatchDTO patch) {
         Comment comment = getCommentRequired(id);
         translationService.patchEntityComment(patch, comment);
         comment = commentRepository.save(comment);
-        return translationService.toReadComment(comment);
+        return translationService.translate(comment, CommentReadDTO.class);
     }
 
     public CommentReadDTO updateComment(UUID id, CommentPutDTO put) {
         Comment comment = getCommentRequired(id);
         translationService.updateEntityComment(put, comment);
         comment = commentRepository.save(comment);
-        return translationService.toReadComment(comment);
+        return translationService.translate(comment, CommentReadDTO.class);
     }
 
 

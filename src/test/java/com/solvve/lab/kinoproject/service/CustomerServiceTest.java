@@ -9,6 +9,7 @@ import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
+import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,6 +33,9 @@ public class CustomerServiceTest {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private RepositoryHelper repositoryHelper;
 
     private Customer createCustomer() {
         Customer customer = new Customer();

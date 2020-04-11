@@ -113,6 +113,8 @@ public class CastServiceTest {
         Name n = createName();
         Film f = createFilm();
         CastCreateDTO create = new CastCreateDTO();
+        create.setRoleInFilm(NameFilmRole.ACTOR);
+        create.setNameRoleInFilm("rr");
         create.setNameId(n.getId());
         create.setFilmId(f.getId());
         CastReadDTO read = castService.createCast(create);

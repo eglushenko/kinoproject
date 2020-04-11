@@ -1,7 +1,6 @@
 package com.solvve.lab.kinoproject.service;
 
 
-import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
@@ -35,15 +34,14 @@ public class FilmService {
     @Autowired
     private TranslationService translationService;
 
-
     private Film getFilmRequired(UUID id) {
         return filmRepository.findById(id).orElseThrow(() ->
-                new EntityNotFoundException(Customer.class, id));
+                new EntityNotFoundException(Film.class, id));
     }
 
     public FilmReadDTO getFilm(UUID id) {
         Film film = getFilmRequired(id);
-        return translationService.toReadFilm(film);
+        return translationService.translate(film, FilmReadDTO.class);
     }
 
     public List<FilmReadDTO> getFilms(FilmFilter filter) {
@@ -53,27 +51,27 @@ public class FilmService {
 
     public FilmReadExtendedDTO getFilmExtended(UUID id) {
         Film film = getFilmRequired(id);
-        return translationService.toReadExtendedFilm(film);
+        return translationService.translate(film, FilmReadExtendedDTO.class);
     }
 
     public FilmReadDTO createFilm(FilmCreateDTO create) {
-        Film film = translationService.toEntityFilm(create);
+        Film film = translationService.translate(create, Film.class);
         film = filmRepository.save(film);
-        return translationService.toReadFilm(film);
+        return translationService.translate(film, FilmReadDTO.class);
     }
 
     public FilmReadDTO patchFilm(UUID id, FilmPatchDTO patch) {
         Film film = getFilmRequired(id);
         translationService.patchEntityFilm(patch, film);
         film = filmRepository.save(film);
-        return translationService.toReadFilm(film);
+        return translationService.translate(film, FilmReadDTO.class);
     }
 
     public FilmReadDTO updateFilm(UUID id, FilmPutDTO put) {
         Film film = getFilmRequired(id);
         translationService.updateEntityFilm(put, film);
         film = filmRepository.save(film);
-        return translationService.toReadFilm(film);
+        return translationService.translate(film, FilmReadDTO.class);
     }
 
     public void deleteFilm(UUID id) {

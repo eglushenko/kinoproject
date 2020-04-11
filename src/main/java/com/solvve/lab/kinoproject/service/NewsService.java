@@ -29,29 +29,29 @@ public class NewsService {
 
     public NewsReadDTO getNews(UUID id) {
         News news = getNewsRequired(id);
-        return translationService.toReadNews(news);
+        return translationService.translate(news, NewsReadDTO.class);
 
     }
 
 
     public NewsReadDTO createNews(NewsCreateDTO create) {
-        News news = translationService.toEntityNews(create);
+        News news = translationService.translate(create, News.class);
         news = newsRepository.save(news);
-        return translationService.toReadNews(news);
+        return translationService.translate(news, NewsReadDTO.class);
     }
 
     public NewsReadDTO patchNews(UUID id, NewsPatchDTO patch) {
         News news = getNewsRequired(id);
         translationService.patchEntityNews(patch, news);
         news = newsRepository.save(news);
-        return translationService.toReadNews(news);
+        return translationService.translate(news, NewsReadDTO.class);
     }
 
     public NewsReadDTO updateNews(UUID id, NewsPutDTO put) {
         News news = getNewsRequired(id);
         translationService.updateEntityNews(put, news);
         news = newsRepository.save(news);
-        return translationService.toReadNews(news);
+        return translationService.translate(news, NewsReadDTO.class);
     }
 
 

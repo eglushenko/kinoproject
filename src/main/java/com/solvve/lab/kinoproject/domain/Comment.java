@@ -7,20 +7,18 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Comment {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Comment extends AbstractEntity {
 
     private String commentText;
 

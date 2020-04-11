@@ -12,18 +12,14 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Film {
+public class Film extends AbstractEntity {
 
-    @Id
-    @GeneratedValue
-    private UUID id;
     private String title;
     private String country;
     private String lang;

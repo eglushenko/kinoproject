@@ -26,29 +26,33 @@ public class CustomerService {
                 new EntityNotFoundException(Customer.class, id));
     }
 
+
     public CustomerReadDTO getCustomer(UUID id) {
         Customer customer = getCustomerRequired(id);
-        return translationService.toReadCustomer(customer);
+        return translationService.translate(customer, CustomerReadDTO.class);
     }
 
     public CustomerReadDTO createCustomer(CustomerCreateDTO create) {
-        Customer customer = translationService.toEntityCustomer(create);
+        Customer customer = translationService.translate(create, Customer.class);
         customer = customerRepository.save(customer);
-        return translationService.toReadCustomer(customer);
+        return translationService.translate(customer, CustomerReadDTO.class);
+
     }
+
 
     public CustomerReadDTO patchCustomer(UUID id, CustomerPatchDTO patch) {
         Customer customer = getCustomerRequired(id);
         translationService.patchEntityCustomer(patch, customer);
         customer = customerRepository.save(customer);
-        return translationService.toReadCustomer(customer);
+        return translationService.translate(customer, CustomerReadDTO.class);
     }
+
 
     public CustomerReadDTO updateCustomer(UUID id, CustomerPutDTO put) {
         Customer customer = getCustomerRequired(id);
         translationService.updateEntityCustomer(put, customer);
         customer = customerRepository.save(customer);
-        return translationService.toReadCustomer(customer);
+        return translationService.translate(customer, CustomerReadDTO.class);
     }
 
     public void deleteCustomer(UUID id) {

@@ -29,29 +29,29 @@ public class LikeService {
 
     public LikeReadDTO getLike(UUID id) {
         Like like = getLikeRequired(id);
-        return translationService.toReadLike(like);
+        return translationService.translate(like, LikeReadDTO.class);
 
     }
 
 
     public LikeReadDTO createLike(LikeCreateDTO create) {
-        Like like = translationService.toEntityLike(create);
+        Like like = translationService.translate(create, Like.class);
         like = likeRepository.save(like);
-        return translationService.toReadLike(like);
+        return translationService.translate(like, LikeReadDTO.class);
     }
 
     public LikeReadDTO patchLike(UUID id, LikePatchDTO patch) {
         Like like = getLikeRequired(id);
         translationService.patchEntityLike(patch, like);
         like = likeRepository.save(like);
-        return translationService.toReadLike(like);
+        return translationService.translate(like, LikeReadDTO.class);
     }
 
     public LikeReadDTO updateLike(UUID id, LikePutDTO put) {
         Like like = getLikeRequired(id);
         translationService.updateEntityLike(put, like);
         like = likeRepository.save(like);
-        return translationService.toReadLike(like);
+        return translationService.translate(like, LikeReadDTO.class);
     }
 
 

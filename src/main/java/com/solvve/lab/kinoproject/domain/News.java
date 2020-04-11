@@ -9,22 +9,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
-import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class News {
-
-    @Id
-    @GeneratedValue
-    @NotNull
-    private UUID id;
+public class News extends AbstractEntity {
 
     private String textNews;
 

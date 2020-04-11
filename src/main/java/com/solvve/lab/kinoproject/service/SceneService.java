@@ -23,33 +23,32 @@ public class SceneService {
     private TranslationService translationService;
 
     public Scene getSceneRequired(UUID id) {
-        return sceneRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException(Scene.class, id));
+        return sceneRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(Scene.class, id));
     }
 
     public SceneReadDTO getScene(UUID id) {
         Scene scene = getSceneRequired(id);
-        return translationService.toReadScene(scene);
+        return translationService.translate(scene, SceneReadDTO.class);
     }
 
     public SceneReadDTO createScene(SceneCreateDTO create) {
-        Scene scene = translationService.toEntityScene(create);
+        Scene scene = translationService.translate(create, Scene.class);
         scene = sceneRepository.save(scene);
-        return translationService.toReadScene(scene);
+        return translationService.translate(scene, SceneReadDTO.class);
     }
 
     public SceneReadDTO patchScene(UUID id, ScenePatchDTO patch) {
         Scene scene = getSceneRequired(id);
         translationService.patchEntityScene(patch, scene);
         scene = sceneRepository.save(scene);
-        return translationService.toReadScene(scene);
+        return translationService.translate(scene, SceneReadDTO.class);
     }
 
     public SceneReadDTO updateScene(UUID id, ScenePutDTO put) {
         Scene scene = getSceneRequired(id);
         translationService.updateEntityScene(put, scene);
-        return translationService.toReadScene(scene);
+        return translationService.translate(scene, SceneReadDTO.class);
     }
 
     public void deleteScene(UUID id) {

@@ -23,33 +23,32 @@ public class ReviewService {
     private TranslationService translationService;
 
     public Review getReviewRequired(UUID id) {
-        return reviewRepository.findById(id)
-                .orElseThrow(() ->
-                        new EntityNotFoundException(Review.class, id));
+        return reviewRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(Review.class, id));
     }
 
     public ReviewReadDTO getReview(UUID id) {
         Review review = getReviewRequired(id);
-        return translationService.toReadReview(review);
+        return translationService.translate(review, ReviewReadDTO.class);
     }
 
     public ReviewReadDTO createReview(ReviewCreateDTO create) {
-        Review review = translationService.toEntityReview(create);
+        Review review = translationService.translate(create, Review.class);
         review = reviewRepository.save(review);
-        return translationService.toReadReview(review);
+        return translationService.translate(review, ReviewReadDTO.class);
     }
 
     public ReviewReadDTO patchReview(UUID id, ReviewPatchDTO patch) {
         Review review = getReviewRequired(id);
         translationService.patchEntityReview(patch, review);
         review = reviewRepository.save(review);
-        return translationService.toReadReview(review);
+        return translationService.translate(review, ReviewReadDTO.class);
     }
 
     public ReviewReadDTO updateReview(UUID id, ReviewPutDTO put) {
         Review review = getReviewRequired(id);
         translationService.updateEntityReview(put, review);
-        return translationService.toReadReview(review);
+        return translationService.translate(review, ReviewReadDTO.class);
     }
 
     public void deleteReview(UUID id) {

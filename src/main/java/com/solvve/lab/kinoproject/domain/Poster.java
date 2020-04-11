@@ -9,20 +9,13 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.time.Instant;
-import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Poster {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Poster extends AbstractEntity {
 
     private String posterLink;
 
