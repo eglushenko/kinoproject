@@ -1,14 +1,13 @@
 package com.solvve.lab.kinoproject.domain;
 
+import com.solvve.lab.kinoproject.enums.ReviewStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.Instant;
 
 @Getter
@@ -24,6 +23,9 @@ public class Review extends AbstractEntity {
 
     @ManyToOne
     private Customer customer;
+
+    @Enumerated(EnumType.STRING)
+    private ReviewStatus status;
 
     @CreatedDate
     private Instant createdAt;

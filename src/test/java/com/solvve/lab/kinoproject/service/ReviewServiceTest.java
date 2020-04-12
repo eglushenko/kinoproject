@@ -5,6 +5,7 @@ import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewReadDTO;
+import com.solvve.lab.kinoproject.enums.ReviewStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.ReviewRepository;
 import org.assertj.core.api.Assertions;
@@ -35,6 +36,7 @@ public class ReviewServiceTest {
     private Review createReview() {
         Review review = new Review();
         review.setReviewText("some review");
+        review.setStatus(ReviewStatus.NEW);
         return reviewRepository.save(review);
     }
 
@@ -76,6 +78,7 @@ public class ReviewServiceTest {
 
         ReviewPatchDTO patch = new ReviewPatchDTO();
         patch.setReviewText("txt");
+        patch.setStatus(ReviewStatus.NEW);
         ReviewReadDTO read = reviewService.patchReview(review.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -113,6 +116,7 @@ public class ReviewServiceTest {
 
         ReviewPutDTO put = new ReviewPutDTO();
         put.setReviewText("some review");
+        put.setStatus(ReviewStatus.NEW);
         ReviewReadDTO read = reviewService.updateReview(review.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
