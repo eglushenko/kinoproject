@@ -9,6 +9,7 @@ import com.solvve.lab.kinoproject.service.CastService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
@@ -24,7 +25,7 @@ public class CastController {
     }
 
     @PostMapping
-    public CastReadDTO createCast(@RequestBody CastCreateDTO create) {
+    public CastReadDTO createCast(@RequestBody @Valid CastCreateDTO create) {
         return castService.createCast(create);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Getter
@@ -17,14 +18,18 @@ import java.time.Instant;
 //TODO 'cast' is a reserved keyword and should be quoted
 public class Cast extends AbstractEntity {
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     private NameFilmRole roleInFilm;
 
+    @NotNull
     private String nameRoleInFilm;
 
+    @NotNull
     @ManyToOne
     private Film film;
 
+    @NotNull
     @ManyToOne
     private Name name;
 

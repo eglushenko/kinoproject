@@ -8,11 +8,13 @@ import com.solvve.lab.kinoproject.dto.cast.CastPutDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastReadDTO;
 import com.solvve.lab.kinoproject.enums.NameFilmRole;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
+import com.solvve.lab.kinoproject.exception.hander.ErrorInfo;
 import com.solvve.lab.kinoproject.service.CastService;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -157,6 +159,18 @@ public class CastControllerTest {
         mvc.perform(delete("/api/v1/casts/{id}", id.toString())).andExpect(status().isOk());
 
         Mockito.verify(castService).deleteCast(id);
+    }
+
+    @Test
+    public void testCreateCastValidationFiled() throws Exception {
+        CastCreateDTO castCreate = new CastCreateDTO();
+        String resultJson = mvc.perform(post("/api/v1/casts")
+                .content(objectMapper.writeValueAsString(castCreate))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()).andReturn().getResponse().getContentAsString();
+        objectMapper.readValue(resultJson, ErrorInfo.class);
+        Mockito.verify(castService, Mockito.never()).createCast(ArgumentMatchers.any());
+
     }
 
 
