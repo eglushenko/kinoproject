@@ -1,6 +1,5 @@
 package com.solvve.lab.kinoproject.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.News;
 import com.solvve.lab.kinoproject.dto.news.NewsCreateDTO;
 import com.solvve.lab.kinoproject.dto.news.NewsPatchDTO;
@@ -11,15 +10,10 @@ import com.solvve.lab.kinoproject.service.NewsService;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
@@ -27,16 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 @WebMvcTest(NewsController.class)
-public class NewsControllerTest {
-
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+public class NewsControllerTest extends BaseControllerTest {
 
     @MockBean
     private NewsService newsService;

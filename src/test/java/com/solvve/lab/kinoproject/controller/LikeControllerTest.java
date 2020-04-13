@@ -1,6 +1,5 @@
 package com.solvve.lab.kinoproject.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Like;
 import com.solvve.lab.kinoproject.dto.like.LikeCreateDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePatchDTO;
@@ -12,15 +11,10 @@ import com.solvve.lab.kinoproject.service.LikeService;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
@@ -28,16 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 @WebMvcTest(LikeController.class)
-public class LikeControllerTest {
-
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+public class LikeControllerTest extends BaseControllerTest {
 
     @MockBean
     private LikeService likeService;

@@ -1,6 +1,5 @@
 package com.solvve.lab.kinoproject.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Comment;
 import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
@@ -11,15 +10,10 @@ import com.solvve.lab.kinoproject.service.CommentService;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -29,16 +23,8 @@ import static com.solvve.lab.kinoproject.enums.CommentStatus.UNCHECKED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 @WebMvcTest(CommentController.class)
-public class CommentControllerTest {
-
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
+public class CommentControllerTest extends BaseControllerTest {
 
     @MockBean
     private CommentService commentService;

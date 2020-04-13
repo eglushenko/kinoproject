@@ -1,6 +1,5 @@
 package com.solvve.lab.kinoproject.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solvve.lab.kinoproject.domain.Cast;
 import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
@@ -13,16 +12,11 @@ import com.solvve.lab.kinoproject.service.CastService;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
@@ -30,16 +24,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 @WebMvcTest(CastController.class)
-public class CastControllerTest {
+public class CastControllerTest extends BaseControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @MockBean
     private CastService castService;
