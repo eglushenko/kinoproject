@@ -95,6 +95,8 @@ public class CastControllerTest {
         CastCreateDTO create = new CastCreateDTO();
         create.setRoleInFilm(NameFilmRole.ACTOR);
         create.setNameRoleInFilm("Jhon Dou");
+        create.setNameId(UUID.randomUUID());
+        create.setFilmId(UUID.randomUUID());
 
         CastReadDTO read = createCastRead();
 

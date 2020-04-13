@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.service;
 
+import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
@@ -13,20 +14,12 @@ import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles("test")
-@Sql(statements = "delete from customer", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class CustomerServiceTest {
+
+public class CustomerServiceTest extends BaseTest {
 
     @Autowired
     CustomerRepository customerRepository;

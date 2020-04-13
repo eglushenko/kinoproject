@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.service;
 
+import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
@@ -13,22 +14,13 @@ import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Instant;
 import java.util.UUID;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles("test")
-@Sql(statements = "delete from film", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class FilmServiceTest {
+public class FilmServiceTest extends BaseTest {
 
     @Autowired
     FilmRepository filmRepository;

@@ -1,16 +1,12 @@
 package com.solvve.lab.kinoproject.repository;
 
 
+import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.domain.Film;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.time.Instant;
@@ -25,15 +21,8 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Sql(statements = {
-        "delete from film",
-        "delete from cast",
-        "delete from scene"},
-        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class FilmRepositoryTest {
+
+public class FilmRepositoryTest extends BaseTest {
 
     @Autowired
     private FilmRepository filmRepository;

@@ -1,36 +1,63 @@
 package com.solvve.lab.kinoproject.repository;
 
+import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.domain.Cast;
+import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.domain.Name;
 import com.solvve.lab.kinoproject.enums.NameFilmRole;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.TransactionSystemException;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@Sql(statements =
-        "delete from cast",
-        executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class CastRepositoryTest {
+
+public class CastRepositoryTest extends BaseTest {
 
     @Autowired
     private CastRepository castRepository;
 
+    @Autowired
+    private FilmRepository filmRepository;
+
+    @Autowired
+    private NameRepository nameRepository;
+
     private Cast createCast() {
+        Film f = createFilm();
+        Name n = createName();
         Cast cast = new Cast();
         cast.setRoleInFilm(NameFilmRole.ACTOR);
         cast.setNameRoleInFilm("Jhon Dou");
+        cast.setName(n);
+        cast.setFilm(f);
         return castRepository.save(cast);
+    }
+
+    private Film createFilm() {
+        ZoneOffset utc = ZoneOffset.UTC;
+        Film film = new Film();
+        film.setCategory("category");
+        film.setCountry("UA");
+        film.setFilmText("");
+        film.setLang("en");
+        film.setLength(83);
+        film.setAverageRate(4.3);
+        film.setTitle("LEGO FILM");
+        film.setRealiseYear(LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc));
+        film.setLastUpdate(LocalDateTime.of(2019, 12, 01, 17, 01).toInstant(utc));
+        return filmRepository.save(film);
+    }
+
+    private Name createName() {
+        Name name = new Name();
+        name.setFirstName("Jhon");
+        name.setLastName("Dou");
+        return nameRepository.save(name);
     }
 
     @Test

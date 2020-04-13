@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.service;
 
+import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.domain.Comment;
 import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
@@ -11,21 +12,13 @@ import com.solvve.lab.kinoproject.repository.CommentRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles("test")
-@Sql(statements = "delete from comment", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class CommentServiceTest {
+
+public class CommentServiceTest extends BaseTest {
 
     @Autowired
     private CommentRepository commentRepository;

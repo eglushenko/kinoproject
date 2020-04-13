@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.service;
 
+import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.domain.Rate;
@@ -18,27 +19,16 @@ import com.solvve.lab.kinoproject.repository.RateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ActiveProfiles("test")
-@Sql(statements = {
-        "delete from rate",
-        "delete from film"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class RateServiceTest {
+public class RateServiceTest extends BaseTest {
 
     @Autowired
     private RateRepository rateRepository;
