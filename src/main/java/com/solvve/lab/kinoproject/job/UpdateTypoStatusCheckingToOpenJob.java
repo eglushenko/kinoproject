@@ -28,12 +28,13 @@ public class UpdateTypoStatusCheckingToOpenJob {
         log.info("Job started");
         typoRepository.findAllByStatusCheckingAndNotSaved(Instant.now()
                 .truncatedTo(ChronoUnit.MICROS).minus(1, ChronoUnit.HOURS)).forEach(typo -> {
-            try {
-                typoService.updateStatusChecking(typo);
-            } catch (Exception e) {
-                log.info("Filed to update status at typo: {}", typo, e);
-            }
-        });
+                    try {
+                        typoService.updateStatusChecking(typo);
+                    } catch (Exception e) {
+                        log.info("Filed to update status at typo: {}", typo, e);
+                    }
+                }
+        );
 
         log.info("Job finished");
     }
