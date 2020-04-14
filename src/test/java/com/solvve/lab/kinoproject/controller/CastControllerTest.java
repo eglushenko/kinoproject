@@ -100,7 +100,7 @@ public class CastControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void testPatchComment() throws Exception {
+    public void testPatchCast() throws Exception {
         CastPatchDTO patchDTO = new CastPatchDTO();
         patchDTO.setRoleInFilm(NameFilmRole.ACTOR);
         patchDTO.setNameRoleInFilm("Jhon Dou");

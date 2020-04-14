@@ -15,8 +15,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -191,7 +195,8 @@ public class FilmServiceTest extends BaseTest {
         filmRepository.save(film2);
 
         FilmFilter filmFilter = new FilmFilter();
-        Assertions.assertThat(filmService.getFilms(filmFilter)).extracting("id")
+        Assertions.assertThat(filmService.getFilms(filmFilter, Pageable.unpaged())
+                .getData()).extracting("id")
                 .containsExactlyInAnyOrder(film1.getId(), film2.getId());
     }
 
@@ -212,7 +217,8 @@ public class FilmServiceTest extends BaseTest {
         FilmFilter filter = new FilmFilter();
         filter.setLength(83);
 
-        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+        Assertions.assertThat(filmService.getFilms(filter, Pageable.unpaged())
+                .getData()).extracting("id")
                 .containsExactlyInAnyOrder(film3.getId(), film4.getId());
     }
 
@@ -238,7 +244,8 @@ public class FilmServiceTest extends BaseTest {
         Film film3 = createFilm();
 
         FilmFilter filter = new FilmFilter();
-        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+        Assertions.assertThat(filmService.getFilms(filter, Pageable.unpaged())
+                .getData()).extracting("id")
                 .containsExactlyInAnyOrder(film1.getId(), film2.getId(), film3.getId());
     }
 
@@ -252,7 +259,8 @@ public class FilmServiceTest extends BaseTest {
 
         FilmFilter filter = new FilmFilter();
         filter.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
-        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+        Assertions.assertThat(filmService.getFilms(filter, Pageable.unpaged())
+                .getData()).extracting("id")
                 .containsExactlyInAnyOrder(film2.getId(), film3.getId());
     }
 
@@ -273,7 +281,8 @@ public class FilmServiceTest extends BaseTest {
 
         FilmFilter filter = new FilmFilter();
         filter.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
-        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+        Assertions.assertThat(filmService.getFilms(filter, Pageable.unpaged())
+                .getData()).extracting("id")
                 .containsExactlyInAnyOrder(film1.getId(), film2.getId());
     }
 
@@ -302,8 +311,27 @@ public class FilmServiceTest extends BaseTest {
         filter.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
         filter.setLastUpdate(Instant.parse("2020-01-01T00:01:00.00Z"));
         filter.setLength(83);
-        Assertions.assertThat(filmService.getFilms(filter)).extracting("id")
+        Assertions.assertThat(filmService.getFilms(filter, Pageable.unpaged())
+                .getData()).extracting("id")
                 .containsExactlyInAnyOrder(film1.getId(), film2.getId());
     }
+
+    @Test
+    public void testGetFilmsWithEmptyFilterWithPagingAndSort() {
+        Film film1 = createFilm();
+        film1.setLength(60);
+        filmRepository.save(film1);
+        Film film2 = createFilm();
+        film2.setLength(62);
+        filmRepository.save(film2);
+        createFilm();
+        createFilm();
+
+        FilmFilter filter = new FilmFilter();
+        PageRequest pageRequest = PageRequest.of(1, 2, Sort.by(Sort.Direction.DESC, "length"));
+        Assertions.assertThat(filmService.getFilms(filter, pageRequest).getData()).extracting("id")
+                .isEqualTo(Arrays.asList(film2.getId(), film1.getId()));
+    }
+
 
 }

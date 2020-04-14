@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.domain.*;
+import com.solvve.lab.kinoproject.dto.PageResult;
 import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPutDTO;
@@ -11,7 +12,6 @@ import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePatchDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePutDTO;
 import com.solvve.lab.kinoproject.dto.name.NamePatchDTO;
@@ -40,9 +40,11 @@ import org.bitbucket.brunneng.ot.Configuration;
 import org.bitbucket.brunneng.ot.ObjectTranslator;
 import org.bitbucket.brunneng.ot.exceptions.TranslationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -179,6 +181,16 @@ public class TranslationService {
         c.beanOfClass(ReviewPutDTO.class).translationTo(Review.class);
     }
 
+    public <E, T> PageResult<T> toPageResult(Page<E> page, Class<T> dtoType) {
+        PageResult<T> res = new PageResult<>();
+        res.setPage(page.getNumber());
+        res.setPageSize(page.getSize());
+        res.setTotalPages(page.getTotalPages());
+        res.setTotalElements(page.getTotalElements());
+        res.setData(page.getContent().stream().map(e -> translate(e, dtoType)).collect(Collectors.toList()));
+        return res;
+    }
+
     //Cast
     public void patchEntityCast(CastPatchDTO patch, Cast cast) {
         if (patch.getNameRoleInFilm() != null) {
@@ -201,11 +213,6 @@ public class TranslationService {
         cast.setName(repositoryHelper.getReferenceIfExist(Name.class, put.getNameId()));
         cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, put.getFilmId()));
 
-    }
-
-    //Film
-    public FilmReadDTO toReadFilm(Film film) {
-        return objectTranslator.translate(film, FilmReadDTO.class);
     }
 
     //Typo

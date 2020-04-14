@@ -3,9 +3,9 @@ package com.solvve.lab.kinoproject.repository;
 
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface FilmRepositoryCustom {
-    List<Film> findByFilter(FilmFilter filter);
+    Page<Film> findByFilter(FilmFilter filter, Pageable pageable);
 }

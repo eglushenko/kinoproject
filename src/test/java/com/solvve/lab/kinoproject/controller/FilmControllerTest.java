@@ -1,7 +1,10 @@
 package com.solvve.lab.kinoproject.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
+import com.solvve.lab.kinoproject.dto.PageResult;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
@@ -15,13 +18,17 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @WebMvcTest(FilmController.class)
 public class FilmControllerTest extends BaseControllerTest {
@@ -197,5 +204,97 @@ public class FilmControllerTest extends BaseControllerTest {
         Mockito.verify(filmService).deleteFilm(id);
     }
 
+    @Test
+    public void testGetFilms() throws Exception {
+        FilmFilter filter = new FilmFilter();
+        filter.setLength(83);
+        filter.setRealiseYear(Instant.now());
+        filter.setLastUpdate(Instant.now());
+
+        FilmReadDTO read = new FilmReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setLang("RU");
+        read.setLength(filter.getLength());
+        read.setRealiseYear(filter.getRealiseYear());
+        read.setFilmText("film example text");
+        read.setTitle("some film");
+        read.setAverageRate(8.3);
+        read.setCountry("Ukraine");
+        read.setMpaa(RateMPAA.PG);
+
+        PageResult<FilmReadDTO> expectedRes = new PageResult<>();
+        expectedRes.setData(List.of(read));
+        Mockito.when(filmService.getFilms(filter, PageRequest.of(0, defaultPageSize))).thenReturn(expectedRes);
+
+        String resultJson = mvc.perform(get("/api/v1/films")
+                .param("length", filter.getLength().toString())
+                .param("realiseYear", filter.getRealiseYear().toString())
+                .param("lastUpdate", filter.getLastUpdate().toString()))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        PageResult<FilmReadDTO> actualPage = objectMapper.readValue(resultJson, new TypeReference<>() {
+        });
+        Assert.assertEquals(expectedRes, actualPage);
+
+    }
+
+    @Test
+    public void testGetFilmsWithPageingAndSorting() throws Exception {
+        FilmFilter filter = new FilmFilter();
+        FilmReadDTO read = createFilmRead();
+
+        int page = 1;
+        int size = 25;
+
+        PageResult<FilmReadDTO> resultPage = new PageResult<>();
+        resultPage.setPage(page);
+        resultPage.setPageSize(size);
+        resultPage.setTotalElements(100);
+        resultPage.setTotalPages(4);
+        resultPage.setData(List.of(read));
+
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "length"));
+        Mockito.when(filmService.getFilms(filter, pageRequest)).thenReturn(resultPage);
+
+        String resultJson = mvc.perform(get("/api/v1/films")
+                .param("page", Integer.toString(page))
+                .param("size", Integer.toString(size))
+                .param("sort", "length,desc"))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        PageResult<FilmReadDTO> actualPage = objectMapper.readValue(resultJson, new TypeReference<>() {
+        });
+        Assert.assertEquals(resultPage, actualPage);
+
+    }
+
+    @Test
+    public void testGetFilmsWithBigPage() throws Exception {
+        FilmFilter filter = new FilmFilter();
+        FilmReadDTO read = createFilmRead();
+
+        int page = 0;
+        int size = 9999;
+
+        PageResult<FilmReadDTO> resultPage = new PageResult<>();
+        resultPage.setPage(page);
+        resultPage.setPageSize(size);
+        resultPage.setTotalElements(100);
+        resultPage.setTotalPages(4);
+        resultPage.setData(List.of(read));
+
+        PageRequest pageRequest = PageRequest.of(page, maxPageSize);
+        Mockito.when(filmService.getFilms(filter, pageRequest)).thenReturn(resultPage);
+
+        String resultJson = mvc.perform(get("/api/v1/films")
+                .param("page", Integer.toString(page))
+                .param("size", Integer.toString(size)))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+
+        PageResult<FilmReadDTO> actualPage = objectMapper.readValue(resultJson, new TypeReference<>() {
+        });
+        Assert.assertEquals(resultPage, actualPage);
+    }
 
 }

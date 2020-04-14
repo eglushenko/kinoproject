@@ -4,6 +4,7 @@ package com.solvve.lab.kinoproject.service;
 import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
+import com.solvve.lab.kinoproject.dto.PageResult;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
@@ -13,13 +14,13 @@ import com.solvve.lab.kinoproject.repository.FilmRepository;
 import com.solvve.lab.kinoproject.repository.RateRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -44,9 +45,9 @@ public class FilmService {
         return translationService.translate(film, FilmReadDTO.class);
     }
 
-    public List<FilmReadDTO> getFilms(FilmFilter filter) {
-        List<Film> films = filmRepository.findByFilter(filter);
-        return films.stream().map(translationService::toReadFilm).collect(Collectors.toList());
+    public PageResult<FilmReadDTO> getFilms(FilmFilter filter, Pageable pageable) {
+        Page<Film> films = filmRepository.findByFilter(filter, pageable);
+        return translationService.toPageResult(films, FilmReadDTO.class);
     }
 
     public FilmReadExtendedDTO getFilmExtended(UUID id) {
