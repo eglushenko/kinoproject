@@ -5,7 +5,6 @@ import com.solvve.lab.kinoproject.dto.like.LikeCreateDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePatchDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePutDTO;
 import com.solvve.lab.kinoproject.dto.like.LikeReadDTO;
-import com.solvve.lab.kinoproject.enums.LikedObjectType;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.LikeService;
 import org.assertj.core.api.Assertions;
@@ -29,12 +28,7 @@ public class LikeControllerTest extends BaseControllerTest {
     private LikeService likeService;
 
     private LikeReadDTO createLikeRead() {
-        LikeReadDTO read = new LikeReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setLike(true);
-        read.setLikedObjectId(UUID.randomUUID());
-        read.setType(LikedObjectType.COMMENT);
-        return read;
+        return generateObject(LikeReadDTO.class);
     }
 
     @Test
@@ -78,11 +72,7 @@ public class LikeControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateLike() throws Exception {
-        LikeCreateDTO create = new LikeCreateDTO();
-        create.setLike(false);
-        create.setLikedObjectId(UUID.randomUUID());
-        create.setType(LikedObjectType.COMMENT);
-
+        LikeCreateDTO create = generateObject(LikeCreateDTO.class);
         LikeReadDTO read = createLikeRead();
 
         Mockito.when(likeService.createLike(create)).thenReturn(read);
@@ -99,10 +89,7 @@ public class LikeControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchLike() throws Exception {
-        LikePatchDTO patch = new LikePatchDTO();
-        patch.setLike(true);
-        patch.setType(LikedObjectType.COMMENT);
-        patch.setLikedObjectId(UUID.randomUUID());
+        LikePatchDTO patch = generateObject(LikePatchDTO.class);
 
         LikeReadDTO read = createLikeRead();
 
@@ -119,10 +106,7 @@ public class LikeControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutLike() throws Exception {
-        LikePutDTO putDTO = new LikePutDTO();
-        putDTO.setType(LikedObjectType.FILM);
-        putDTO.setLikedObjectId(UUID.randomUUID());
-        putDTO.setLike(true);
+        LikePutDTO putDTO = generateObject(LikePutDTO.class);
 
         LikeReadDTO read = createLikeRead();
 

@@ -9,7 +9,6 @@ import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
-import com.solvve.lab.kinoproject.enums.RateMPAA;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.FilmService;
 import org.assertj.core.api.Assertions;
@@ -37,31 +36,11 @@ public class FilmControllerTest extends BaseControllerTest {
     private FilmService filmService;
 
     private FilmReadDTO createFilmRead() {
-        FilmReadDTO read = new FilmReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setLang("RU");
-        read.setFilmText("film example text");
-        read.setLength(140); // in minutes
-        read.setTitle("some film");
-        read.setAverageRate(8.3);
-        read.setCountry("Ukraine");
-        read.setMpaa(RateMPAA.PG);
-        read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
-        return read;
+        return generateObject(FilmReadDTO.class);
     }
 
     private FilmReadExtendedDTO createFilmReadExtended() {
-        FilmReadExtendedDTO read = new FilmReadExtendedDTO();
-        read.setId(UUID.randomUUID());
-        read.setLang("RU");
-        read.setFilmText("film example text");
-        read.setLength(140); // in minutes
-        read.setTitle("some film");
-        read.setAverageRate(8.3);
-        read.setCountry("Ukraine");
-        read.setMpaa(RateMPAA.PG);
-        read.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
-        return read;
+        return generateObject(FilmReadExtendedDTO.class);
     }
 
     @Test
@@ -121,15 +100,7 @@ public class FilmControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateFilm() throws Exception {
-        FilmCreateDTO create = new FilmCreateDTO();
-        create.setLang("RU");
-        create.setFilmText("film example text");
-        create.setLength(140); // in minutes
-        create.setTitle("some film");
-        create.setAverageRate(8.3);
-        create.setCountry("Ukraine");
-        create.setMpaa(RateMPAA.PG);
-        create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmCreateDTO create = generateObject(FilmCreateDTO.class);
 
         FilmReadDTO read = createFilmRead();
 
@@ -148,15 +119,7 @@ public class FilmControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchFilm() throws Exception {
-        FilmPatchDTO patch = new FilmPatchDTO();
-        patch.setLang("EN");
-        patch.setFilmText("film example text");
-        patch.setLength(140); // in minutes
-        patch.setTitle("film");
-        patch.setAverageRate(1.3);
-        patch.setCountry("USA");
-        patch.setMpaa(RateMPAA.PG);
-        patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmPatchDTO patch = generateObject(FilmPatchDTO.class);
 
         FilmReadDTO read = createFilmRead();
 
@@ -173,15 +136,7 @@ public class FilmControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutFilm() throws Exception {
-        FilmPutDTO putDTO = new FilmPutDTO();
-        putDTO.setLang("EN");
-        putDTO.setFilmText("film example text");
-        putDTO.setLength(140); // in minutes
-        putDTO.setTitle("film");
-        putDTO.setAverageRate(1.3);
-        putDTO.setCountry("USA");
-        putDTO.setMpaa(RateMPAA.PG);
-        putDTO.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmPutDTO putDTO = generateObject(FilmPutDTO.class);
         FilmReadDTO read = createFilmRead();
 
         Mockito.when(filmService.updateFilm(read.getId(), putDTO)).thenReturn(read);
@@ -211,16 +166,10 @@ public class FilmControllerTest extends BaseControllerTest {
         filter.setRealiseYear(Instant.now());
         filter.setLastUpdate(Instant.now());
 
-        FilmReadDTO read = new FilmReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setLang("RU");
+        FilmReadDTO read = generateObject(FilmReadDTO.class);
         read.setLength(filter.getLength());
         read.setRealiseYear(filter.getRealiseYear());
-        read.setFilmText("film example text");
-        read.setTitle("some film");
-        read.setAverageRate(8.3);
-        read.setCountry("Ukraine");
-        read.setMpaa(RateMPAA.PG);
+        read.setLastUpdate(filter.getLastUpdate());
 
         PageResult<FilmReadDTO> expectedRes = new PageResult<>();
         expectedRes.setData(List.of(read));

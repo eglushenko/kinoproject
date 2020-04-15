@@ -7,8 +7,6 @@ import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
-import com.solvve.lab.kinoproject.enums.Gender;
-import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.CustomerService;
 import org.assertj.core.api.Assertions;
@@ -31,14 +29,7 @@ public class CustomerControllerTest extends BaseControllerTest {
     private CustomerService customerService;
 
     private CustomerReadDTO createCustomerRead() {
-        CustomerReadDTO read = new CustomerReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setLogin("user");
-        read.setFirstName("Jhon");
-        read.setLastName("Dou");
-        read.setEmail("mail@mail.ua");
-        read.setGender(Gender.ALIEN);
-        return read;
+        return generateObject(CustomerReadDTO.class);
     }
 
     @Test
@@ -95,12 +86,7 @@ public class CustomerControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateCustomer() throws Exception {
-        CustomerCreateDTO create = new CustomerCreateDTO();
-        create.setLogin("user");
-        create.setFirstName("Jhon");
-        create.setLastName("Dou");
-        create.setEmail("mail@mail.ua");
-
+        CustomerCreateDTO create = generateObject(CustomerCreateDTO.class);
         CustomerReadDTO read = createCustomerRead();
 
         Mockito.when(customerService.createCustomer(create)).thenReturn(read);
@@ -117,12 +103,7 @@ public class CustomerControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchCustomer() throws Exception {
-        CustomerPatchDTO patchDTO = new CustomerPatchDTO();
-        patchDTO.setLogin("user");
-        patchDTO.setFirstName("Jhon");
-        patchDTO.setLastName("Dou");
-        patchDTO.setEmail("mail@mail.ua");
-
+        CustomerPatchDTO patchDTO = generateObject(CustomerPatchDTO.class);
         CustomerReadDTO read = createCustomerRead();
 
         Mockito.when(customerService.patchCustomer(read.getId(), patchDTO)).thenReturn(read);
@@ -147,14 +128,7 @@ public class CustomerControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutCustomer() throws Exception {
-        CustomerPutDTO putDTO = new CustomerPutDTO();
-        putDTO.setLogin("user");
-        putDTO.setFirstName("Jhon");
-        putDTO.setLastName("Dou");
-        putDTO.setEmail("mail@mail.ua");
-        putDTO.setRole(Role.GUEST);
-        putDTO.setGender(Gender.MALE);
-
+        CustomerPutDTO putDTO = generateObject(CustomerPutDTO.class);
         CustomerReadDTO read = createCustomerRead();
 
         Mockito.when(customerService.updateCustomer(read.getId(), putDTO)).thenReturn(read);

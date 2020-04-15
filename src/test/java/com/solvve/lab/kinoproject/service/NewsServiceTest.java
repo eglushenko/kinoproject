@@ -25,8 +25,7 @@ public class NewsServiceTest extends BaseTest {
     private NewsRepository newsRepository;
 
     private News createNews() {
-        News news = new News();
-        news.setTextNews("txt");
+        News news = generateFlatEntityWithoutId(News.class);
         return newsRepository.save(news);
     }
 
@@ -48,8 +47,7 @@ public class NewsServiceTest extends BaseTest {
 
     @Test
     public void testCreateNews() {
-        NewsCreateDTO create = new NewsCreateDTO();
-        create.setTextNews("txt");
+        NewsCreateDTO create = generateObject(NewsCreateDTO.class);
         NewsReadDTO read = newsService.createNews(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
         Assert.assertNotNull(read.getId());
@@ -63,8 +61,7 @@ public class NewsServiceTest extends BaseTest {
     public void testPatchNews() {
         News news = createNews();
 
-        NewsPatchDTO patch = new NewsPatchDTO();
-        patch.setTextNews("11111");
+        NewsPatchDTO patch = generateObject(NewsPatchDTO.class);
         NewsReadDTO read = newsService.patchNews(news.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -79,8 +76,7 @@ public class NewsServiceTest extends BaseTest {
     public void testPutNews() {
         News news = createNews();
 
-        NewsPutDTO put = new NewsPutDTO();
-        put.setTextNews("txt");
+        NewsPutDTO put = generateObject(NewsPutDTO.class);
         NewsReadDTO read = newsService.updateNews(news.getId(), put);
 
         Assertions.assertThat(put)

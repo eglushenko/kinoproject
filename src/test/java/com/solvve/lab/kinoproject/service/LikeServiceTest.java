@@ -6,7 +6,6 @@ import com.solvve.lab.kinoproject.dto.like.LikeCreateDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePatchDTO;
 import com.solvve.lab.kinoproject.dto.like.LikePutDTO;
 import com.solvve.lab.kinoproject.dto.like.LikeReadDTO;
-import com.solvve.lab.kinoproject.enums.LikedObjectType;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.LikeRepository;
 import org.assertj.core.api.Assertions;
@@ -26,10 +25,7 @@ public class LikeServiceTest extends BaseTest {
     private LikeRepository likeRepository;
 
     private Like createLike() {
-        Like like = new Like();
-        like.setLikedObjectId(UUID.randomUUID());
-        like.setLike(true);
-        like.setType(LikedObjectType.COMMENT);
+        Like like = generateFlatEntityWithoutId(Like.class);
         return likeRepository.save(like);
     }
 
@@ -51,10 +47,7 @@ public class LikeServiceTest extends BaseTest {
 
     @Test
     public void testCreateLike() {
-        LikeCreateDTO create = new LikeCreateDTO();
-        create.setLikedObjectId(UUID.randomUUID());
-        create.setLike(false);
-        create.setType(LikedObjectType.COMMENT);
+        LikeCreateDTO create = generateObject(LikeCreateDTO.class);
 
         LikeReadDTO read = likeService.createLike(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
@@ -69,10 +62,8 @@ public class LikeServiceTest extends BaseTest {
     public void testPatchLike() {
         Like like = createLike();
 
-        LikePatchDTO patch = new LikePatchDTO();
-        patch.setLikedObjectId(UUID.randomUUID());
-        patch.setLike(true);
-        patch.setType(LikedObjectType.COMMENT);
+        LikePatchDTO patch = generateObject(LikePatchDTO.class);
+
         LikeReadDTO read = likeService.patchLike(like.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -87,10 +78,8 @@ public class LikeServiceTest extends BaseTest {
     public void testPutLike() {
         Like like = createLike();
 
-        LikePutDTO put = new LikePutDTO();
-        put.setLike(true);
-        put.setLikedObjectId(UUID.randomUUID());
-        put.setType(LikedObjectType.COMMENT);
+        LikePutDTO put = generateObject(LikePutDTO.class);
+
         LikeReadDTO read = likeService.updateLike(like.getId(), put);
 
         Assertions.assertThat(put)

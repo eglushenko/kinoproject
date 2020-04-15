@@ -2,6 +2,7 @@ package com.solvve.lab.kinoproject.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.bitbucket.brunneng.br.RandomObjectGenerator;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,5 +26,12 @@ public abstract class BaseControllerTest {
 
     @Value("${spring.data.web.pageable.max-page-size}")
     protected int maxPageSize;
+
+    private RandomObjectGenerator generator = new RandomObjectGenerator();
+
+    protected <T> T generateObject(Class<T> objectClass) {
+        return generator.generateRandomObject(objectClass);
+    }
+
 
 }

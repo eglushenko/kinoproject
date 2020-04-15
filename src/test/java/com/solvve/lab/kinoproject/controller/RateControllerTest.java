@@ -5,7 +5,6 @@ import com.solvve.lab.kinoproject.dto.rate.RateCreateDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePatchDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePutDTO;
 import com.solvve.lab.kinoproject.dto.rate.RateReadDTO;
-import com.solvve.lab.kinoproject.enums.RateObjectType;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.RateService;
 import org.assertj.core.api.Assertions;
@@ -29,12 +28,7 @@ public class RateControllerTest extends BaseControllerTest {
     private RateService rateService;
 
     private RateReadDTO createRateRead() {
-        RateReadDTO read = new RateReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setRate(3.0);
-        read.setRatedObjectId(UUID.randomUUID());
-        read.setType(RateObjectType.FILM);
-        return read;
+        return generateObject(RateReadDTO.class);
     }
 
     @Test
@@ -78,10 +72,7 @@ public class RateControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateRate() throws Exception {
-        RateCreateDTO create = new RateCreateDTO();
-        create.setRate(3.0);
-        create.setRatedObjectId(UUID.randomUUID());
-        create.setType(RateObjectType.FILM);
+        RateCreateDTO create = generateObject(RateCreateDTO.class);
 
         RateReadDTO read = createRateRead();
 
@@ -99,10 +90,7 @@ public class RateControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchRate() throws Exception {
-        RatePatchDTO patch = new RatePatchDTO();
-        patch.setRate(3.6);
-        patch.setType(RateObjectType.COMMENT);
-        patch.setRatedObjectId(UUID.randomUUID());
+        RatePatchDTO patch = generateObject(RatePatchDTO.class);
 
         RateReadDTO read = createRateRead();
 
@@ -119,10 +107,7 @@ public class RateControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutRate() throws Exception {
-        RatePutDTO putDTO = new RatePutDTO();
-        putDTO.setType(RateObjectType.FILM);
-        putDTO.setRatedObjectId(UUID.randomUUID());
-        putDTO.setRate(6.6);
+        RatePutDTO putDTO = generateObject(RatePutDTO.class);
 
         RateReadDTO read = createRateRead();
 

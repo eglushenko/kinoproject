@@ -6,7 +6,6 @@ import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewReadDTO;
-import com.solvve.lab.kinoproject.enums.ReviewStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.ReviewRepository;
 import org.assertj.core.api.Assertions;
@@ -26,9 +25,7 @@ public class ReviewServiceTest extends BaseTest {
     private ReviewService reviewService;
 
     private Review createReview() {
-        Review review = new Review();
-        review.setReviewText("some review");
-        review.setStatus(ReviewStatus.NEW);
+        Review review = generateFlatEntityWithoutId(Review.class);
         return reviewRepository.save(review);
     }
 
@@ -50,8 +47,7 @@ public class ReviewServiceTest extends BaseTest {
 
     @Test
     public void testCreateReview() {
-        ReviewCreateDTO create = new ReviewCreateDTO();
-        create.setReviewText("some txt");
+        ReviewCreateDTO create = generateObject(ReviewCreateDTO.class);
         ReviewReadDTO read = reviewService.createReview(create);
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(read,
@@ -68,9 +64,7 @@ public class ReviewServiceTest extends BaseTest {
     public void testPatchReview() {
         Review review = createReview();
 
-        ReviewPatchDTO patch = new ReviewPatchDTO();
-        patch.setReviewText("txt");
-        patch.setStatus(ReviewStatus.NEW);
+        ReviewPatchDTO patch = generateObject(ReviewPatchDTO.class);
         ReviewReadDTO read = reviewService.patchReview(review.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -106,9 +100,7 @@ public class ReviewServiceTest extends BaseTest {
     public void testPutReview() {
         Review review = createReview();
 
-        ReviewPutDTO put = new ReviewPutDTO();
-        put.setReviewText("some review");
-        put.setStatus(ReviewStatus.NEW);
+        ReviewPutDTO put = generateObject(ReviewPutDTO.class);
         ReviewReadDTO read = reviewService.updateReview(review.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);

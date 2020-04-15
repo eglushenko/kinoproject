@@ -5,7 +5,6 @@ import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPutDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastReadDTO;
-import com.solvve.lab.kinoproject.enums.NameFilmRole;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.exception.hander.ErrorInfo;
 import com.solvve.lab.kinoproject.service.CastService;
@@ -32,10 +31,7 @@ public class CastControllerTest extends BaseControllerTest {
     private CastService castService;
 
     private CastReadDTO createCastRead() {
-        CastReadDTO read = new CastReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setRoleInFilm(NameFilmRole.ACTOR);
-        read.setNameRoleInFilm("Jhon Dou");
+        CastReadDTO read = generateObject(CastReadDTO.class);
         return read;
     }
 
@@ -79,11 +75,7 @@ public class CastControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateCast() throws Exception {
-        CastCreateDTO create = new CastCreateDTO();
-        create.setRoleInFilm(NameFilmRole.ACTOR);
-        create.setNameRoleInFilm("Jhon Dou");
-        create.setNameId(UUID.randomUUID());
-        create.setFilmId(UUID.randomUUID());
+        CastCreateDTO create = generateObject(CastCreateDTO.class);
 
         CastReadDTO read = createCastRead();
 
@@ -101,10 +93,7 @@ public class CastControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchCast() throws Exception {
-        CastPatchDTO patchDTO = new CastPatchDTO();
-        patchDTO.setRoleInFilm(NameFilmRole.ACTOR);
-        patchDTO.setNameRoleInFilm("Jhon Dou");
-
+        CastPatchDTO patchDTO = generateObject(CastPatchDTO.class);
         CastReadDTO read = createCastRead();
 
         Mockito.when(castService.patchCast(read.getId(), patchDTO)).thenReturn(read);
@@ -122,11 +111,7 @@ public class CastControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutCast() throws Exception {
-        CastPutDTO putDTO = new CastPutDTO();
-        putDTO.setRoleInFilm(NameFilmRole.ACTOR);
-        putDTO.setNameRoleInFilm("Jhon Dou");
-
-
+        CastPutDTO putDTO = generateObject(CastPutDTO.class);
         CastReadDTO read = createCastRead();
 
         Mockito.when(castService.updateCast(read.getId(), putDTO)).thenReturn(read);

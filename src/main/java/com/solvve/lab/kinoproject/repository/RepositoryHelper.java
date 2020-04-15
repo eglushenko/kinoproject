@@ -29,4 +29,12 @@ public class RepositoryHelper {
             throw new EntityNotFoundException(entityClass, id);
         }
     }
+
+    public <E> E getByIdRequired(Class<E> entityClass, UUID id) {
+        E res = entityManager.find(entityClass, id);
+        if (res == null) {
+            throw new EntityNotFoundException(entityClass, id);
+        }
+        return res;
+    }
 }

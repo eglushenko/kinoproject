@@ -43,6 +43,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -189,6 +190,10 @@ public class TranslationService {
         res.setTotalElements(page.getTotalElements());
         res.setData(page.getContent().stream().map(e -> translate(e, dtoType)).collect(Collectors.toList()));
         return res;
+    }
+
+    public <T> List<T> translateList(List<?> objects, Class<T> targetClass) {
+        return objects.stream().map(o -> translate(o, targetClass)).collect(Collectors.toList());
     }
 
     //Cast

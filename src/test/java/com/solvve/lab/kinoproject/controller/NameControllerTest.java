@@ -27,11 +27,7 @@ public class NameControllerTest extends BaseControllerTest {
     private NameService nameService;
 
     private NameReadDTO createNameRead() {
-        NameReadDTO read = new NameReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setFirstName("Mark");
-        read.setLastName("Dou");
-        return read;
+        return generateObject(NameReadDTO.class);
     }
 
     @Test
@@ -75,9 +71,7 @@ public class NameControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateName() throws Exception {
-        NameCreateDTO create = new NameCreateDTO();
-        create.setFirstName("Mark");
-        create.setLastName("Dou");
+        NameCreateDTO create = generateObject(NameCreateDTO.class);
 
         NameReadDTO read = createNameRead();
 
@@ -95,9 +89,7 @@ public class NameControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchName() throws Exception {
-        NamePatchDTO patch = new NamePatchDTO();
-        patch.setFirstName("Mark");
-        patch.setLastName("Dou");
+        NamePatchDTO patch = generateObject(NamePatchDTO.class);
 
         NameReadDTO read = createNameRead();
 
@@ -114,9 +106,7 @@ public class NameControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutName() throws Exception {
-        NamePutDTO putDTO = new NamePutDTO();
-        putDTO.setFirstName("Mark");
-        putDTO.setLastName("Dou");
+        NamePutDTO putDTO = generateObject(NamePutDTO.class);
 
         NameReadDTO read = createNameRead();
 

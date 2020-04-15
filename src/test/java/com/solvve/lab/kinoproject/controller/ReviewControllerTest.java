@@ -27,10 +27,7 @@ public class ReviewControllerTest extends BaseControllerTest {
     private ReviewService reviewService;
 
     private ReviewReadDTO createReviewRead() {
-        ReviewReadDTO read = new ReviewReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setReviewText("txt");
-        return read;
+        return generateObject(ReviewReadDTO.class);
     }
 
     @Test
@@ -74,8 +71,7 @@ public class ReviewControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateReview() throws Exception {
-        ReviewCreateDTO create = new ReviewCreateDTO();
-        create.setReviewText("txt");
+        ReviewCreateDTO create = generateObject(ReviewCreateDTO.class);
 
         ReviewReadDTO read = createReviewRead();
 
@@ -93,8 +89,7 @@ public class ReviewControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchReview() throws Exception {
-        ReviewPatchDTO patch = new ReviewPatchDTO();
-        patch.setReviewText("txt");
+        ReviewPatchDTO patch = generateObject(ReviewPatchDTO.class);
 
         ReviewReadDTO read = createReviewRead();
 
@@ -111,8 +106,7 @@ public class ReviewControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutReview() throws Exception {
-        ReviewPutDTO putDTO = new ReviewPutDTO();
-        putDTO.setReviewText("txt");
+        ReviewPutDTO putDTO = generateObject(ReviewPutDTO.class);
 
         ReviewReadDTO read = createReviewRead();
 

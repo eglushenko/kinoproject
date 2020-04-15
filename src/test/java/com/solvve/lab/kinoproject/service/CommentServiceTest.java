@@ -6,7 +6,6 @@ import com.solvve.lab.kinoproject.dto.comment.CommentCreateDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPatchDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentPutDTO;
 import com.solvve.lab.kinoproject.dto.comment.CommentReadDTO;
-import com.solvve.lab.kinoproject.enums.CommentStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CommentRepository;
 import org.assertj.core.api.Assertions;
@@ -14,7 +13,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -27,11 +25,7 @@ public class CommentServiceTest extends BaseTest {
     private CommentService commentService;
 
     private Comment createComment() {
-        Comment comment = new Comment();
-        comment.setCommentText("comment text");
-        comment.setPostedDate(LocalDate.of(2020, 1, 22));
-        comment.setCommentStatus(CommentStatus.UNCHECKED);
-        comment.setRate(0.1);
+        Comment comment = generateFlatEntityWithoutId(Comment.class);
         return commentRepository.save(comment);
     }
 
@@ -50,12 +44,10 @@ public class CommentServiceTest extends BaseTest {
 
     @Test
     public void createCommentTest() {
-        CommentCreateDTO create = new CommentCreateDTO();
-        create.setCommentText("comment text");
-        create.setPostedDate(LocalDate.of(2020, 1, 22));
-        create.setCommentStatus(CommentStatus.UNCHECKED);
-        create.setRate(0.1);
+        CommentCreateDTO create = generateObject(CommentCreateDTO.class);
+
         CommentReadDTO commentReadDTO = commentService.createComment(create);
+
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(commentReadDTO, "createdAt", "updatedAt");
         Assert.assertNotNull(commentReadDTO.getId());
@@ -69,11 +61,8 @@ public class CommentServiceTest extends BaseTest {
     public void testPatchComment() {
         Comment comment = createComment();
 
-        CommentPatchDTO patch = new CommentPatchDTO();
-        patch.setCommentText("comment");
-        patch.setPostedDate(LocalDate.of(2020, 1, 23));
-        patch.setCommentStatus(CommentStatus.UNCHECKED);
-        patch.setRate(1.1);
+        CommentPatchDTO patch = generateObject(CommentPatchDTO.class);
+
         CommentReadDTO read = commentService.patchComment(comment.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -113,11 +102,8 @@ public class CommentServiceTest extends BaseTest {
     public void testPutComment() {
         Comment comment = createComment();
 
-        CommentPutDTO put = new CommentPutDTO();
-        put.setCommentText("comment");
-        put.setPostedDate(LocalDate.of(2020, 1, 23));
-        put.setCommentStatus(CommentStatus.UNCHECKED);
-        put.setRate(1.1);
+        CommentPutDTO put = generateObject(CommentPutDTO.class);
+
         CommentReadDTO read = commentService.updateComment(comment.getId(), put);
 
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read,

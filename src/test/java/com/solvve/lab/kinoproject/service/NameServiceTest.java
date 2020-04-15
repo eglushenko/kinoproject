@@ -26,9 +26,7 @@ public class NameServiceTest extends BaseTest {
     private NameService nameService;
 
     private Name createName() {
-        Name name = new Name();
-        name.setFirstName("Jhon");
-        name.setLastName("Dou");
+        Name name = generateFlatEntityWithoutId(Name.class);
         return nameRepository.save(name);
     }
 
@@ -50,9 +48,8 @@ public class NameServiceTest extends BaseTest {
 
     @Test
     public void testCreateName() {
-        NameCreateDTO create = new NameCreateDTO();
-        create.setFirstName("Jhon");
-        create.setLastName("Dou");
+        NameCreateDTO create = generateObject(NameCreateDTO.class);
+
         NameReadDTO nameReadDTO = nameService.createName(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(nameReadDTO);
         Assert.assertNotNull(nameReadDTO.getId());
@@ -66,9 +63,7 @@ public class NameServiceTest extends BaseTest {
     public void testPatchName() {
         Name name = createName();
 
-        NamePatchDTO patch = new NamePatchDTO();
-        patch.setFirstName("Jhon");
-        patch.setLastName("Smith");
+        NamePatchDTO patch = generateObject(NamePatchDTO.class);
         NameReadDTO read = nameService.patchName(name.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -83,9 +78,7 @@ public class NameServiceTest extends BaseTest {
     public void testPutName() {
         Name name = createName();
 
-        NamePutDTO put = new NamePutDTO();
-        put.setFirstName("Jhon");
-        put.setLastName("Dou");
+        NamePutDTO put = generateObject(NamePutDTO.class);
         NameReadDTO read = nameService.updateName(name.getId(), put);
 
         Assertions.assertThat(put)

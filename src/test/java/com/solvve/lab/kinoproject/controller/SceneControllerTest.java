@@ -28,10 +28,7 @@ public class SceneControllerTest extends BaseControllerTest {
     private SceneService sceneService;
 
     private SceneReadDTO createSceneRead() {
-        SceneReadDTO read = new SceneReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setSceneLink("link");
-        return read;
+        return generateObject(SceneReadDTO.class);
     }
 
     @Test
@@ -75,8 +72,7 @@ public class SceneControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateScene() throws Exception {
-        SceneCreateDTO create = new SceneCreateDTO();
-        create.setSceneLink("link");
+        SceneCreateDTO create = generateObject(SceneCreateDTO.class);
 
         SceneReadDTO read = createSceneRead();
 
@@ -94,8 +90,7 @@ public class SceneControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchScene() throws Exception {
-        ScenePatchDTO patch = new ScenePatchDTO();
-        patch.setSceneLink("link2");
+        ScenePatchDTO patch = generateObject(ScenePatchDTO.class);
 
         SceneReadDTO read = createSceneRead();
 
@@ -112,8 +107,7 @@ public class SceneControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutScene() throws Exception {
-        ScenePutDTO putDTO = new ScenePutDTO();
-        putDTO.setSceneLink("link");
+        ScenePutDTO putDTO = generateObject(ScenePutDTO.class);
 
         SceneReadDTO read = createSceneRead();
 

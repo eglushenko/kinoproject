@@ -7,7 +7,6 @@ import com.solvve.lab.kinoproject.dto.scene.SceneCreateDTO;
 import com.solvve.lab.kinoproject.dto.scene.ScenePatchDTO;
 import com.solvve.lab.kinoproject.dto.scene.ScenePutDTO;
 import com.solvve.lab.kinoproject.dto.scene.SceneReadDTO;
-import com.solvve.lab.kinoproject.enums.RateMPAA;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import com.solvve.lab.kinoproject.repository.SceneRepository;
@@ -16,7 +15,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.Instant;
 import java.util.UUID;
 
 
@@ -32,24 +30,14 @@ public class SceneServiceTest extends BaseTest {
     private FilmRepository filmRepository;
 
     private Film createFilm() {
-        Film film = new Film();
-        film.setCategory("category");
-        film.setCountry("UA");
-        film.setFilmText("");
-        film.setLang("UA");
-        film.setLength(83);
-        film.setAverageRate(4.3);
-        film.setTitle("LEGO FILM");
-        film.setMpaa(RateMPAA.PG);
-        film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        Film film = generateFlatEntityWithoutId(Film.class);
         return filmRepository.save(film);
     }
 
 
     private Scene createScene() {
         Film film = createFilm();
-        Scene scene = new Scene();
-        scene.setSceneLink("link");
+        Scene scene = generateFlatEntityWithoutId(Scene.class);
         scene.setFilm(film);
         return sceneRepository.save(scene);
     }
@@ -73,8 +61,7 @@ public class SceneServiceTest extends BaseTest {
     @Test
     public void testCreateScene() {
         Film film = createFilm();
-        SceneCreateDTO create = new SceneCreateDTO();
-        create.setSceneLink("link");
+        SceneCreateDTO create = generateObject(SceneCreateDTO.class);
         create.setFilmId(film.getId());
         SceneReadDTO read = sceneService.createScene(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
@@ -90,8 +77,7 @@ public class SceneServiceTest extends BaseTest {
         Film film = createFilm();
         Scene scene = createScene();
 
-        ScenePatchDTO patch = new ScenePatchDTO();
-        patch.setSceneLink("11111");
+        ScenePatchDTO patch = generateObject(ScenePatchDTO.class);
         patch.setFilmId(film.getId());
         SceneReadDTO read = sceneService.patchScene(scene.getId(), patch);
 
@@ -108,8 +94,7 @@ public class SceneServiceTest extends BaseTest {
         Film film = createFilm();
         Scene scene = createScene();
 
-        ScenePutDTO put = new ScenePutDTO();
-        put.setSceneLink("link");
+        ScenePutDTO put = generateObject(ScenePutDTO.class);
         put.setFilmId(film.getId());
         SceneReadDTO read = sceneService.updateScene(scene.getId(), put);
 
@@ -158,8 +143,7 @@ public class SceneServiceTest extends BaseTest {
 
     @Test(expected = EntityNotFoundException.class)
     public void testCreateSceneWithWrongFilm() {
-        SceneCreateDTO create = new SceneCreateDTO();
-        create.setSceneLink("link");
+        SceneCreateDTO create = generateObject(SceneCreateDTO.class);
         create.setFilmId(UUID.randomUUID());
         sceneService.createScene(create);
     }

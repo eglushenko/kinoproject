@@ -6,11 +6,8 @@ import com.solvve.lab.kinoproject.dto.customer.CustomerCreateDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPatchDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerPutDTO;
 import com.solvve.lab.kinoproject.dto.customer.CustomerReadDTO;
-import com.solvve.lab.kinoproject.enums.Gender;
-import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
-import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,17 +24,9 @@ public class CustomerServiceTest extends BaseTest {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private RepositoryHelper repositoryHelper;
 
     private Customer createCustomer() {
-        Customer customer = new Customer();
-        customer.setLogin("user");
-        customer.setFirstName("Jhon");
-        customer.setLastName("Dou");
-        customer.setEmail("mail@mail.ua");
-        customer.setRole(Role.USER);
-        customer.setGender(Gender.MALE);
+        Customer customer = generateFlatEntityWithoutId(Customer.class);
         return customerRepository.save(customer);
     }
 
@@ -59,13 +48,7 @@ public class CustomerServiceTest extends BaseTest {
 
     @Test
     public void createCustomerTest() {
-        CustomerCreateDTO create = new CustomerCreateDTO();
-        create.setLogin("user");
-        create.setFirstName("Jhon");
-        create.setLastName("Dou");
-        create.setEmail("mail@mail.ua");
-        create.setRole(Role.USER);
-        create.setGender(Gender.MALE);
+        CustomerCreateDTO create = generateObject(CustomerCreateDTO.class);
         CustomerReadDTO customerReadDTO = customerService.createCustomer(create);
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(customerReadDTO,
@@ -82,13 +65,7 @@ public class CustomerServiceTest extends BaseTest {
     public void testPatchCustomer() {
         Customer customer = createCustomer();
 
-        CustomerPatchDTO patch = new CustomerPatchDTO();
-        patch.setLogin("test");
-        patch.setFirstName("Joe");
-        patch.setLastName("Dou");
-        patch.setEmail("nomail@i.ua");
-        patch.setRole(Role.USER);
-        patch.setGender(Gender.ALIEN);
+        CustomerPatchDTO patch = generateObject(CustomerPatchDTO.class);
         CustomerReadDTO read = customerService.patchCustomer(customer.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -105,13 +82,7 @@ public class CustomerServiceTest extends BaseTest {
     public void testPutCustomer() {
         Customer customer = createCustomer();
 
-        CustomerPutDTO put = new CustomerPutDTO();
-        put.setLogin("test");
-        put.setFirstName("Joe");
-        put.setLastName("Dou");
-        put.setEmail("nomail@i.ua");
-        put.setRole(Role.USER);
-        put.setGender(Gender.MALE);
+        CustomerPutDTO put = generateObject(CustomerPutDTO.class);
         CustomerReadDTO read = customerService.updateCustomer(customer.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);

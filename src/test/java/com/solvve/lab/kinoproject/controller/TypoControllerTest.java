@@ -5,7 +5,6 @@ import com.solvve.lab.kinoproject.dto.typo.TypoCreateDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPatchDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoPutDTO;
 import com.solvve.lab.kinoproject.dto.typo.TypoReadDTO;
-import com.solvve.lab.kinoproject.enums.TypoStatus;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.service.TypoService;
 import org.assertj.core.api.Assertions;
@@ -29,12 +28,7 @@ public class TypoControllerTest extends BaseControllerTest {
 
 
     private TypoReadDTO createTypoRead() {
-        TypoReadDTO read = new TypoReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setTypoLink("link");
-        read.setStatus(TypoStatus.OPEN);
-        read.setTypoMessage("msg");
-        return read;
+        return generateObject(TypoReadDTO.class);
     }
 
     @Test
@@ -77,10 +71,7 @@ public class TypoControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateTypo() throws Exception {
-        TypoCreateDTO create = new TypoCreateDTO();
-        create.setTypoLink("link");
-        create.setStatus(TypoStatus.OPEN);
-        create.setTypoMessage("msg");
+        TypoCreateDTO create = generateObject(TypoCreateDTO.class);
 
         TypoReadDTO read = createTypoRead();
 
@@ -97,10 +88,7 @@ public class TypoControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchTypo() throws Exception {
-        TypoPatchDTO patch = new TypoPatchDTO();
-        patch.setTypoLink("links");
-        patch.setStatus(TypoStatus.CHECKING);
-        patch.setTypoMessage("cheking");
+        TypoPatchDTO patch = generateObject(TypoPatchDTO.class);
 
         TypoReadDTO read = createTypoRead();
 
@@ -117,10 +105,7 @@ public class TypoControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutTypo() throws Exception {
-        TypoPutDTO putDTO = new TypoPutDTO();
-        putDTO.setTypoLink("links");
-        putDTO.setStatus(TypoStatus.CHECKING);
-        putDTO.setTypoMessage("cheking");
+        TypoPutDTO putDTO = generateObject(TypoPutDTO.class);
 
         TypoReadDTO read = createTypoRead();
 

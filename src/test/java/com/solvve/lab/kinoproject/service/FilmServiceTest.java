@@ -8,7 +8,6 @@ import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
-import com.solvve.lab.kinoproject.enums.RateMPAA;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
@@ -33,16 +32,7 @@ public class FilmServiceTest extends BaseTest {
     private FilmService filmService;
 
     private Film createFilm() {
-        Film film = new Film();
-        film.setCategory("category");
-        film.setCountry("UA");
-        film.setFilmText("");
-        film.setLang("UA");
-        film.setLength(83);
-        film.setAverageRate(4.3);
-        film.setTitle("LEGO FILM");
-        film.setMpaa(RateMPAA.PG);
-        film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        Film film = generateFlatEntityWithoutId(Film.class);
         return filmRepository.save(film);
     }
 
@@ -64,16 +54,7 @@ public class FilmServiceTest extends BaseTest {
 
     @Test
     public void testCreateFilm() {
-        FilmCreateDTO create = new FilmCreateDTO();
-        create.setCategory("category");
-        create.setCountry("UA");
-        create.setFilmText("");
-        create.setLang("UA");
-        create.setLength(83);
-        create.setAverageRate(4.3);
-        create.setTitle("LEGO FILM");
-        create.setMpaa(RateMPAA.PG);
-        create.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmCreateDTO create = generateObject(FilmCreateDTO.class);
         FilmReadDTO filmReadDTO = filmService.createFilm(create);
         Assertions.assertThat(create)
                 .isEqualToIgnoringGivenFields(filmReadDTO,
@@ -90,16 +71,7 @@ public class FilmServiceTest extends BaseTest {
     public void testPatchFilm() {
         Film film = createFilm();
 
-        FilmPatchDTO patch = new FilmPatchDTO();
-        patch.setCategory("category");
-        patch.setCountry("UA");
-        patch.setFilmText("some text");
-        patch.setLang("UA");
-        patch.setLength(83);
-        patch.setAverageRate(1.3);
-        patch.setTitle("FILM");
-        patch.setMpaa(RateMPAA.PG);
-        patch.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmPatchDTO patch = generateObject(FilmPatchDTO.class);
         FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -150,16 +122,8 @@ public class FilmServiceTest extends BaseTest {
     public void testPutFilm() {
         Film film = createFilm();
 
-        FilmPutDTO put = new FilmPutDTO();
-        put.setCategory("category");
-        put.setCountry("UA");
-        put.setFilmText("some text");
-        put.setLang("UA");
-        put.setLength(83);
-        put.setAverageRate(1.3);
-        put.setTitle("FILM");
-        put.setMpaa(RateMPAA.PG);
-        put.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
+        FilmPutDTO put = generateObject(FilmPutDTO.class);
+
         FilmReadDTO read = filmService.updateFilm(film.getId(), put);
 
         Assertions.assertThat(put)
@@ -210,8 +174,10 @@ public class FilmServiceTest extends BaseTest {
         film2.setLength(90);
         filmRepository.save(film2);
         Film film3 = createFilm();
+        film3.setLength(83);
         filmRepository.save(film3);
         Film film4 = createFilm();
+        film4.setLength(83);
         filmRepository.save(film4);
 
         FilmFilter filter = new FilmFilter();
@@ -289,10 +255,12 @@ public class FilmServiceTest extends BaseTest {
     @Test
     public void testGetFilmsByFilterAllParam() {
         Film film1 = createFilm();
+        film1.setLength(83);
         film1.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
         film1.setLastUpdate(Instant.parse("2020-01-01T00:01:00.00Z"));
         filmRepository.save(film1);
         Film film2 = createFilm();
+        film2.setLength(83);
         film2.setLastUpdate(Instant.parse("2020-01-01T00:01:00.00Z"));
         film2.setRealiseYear(Instant.parse("2019-01-01T00:01:00.00Z"));
         filmRepository.save(film2);

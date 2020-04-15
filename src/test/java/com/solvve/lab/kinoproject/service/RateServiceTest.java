@@ -8,9 +8,7 @@ import com.solvve.lab.kinoproject.dto.rate.RateCreateDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePatchDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePutDTO;
 import com.solvve.lab.kinoproject.dto.rate.RateReadDTO;
-import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.RateObjectType;
-import com.solvve.lab.kinoproject.enums.Role;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.job.UpdateAverageRateOfFilmJob;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
@@ -23,8 +21,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.UUID;
 
 
@@ -49,38 +45,20 @@ public class RateServiceTest extends BaseTest {
     private UpdateAverageRateOfFilmJob updateAverageRateOfFilmJob;
 
     private Customer createCustomer() {
-        Customer customer = new Customer();
-        customer.setLogin("user");
-        customer.setFirstName("Jhon");
-        customer.setLastName("Dou");
-        customer.setEmail("mail@mail.ua");
-        customer.setRole(Role.USER);
-        customer.setGender(Gender.MALE);
+        Customer customer = generateFlatEntityWithoutId(Customer.class);
         return customerRepository.save(customer);
     }
 
     private Film createFilm() {
-        ZoneOffset utc = ZoneOffset.UTC;
-        Film film = new Film();
-        film.setCategory("category");
-        film.setCountry("UA");
-        film.setFilmText("");
-        film.setLang("en");
-        film.setLength(83);
-        film.setTitle("LEGO FILM");
-        film.setRealiseYear(LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc));
-        film.setLastUpdate(LocalDateTime.of(2019, 12, 01, 17, 01).toInstant(utc));
+        Film film = generateFlatEntityWithoutId(Film.class);
         return filmRepository.save(film);
     }
 
 
     private Rate createRate() {
         Customer c = createCustomer();
-        Rate rate = new Rate();
+        Rate rate = generateFlatEntityWithoutId(Rate.class);
         rate.setCustomer(c);
-        rate.setRatedObjectId(UUID.randomUUID());
-        rate.setRate(2.0);
-        rate.setType(RateObjectType.FILM);
         return rateRepository.save(rate);
     }
 
@@ -97,11 +75,8 @@ public class RateServiceTest extends BaseTest {
     @Test
     public void testCreateRate() {
         Customer c = createCustomer();
-        RateCreateDTO create = new RateCreateDTO();
+        RateCreateDTO create = generateObject(RateCreateDTO.class);
         create.setCustomerId(c.getId());
-        create.setType(RateObjectType.FILM);
-        create.setRatedObjectId(UUID.randomUUID());
-        create.setRate(3.0);
         RateReadDTO read = rateService.createRate(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
         Assert.assertNotNull(read.getId());
@@ -115,10 +90,8 @@ public class RateServiceTest extends BaseTest {
     public void testPatchRate() {
         Rate rate = createRate();
 
-        RatePatchDTO patch = new RatePatchDTO();
-        patch.setRate(1.0);
-        patch.setRatedObjectId(UUID.randomUUID());
-        patch.setType(RateObjectType.FILM);
+        RatePatchDTO patch = generateObject(RatePatchDTO.class);
+        patch.setCustomerId(rate.getCustomer().getId());
         RateReadDTO read = rateService.patchRate(rate.getId(), patch);
 
         Assertions.assertThat(patch)
@@ -134,10 +107,7 @@ public class RateServiceTest extends BaseTest {
         Rate rate = createRate();
         Customer customer = createCustomer();
 
-        RatePutDTO put = new RatePutDTO();
-        put.setRatedObjectId(UUID.randomUUID());
-        put.setRate(3.0);
-        put.setType(RateObjectType.FILM);
+        RatePutDTO put = generateObject(RatePutDTO.class);
         put.setCustomerId(customer.getId());
         RateReadDTO read = rateService.updateRate(rate.getId(), put);
 
@@ -218,6 +188,7 @@ public class RateServiceTest extends BaseTest {
         Assert.assertEquals(3.5, film.getAverageRate(), Double.MIN_NORMAL);
     }
 
+    //TODO
     @Test
     public void testFilmsUpdatedIndependently() {
         Customer c1 = createCustomer();

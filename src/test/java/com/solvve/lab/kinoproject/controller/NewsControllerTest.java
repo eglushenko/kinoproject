@@ -28,10 +28,7 @@ public class NewsControllerTest extends BaseControllerTest {
     private NewsService newsService;
 
     private NewsReadDTO createNewsRead() {
-        NewsReadDTO read = new NewsReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setTextNews("txt");
-        return read;
+        return generateObject(NewsReadDTO.class);
     }
 
     @Test
@@ -75,8 +72,7 @@ public class NewsControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateNews() throws Exception {
-        NewsCreateDTO create = new NewsCreateDTO();
-        create.setTextNews("txt");
+        NewsCreateDTO create = generateObject(NewsCreateDTO.class);
 
         NewsReadDTO read = createNewsRead();
 
@@ -94,8 +90,7 @@ public class NewsControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchNews() throws Exception {
-        NewsPatchDTO patch = new NewsPatchDTO();
-        patch.setTextNews("txt");
+        NewsPatchDTO patch = generateObject(NewsPatchDTO.class);
 
         NewsReadDTO read = createNewsRead();
 
@@ -112,8 +107,7 @@ public class NewsControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutNews() throws Exception {
-        NewsPutDTO putDTO = new NewsPutDTO();
-        putDTO.setTextNews("txt");
+        NewsPutDTO putDTO = generateObject(NewsPutDTO.class);
 
         NewsReadDTO read = createNewsRead();
 

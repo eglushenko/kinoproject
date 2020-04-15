@@ -28,10 +28,7 @@ public class VideoControllerTest extends BaseControllerTest {
     private VideoService videoService;
 
     private VideoReadDTO createVideoRead() {
-        VideoReadDTO read = new VideoReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setVideoLink("link");
-        return read;
+        return generateObject(VideoReadDTO.class);
     }
 
     @Test
@@ -75,8 +72,7 @@ public class VideoControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateVideo() throws Exception {
-        VideoCreateDTO create = new VideoCreateDTO();
-        create.setVideoLink("link");
+        VideoCreateDTO create = generateObject(VideoCreateDTO.class);
 
         VideoReadDTO read = createVideoRead();
 
@@ -94,8 +90,7 @@ public class VideoControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchVideo() throws Exception {
-        VideoPatchDTO patch = new VideoPatchDTO();
-        patch.setVideoLink("link2");
+        VideoPatchDTO patch = generateObject(VideoPatchDTO.class);
 
         VideoReadDTO read = createVideoRead();
 
@@ -112,8 +107,7 @@ public class VideoControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutVideo() throws Exception {
-        VideoPutDTO putDTO = new VideoPutDTO();
-        putDTO.setVideoLink("link");
+        VideoPutDTO putDTO = generateObject(VideoPutDTO.class);
 
         VideoReadDTO read = createVideoRead();
 

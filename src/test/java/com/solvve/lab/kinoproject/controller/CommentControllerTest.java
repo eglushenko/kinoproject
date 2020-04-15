@@ -15,11 +15,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
-import static com.solvve.lab.kinoproject.enums.CommentStatus.CHECK;
-import static com.solvve.lab.kinoproject.enums.CommentStatus.UNCHECKED;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,12 +27,7 @@ public class CommentControllerTest extends BaseControllerTest {
     private CommentService commentService;
 
     private CommentReadDTO createCommentRead() {
-        CommentReadDTO read = new CommentReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setCommentText("comment text");
-        read.setPostedDate(LocalDate.of(2020, 1, 22));
-        read.setCommentStatus(UNCHECKED);
-        read.setRate(1.1);
+        CommentReadDTO read = generateObject(CommentReadDTO.class);
         return read;
     }
 
@@ -78,11 +70,7 @@ public class CommentControllerTest extends BaseControllerTest {
 
     @Test
     public void testCreateComment() throws Exception {
-        CommentCreateDTO create = new CommentCreateDTO();
-        create.setCommentText("comment text");
-        create.setPostedDate(LocalDate.of(2020, 1, 22));
-        create.setCommentStatus(UNCHECKED);
-        create.setRate(1.1);
+        CommentCreateDTO create = generateObject(CommentCreateDTO.class);
 
         CommentReadDTO read = createCommentRead();
 
@@ -99,11 +87,7 @@ public class CommentControllerTest extends BaseControllerTest {
 
     @Test
     public void testPatchComment() throws Exception {
-        CommentPatchDTO patchDTO = new CommentPatchDTO();
-        patchDTO.setCommentText("comment text");
-        patchDTO.setPostedDate(LocalDate.of(2020, 1, 22));
-        patchDTO.setCommentStatus(CHECK);
-        patchDTO.setRate(1.1);
+        CommentPatchDTO patchDTO = generateObject(CommentPatchDTO.class);
 
         CommentReadDTO read = createCommentRead();
 
@@ -122,11 +106,7 @@ public class CommentControllerTest extends BaseControllerTest {
 
     @Test
     public void testPutComment() throws Exception {
-        CommentPutDTO putDTO = new CommentPutDTO();
-        putDTO.setCommentText("comment text");
-        putDTO.setPostedDate(LocalDate.of(2020, 1, 22));
-        putDTO.setCommentStatus(CHECK);
-        putDTO.setRate(1.1);
+        CommentPutDTO putDTO = generateObject(CommentPutDTO.class);
 
         CommentReadDTO read = createCommentRead();
 

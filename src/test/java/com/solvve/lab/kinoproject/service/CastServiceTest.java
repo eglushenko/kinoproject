@@ -8,7 +8,6 @@ import com.solvve.lab.kinoproject.dto.cast.CastCreateDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPatchDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastPutDTO;
 import com.solvve.lab.kinoproject.dto.cast.CastReadDTO;
-import com.solvve.lab.kinoproject.enums.NameFilmRole;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.CastRepository;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
@@ -37,36 +36,22 @@ public class CastServiceTest extends BaseTest {
     private CastService castService;
 
     private Cast createCast() {
-        Cast cast = new Cast();
+        Cast cast = generateFlatEntityWithoutId(Cast.class);
         Name n = createName();
         Film f = createFilm();
-        cast.setRoleInFilm(NameFilmRole.ACTOR);
-        cast.setNameRoleInFilm("Jhon Dou");
         cast.setName(n);
         cast.setFilm(f);
         return castRepository.save(cast);
     }
 
     private Name createName() {
-        Name name = new Name();
-        name.setFirstName("Jhon");
-        name.setLastName("Dou");
-        name = nameRepository.save(name);
-        return name;
+        Name name = generateFlatEntityWithoutId(Name.class);
+        return nameRepository.save(name);
     }
 
     private Film createFilm() {
-        Film film = new Film();
-        film.setCategory("category");
-        film.setCountry("UA");
-        film.setFilmText("");
-        film.setLang("UA");
-        film.setLength(83);
-        film.setAverageRate(4.3);
-        film.setTitle("LEGO FILM");
-        film.setLastUpdate(Instant.parse("2020-01-03T10:15:30.00Z"));
-        film = filmRepository.save(film);
-        return film;
+        Film film = generateFlatEntityWithoutId(Film.class);
+        return filmRepository.save(film);
 
     }
 
@@ -101,9 +86,7 @@ public class CastServiceTest extends BaseTest {
     public void testCreateCast() {
         Name n = createName();
         Film f = createFilm();
-        CastCreateDTO create = new CastCreateDTO();
-        create.setRoleInFilm(NameFilmRole.ACTOR);
-        create.setNameRoleInFilm("rr");
+        CastCreateDTO create = generateObject(CastCreateDTO.class);
         create.setNameId(n.getId());
         create.setFilmId(f.getId());
         CastReadDTO read = castService.createCast(create);
@@ -120,9 +103,7 @@ public class CastServiceTest extends BaseTest {
         Cast cast = createCast();
         Name n = createName();
         Film f = createFilm();
-        CastPatchDTO patch = new CastPatchDTO();
-        patch.setRoleInFilm(NameFilmRole.ACTOR);
-        patch.setNameRoleInFilm("Jhon Dou");
+        CastPatchDTO patch = generateObject(CastPatchDTO.class);
         patch.setNameId(n.getId());
         patch.setFilmId(f.getId());
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
@@ -164,9 +145,7 @@ public class CastServiceTest extends BaseTest {
         Cast cast = createCast();
         Name name = createName();
         Film f = createFilm();
-        CastPutDTO put = new CastPutDTO();
-        put.setRoleInFilm(NameFilmRole.DIRECTOR);
-        put.setNameRoleInFilm("Jhon Dou");
+        CastPutDTO put = generateObject(CastPutDTO.class);
         put.setNameId(name.getId());
         put.setFilmId(f.getId());
         CastReadDTO read = castService.updateCast(cast.getId(), put);
@@ -195,9 +174,7 @@ public class CastServiceTest extends BaseTest {
     @Test(expected = EntityNotFoundException.class)
     public void testCreateCastWithWrongFilm() {
         Name n = createName();
-        CastCreateDTO create = new CastCreateDTO();
-        create.setNameRoleInFilm("somebody");
-        create.setRoleInFilm(NameFilmRole.ACTOR);
+        CastCreateDTO create = generateObject(CastCreateDTO.class);
         create.setNameId(n.getId());
         create.setFilmId(UUID.randomUUID());
 
