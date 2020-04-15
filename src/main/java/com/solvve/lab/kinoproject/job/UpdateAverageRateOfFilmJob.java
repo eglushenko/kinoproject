@@ -20,6 +20,7 @@ public class UpdateAverageRateOfFilmJob {
     @Autowired
     private FilmService filmService;
 
+    @Transactional(readOnly = true)
     @Scheduled(cron = "${update.average.rate.of.film.job.cron}")
     public void updateAverageRateOfFilm() {
         log.info("Job started");

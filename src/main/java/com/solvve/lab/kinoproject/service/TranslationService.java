@@ -22,8 +22,10 @@ import com.solvve.lab.kinoproject.dto.rate.RateCreateDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePatchDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePutDTO;
 import com.solvve.lab.kinoproject.dto.rate.RateReadDTO;
+import com.solvve.lab.kinoproject.dto.review.ReviewCreateDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPatchDTO;
 import com.solvve.lab.kinoproject.dto.review.ReviewPutDTO;
+import com.solvve.lab.kinoproject.dto.review.ReviewReadDTO;
 import com.solvve.lab.kinoproject.dto.scene.SceneCreateDTO;
 import com.solvve.lab.kinoproject.dto.scene.ScenePatchDTO;
 import com.solvve.lab.kinoproject.dto.scene.ScenePutDTO;
@@ -43,7 +45,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -113,6 +114,8 @@ public class TranslationService {
                 .translationTo(Cast.class);
         fromCreateToEntity.srcProperty("nameId").translatesTo("name.id");
         fromCreateToEntity.srcProperty("filmId").translatesTo("film.id");
+        c.beanOfClass(CastPatchDTO.class).translationTo(Cast.class).mapOnlyNotNullProperties();
+        c.beanOfClass(CastPutDTO.class).translationTo(Cast.class);
     }
 
     private void configurationForRate(Configuration c) {
@@ -122,6 +125,8 @@ public class TranslationService {
         Configuration.Translation fromCreateToEntity = c.beanOfClass(RateCreateDTO.class)
                 .translationTo(Rate.class);
         fromCreateToEntity.srcProperty("customerId").translatesTo("customer.id");
+        c.beanOfClass(RatePatchDTO.class).translationTo(Rate.class).mapOnlyNotNullProperties();
+        c.beanOfClass(RatePutDTO.class).translationTo(Rate.class);
     }
 
     private void configurationForScene(Configuration c) {
@@ -131,6 +136,8 @@ public class TranslationService {
         Configuration.Translation fromCreateToEntity = c.beanOfClass(SceneCreateDTO.class)
                 .translationTo(Scene.class);
         fromCreateToEntity.srcProperty("filmId").translatesTo("film.id");
+        c.beanOfClass(ScenePatchDTO.class).translationTo(Scene.class).mapOnlyNotNullProperties();
+        c.beanOfClass(ScenePutDTO.class).translationTo(Scene.class);
     }
 
     private void configurationForTypo(Configuration c) {
@@ -140,6 +147,8 @@ public class TranslationService {
         Configuration.Translation fromCreateToEntity = c.beanOfClass(TypoCreateDTO.class)
                 .translationTo(Typo.class);
         fromCreateToEntity.srcProperty("customerId").translatesTo("customer.id");
+        c.beanOfClass(TypoPatchDTO.class).translationTo(Typo.class).mapOnlyNotNullProperties();
+        c.beanOfClass(TypoPutDTO.class).translationTo(Typo.class);
     }
 
     private void configurationForVideo(Configuration c) {
@@ -178,6 +187,14 @@ public class TranslationService {
     }
 
     private void configurationForReview(Configuration c) {
+        Configuration.Translation t = c.beanOfClass(Review.class).translationTo(ReviewReadDTO.class);
+        t.srcProperty("customer.id").translatesTo("customerId");
+        t.srcProperty("film.id").translatesTo("filmId");
+
+        Configuration.Translation fromCreateToEntity = c.beanOfClass(ReviewCreateDTO.class)
+                .translationTo(Review.class);
+        fromCreateToEntity.srcProperty("customerId").translatesTo("customer.id");
+        fromCreateToEntity.srcProperty("filmId").translatesTo("film.id");
         c.beanOfClass(ReviewPatchDTO.class).translationTo(Review.class).mapOnlyNotNullProperties();
         c.beanOfClass(ReviewPutDTO.class).translationTo(Review.class);
     }
@@ -190,104 +207,6 @@ public class TranslationService {
         res.setTotalElements(page.getTotalElements());
         res.setData(page.getContent().stream().map(e -> translate(e, dtoType)).collect(Collectors.toList()));
         return res;
-    }
-
-    public <T> List<T> translateList(List<?> objects, Class<T> targetClass) {
-        return objects.stream().map(o -> translate(o, targetClass)).collect(Collectors.toList());
-    }
-
-    //Cast
-    public void patchEntityCast(CastPatchDTO patch, Cast cast) {
-        if (patch.getNameRoleInFilm() != null) {
-            cast.setNameRoleInFilm(patch.getNameRoleInFilm());
-        }
-        if (patch.getRoleInFilm() != null) {
-            cast.setRoleInFilm(patch.getRoleInFilm());
-        }
-        if (patch.getNameId() != null) {
-            cast.setName(repositoryHelper.getReferenceIfExist(Name.class, patch.getNameId()));
-        }
-        if (patch.getFilmId() != null) {
-            cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, patch.getFilmId()));
-        }
-    }
-
-    public void updateEntityCast(CastPutDTO put, Cast cast) {
-        cast.setRoleInFilm(put.getRoleInFilm());
-        cast.setNameRoleInFilm(put.getNameRoleInFilm());
-        cast.setName(repositoryHelper.getReferenceIfExist(Name.class, put.getNameId()));
-        cast.setFilm(repositoryHelper.getReferenceIfExist(Film.class, put.getFilmId()));
-
-    }
-
-    //Typo
-    public void patchEntityTypo(TypoPatchDTO patch, Typo typo) {
-        if (patch.getTypoMessage() != null) {
-            typo.setTypoMessage(patch.getTypoMessage());
-        }
-        if (patch.getErrorText() != null) {
-            typo.setErrorText(patch.getErrorText());
-        }
-        if (patch.getRightText() != null) {
-            typo.setRightText(patch.getRightText());
-        }
-        if (patch.getTypoLink() != null) {
-            typo.setTypoLink(patch.getTypoLink());
-        }
-        if (patch.getStatus() != null) {
-            typo.setStatus(patch.getStatus());
-        }
-        if (patch.getCustomerId() != null) {
-            typo.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, patch.getCustomerId()));
-        }
-
-    }
-
-    public void updateEntityTypo(TypoPutDTO put, Typo typo) {
-        typo.setTypoMessage(put.getTypoMessage());
-        typo.setErrorText(put.getErrorText());
-        typo.setRightText(put.getRightText());
-        typo.setTypoLink(put.getTypoLink());
-        typo.setStatus(put.getStatus());
-        typo.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, put.getCustomerId()));
-    }
-
-    //Scene
-    public void patchEntityScene(ScenePatchDTO patch, Scene scene) {
-        if (patch.getSceneLink() != null) {
-            scene.setSceneLink(patch.getSceneLink());
-        }
-        if (patch.getFilmId() != null) {
-            scene.setFilm(repositoryHelper.getReferenceIfExist(Film.class, patch.getFilmId()));
-        }
-    }
-
-    public void updateEntityScene(ScenePutDTO put, Scene scene) {
-        scene.setSceneLink(put.getSceneLink());
-        scene.setFilm(repositoryHelper.getReferenceIfExist(Film.class, put.getFilmId()));
-    }
-
-    //Rate
-    public void patchEntityRate(RatePatchDTO patch, Rate rate) {
-        if (patch.getCustomerId() != null) {
-            rate.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, patch.getCustomerId()));
-        }
-        if (patch.getRate() != null) {
-            rate.setRate(patch.getRate());
-        }
-        if (patch.getRatedObjectId() != null) {
-            rate.setRatedObjectId(patch.getRatedObjectId());
-        }
-        if (patch.getType() != null) {
-            rate.setType(patch.getType());
-        }
-    }
-
-    public void updateEntityRate(RatePutDTO put, Rate rate) {
-        rate.setCustomer(repositoryHelper.getReferenceIfExist(Customer.class, put.getCustomerId()));
-        rate.setRate(put.getRate());
-        rate.setRatedObjectId(put.getRatedObjectId());
-        rate.setType(put.getType());
     }
 
 }

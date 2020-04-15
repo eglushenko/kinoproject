@@ -42,14 +42,14 @@ public class CastService {
 
     public CastReadDTO patchCast(UUID id, CastPatchDTO patch) {
         Cast cast = getCastRequired(id);
-        translationService.patchEntityCast(patch, cast);
+        translationService.map(patch, cast);
         cast = castRepository.save(cast);
         return translationService.translate(cast, CastReadDTO.class);
     }
 
     public CastReadDTO updateCast(UUID id, CastPutDTO put) {
         Cast cast = getCastRequired(id);
-        translationService.updateEntityCast(put, cast);
+        translationService.map(put, cast);
         cast = castRepository.save(cast);
         return translationService.translate(cast, CastReadDTO.class);
     }

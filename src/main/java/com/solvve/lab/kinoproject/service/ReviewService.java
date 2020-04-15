@@ -48,6 +48,7 @@ public class ReviewService {
     public ReviewReadDTO updateReview(UUID id, ReviewPutDTO put) {
         Review review = getReviewRequired(id);
         translationService.map(put, review);
+        review = reviewRepository.save(review);
         return translationService.translate(review, ReviewReadDTO.class);
     }
 

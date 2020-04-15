@@ -40,14 +40,15 @@ public class SceneService {
 
     public SceneReadDTO patchScene(UUID id, ScenePatchDTO patch) {
         Scene scene = getSceneRequired(id);
-        translationService.patchEntityScene(patch, scene);
+        translationService.map(patch, scene);
         scene = sceneRepository.save(scene);
         return translationService.translate(scene, SceneReadDTO.class);
     }
 
     public SceneReadDTO updateScene(UUID id, ScenePutDTO put) {
         Scene scene = getSceneRequired(id);
-        translationService.updateEntityScene(put, scene);
+        translationService.map(put, scene);
+        scene = sceneRepository.save(scene);
         return translationService.translate(scene, SceneReadDTO.class);
     }
 

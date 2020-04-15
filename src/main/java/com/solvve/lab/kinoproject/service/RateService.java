@@ -42,14 +42,14 @@ public class RateService {
 
     public RateReadDTO patchRate(UUID id, RatePatchDTO patch) {
         Rate rate = getRateRequired(id);
-        translationService.patchEntityRate(patch, rate);
+        translationService.map(patch, rate);
         rate = rateRepository.save(rate);
         return translationService.translate(rate, RateReadDTO.class);
     }
 
     public RateReadDTO updateRate(UUID id, RatePutDTO put) {
         Rate rate = getRateRequired(id);
-        translationService.updateEntityRate(put, rate);
+        translationService.map(put, rate);
         rate = rateRepository.save(rate);
         return translationService.translate(rate, RateReadDTO.class);
     }

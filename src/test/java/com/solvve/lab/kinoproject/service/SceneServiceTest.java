@@ -36,9 +36,9 @@ public class SceneServiceTest extends BaseTest {
 
 
     private Scene createScene() {
-        Film film = createFilm();
+        Film f = createFilm();
         Scene scene = generateFlatEntityWithoutId(Scene.class);
-        scene.setFilm(film);
+        scene.setFilm(f);
         return sceneRepository.save(scene);
     }
 

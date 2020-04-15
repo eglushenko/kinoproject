@@ -17,7 +17,6 @@ import com.solvve.lab.kinoproject.repository.RateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
@@ -187,47 +186,5 @@ public class RateServiceTest extends BaseTest {
         film = filmRepository.findById(film.getId()).get();
         Assert.assertEquals(3.5, film.getAverageRate(), Double.MIN_NORMAL);
     }
-
-    //TODO
-    @Test
-    public void testFilmsUpdatedIndependently() {
-        Customer c1 = createCustomer();
-        Customer c2 = createCustomer();
-        Film film = createFilm();
-
-        Rate r1 = new Rate();
-        r1.setCustomer(c1);
-        r1.setType(RateObjectType.FILM);
-        r1.setRate(2.0);
-        r1.setRatedObjectId(film.getId());
-        rateRepository.save(r1);
-
-        Rate r2 = new Rate();
-        r2.setCustomer(c2);
-        r2.setType(RateObjectType.FILM);
-        r2.setRate(5.0);
-        r2.setRatedObjectId(film.getId());
-        rateRepository.save(r2);
-
-        UUID[] filedId = new UUID[1];
-        Mockito.doAnswer(invocationOnMock -> {
-            if (filedId[0] == null) {
-                filedId[0] = invocationOnMock.getArgument(0);
-                throw new RuntimeException();
-            }
-            return invocationOnMock.callRealMethod();
-        }).when(filmService).updateAverageRateOfFilm(Mockito.any());
-
-        updateAverageRateOfFilmJob.updateAverageRateOfFilm();
-
-        for (Film f : filmRepository.findAll()) {
-            if (f.getId().equals(filedId[0])) {
-                Assert.assertNull(f.getAverageRate());
-            } else {
-                Assert.assertNotNull(f.getAverageRate());
-            }
-        }
-    }
-
 
 }

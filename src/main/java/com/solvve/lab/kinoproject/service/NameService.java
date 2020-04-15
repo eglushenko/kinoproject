@@ -47,6 +47,7 @@ public class NameService {
     public NameReadDTO updateName(UUID id, NamePutDTO put) {
         Name name = getNameRequired(id);
         translationService.map(put, name);
+        name = nameRepository.save(name);
         return translationService.translate(name, NameReadDTO.class);
     }
 

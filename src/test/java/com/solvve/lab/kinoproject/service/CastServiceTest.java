@@ -109,7 +109,7 @@ public class CastServiceTest extends BaseTest {
         CastReadDTO read = castService.patchCast(cast.getId(), patch);
 
         Assertions.assertThat(patch).isEqualToIgnoringGivenFields(read,
-                "film", "name", "createdAt", "updatedAt");
+                "filmId", "nameId", "createdAt", "updatedAt");
 
         cast = castRepository.findById(read.getId()).get();
         Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read,
@@ -150,7 +150,7 @@ public class CastServiceTest extends BaseTest {
         put.setFilmId(f.getId());
         CastReadDTO read = castService.updateCast(cast.getId(), put);
         Assertions.assertThat(put).isEqualToIgnoringGivenFields(read,
-                "film", "name", "createdAt", "updatedAt");
+                "filmId", "nameId", "createdAt", "updatedAt");
 
         cast = castRepository.findById(read.getId()).get();
         Assertions.assertThat(cast).isEqualToIgnoringGivenFields(read,

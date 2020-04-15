@@ -54,14 +54,14 @@ public class TypoService {
 
     public TypoReadDTO patchTypo(UUID id, TypoPatchDTO patch) {
         Typo typo = getTypoRequired(id);
-        translationService.patchEntityTypo(patch, typo);
+        translationService.map(patch, typo);
         typo = typoRepository.save(typo);
         return translationService.translate(typo, TypoReadDTO.class);
     }
 
     public TypoReadDTO updateTypo(UUID id, TypoPutDTO put) {
         Typo typo = getTypoRequired(id);
-        translationService.updateEntityTypo(put, typo);
+        translationService.map(put, typo);
         typo = typoRepository.save(typo);
         return translationService.translate(typo, TypoReadDTO.class);
     }
