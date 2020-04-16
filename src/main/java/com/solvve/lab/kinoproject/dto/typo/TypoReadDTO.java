@@ -15,6 +15,7 @@ public class TypoReadDTO {
     private String typoLink;
     private TypoStatus status;
     private UUID customerId;
+    private UUID userId;
     private Instant createdAt;
     private Instant updatedAt;
 }

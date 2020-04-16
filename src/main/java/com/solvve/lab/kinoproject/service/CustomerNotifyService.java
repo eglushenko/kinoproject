@@ -26,9 +26,12 @@ public class CustomerNotifyService {
 
     public void notifyOnTypoStatusChangedToClosed(UUID id) {
         if (id != null) {
-            UUID customer = repositoryHelper.getReferenceIfExist(Typo.class, id).getCustomer().getId();
-            String email = repositoryHelper.getReferenceIfExist(Customer.class, customer).getEmail();
-            emailSender(email);
+            UUID userId = repositoryHelper.getReferenceIfExist(Typo.class, id).getUserId();
+            if (userId != null) {
+                String email = repositoryHelper.getReferenceIfExist(Customer.class, userId).getEmail();
+                emailSender(email);
+            }
+
         }
 
     }

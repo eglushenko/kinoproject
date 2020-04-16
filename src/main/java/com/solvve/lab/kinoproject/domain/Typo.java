@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -29,6 +30,8 @@ public class Typo extends AbstractEntity {
 
     @ManyToOne
     private Customer customer;
+
+    private UUID userId;
 
     @CreatedDate
     private Instant createdAt;

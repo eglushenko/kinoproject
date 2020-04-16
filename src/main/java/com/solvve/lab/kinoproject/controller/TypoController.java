@@ -29,7 +29,8 @@ public class TypoController {
     }
 
     @PostMapping("/{id}/fix/{objectId}/")
-    public void fixTypo(@PathVariable UUID id, UUID objectId, String status, @RequestParam UUID customerId) {
+    public void fixTypo(@PathVariable UUID id, UUID objectId, String status,
+                        @RequestParam UUID customerId) {
         typoService.fixTypoNews(id, objectId, customerId);
     }
 

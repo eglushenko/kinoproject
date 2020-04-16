@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="val" dbms="postgresql" value="test"/>
+    <property name="val" dbms="h2" value="testdb"/>
+
+    <changeSet id="19-1" author="eglushenko">
+        <createTable tableName="film_genere">
+            <column name="film_id" type="uuid">
+                <constraints foreignKeyName="uur_film_fk"
+                             references="film(id)" nullable="false" deleteCascade="true"/>
+            </column>
+            <column name="genere_id" type="uuid">
+                <constraints foreignKeyName="uur_genere_fk"
+                             references="genere(id)" nullable="false" deleteCascade="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="19-2" author="eglushenko">
+
+        <addColumn catalogName="${val}" schemaName="public" tableName="typo">
+            <column name="user_id" type="uuid"/>
+        </addColumn>
+
+    </changeSet>
+
+</databaseChangeLog>

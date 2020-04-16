@@ -13,5 +13,7 @@ public class TypoPutDTO {
     private String typoLink;
     private TypoStatus status;
     private UUID customerId;
+    private UUID userId;
+
 
 }

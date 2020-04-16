@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,5 +18,7 @@ public class Genere extends AbstractEntity {
 
     private String genreDescription;
 
+    @ManyToMany(mappedBy = "filmGeneres")
+    private List<Film> films = new ArrayList<>();
 
 }

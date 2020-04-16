@@ -10,7 +10,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -52,6 +54,12 @@ public class Film extends AbstractEntity {
             fetch = FetchType.LAZY,
             mappedBy = "film")
     private Set<Review> reviews = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "film_genere",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "genere_id"))
+    private List<Genere> filmGeneres = new ArrayList<>();
 
     @CreatedDate
     private Instant createdAt;
