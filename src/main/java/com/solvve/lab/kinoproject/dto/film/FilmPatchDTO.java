@@ -1,5 +1,6 @@
 package com.solvve.lab.kinoproject.dto.film;
 
+import com.solvve.lab.kinoproject.enums.FilmStatus;
 import com.solvve.lab.kinoproject.enums.RateMPAA;
 import lombok.Data;
 
@@ -8,6 +9,11 @@ import java.time.Instant;
 @Data
 public class FilmPatchDTO {
     private String title;
+    private Boolean adult;
+    private Integer budget;
+    private String homePage;
+    private FilmStatus status;
+    private Integer rateCount;
     private String country;
     private String lang;
     private Double averageRate;

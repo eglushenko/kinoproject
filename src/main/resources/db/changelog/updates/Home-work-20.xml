@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <property name="val" dbms="postgresql" value="test"/>
+    <property name="val" dbms="h2" value="testdb"/>
+
+    <changeSet id="20-1" author="eglushenko">
+
+        <addColumn catalogName="${val}" schemaName="public" tableName="film">
+            <column name="adult" type="boolean"/>
+            <column name="budget" type="int"/>
+            <column name="home_page" type="varchar(225)"/>
+            <column name="status" type="varchar(30)"/>
+            <column name="rate_count" type="int"/>
+        </addColumn>
+
+    </changeSet>
+
+</databaseChangeLog>

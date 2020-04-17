@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.domain;
 
 
+import com.solvve.lab.kinoproject.enums.FilmStatus;
 import com.solvve.lab.kinoproject.enums.RateMPAA;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,13 @@ import java.util.Set;
 public class Film extends AbstractEntity {
 
     private String title;
+    private Boolean adult;
+    private Integer budget;
+    private String homePage;
+
+    @Enumerated(EnumType.STRING)
+    private FilmStatus status;
+    private Integer rateCount;
     private String country;
     private String lang;
     private Double averageRate;
