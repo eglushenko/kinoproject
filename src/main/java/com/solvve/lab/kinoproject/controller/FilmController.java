@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.controller;
 
 
+import com.solvve.lab.kinoproject.controller.validation.ControllerValidationUtil;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.PageResult;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,8 +43,10 @@ public class FilmController {
     }
 
     @PostMapping
-    public FilmReadDTO createFilm(@RequestBody FilmCreateDTO createDTO) {
-        return filmService.createFilm(createDTO);
+    public FilmReadDTO createFilm(@RequestBody @Valid FilmCreateDTO create) {
+        ControllerValidationUtil.validateNotEquals(create.getRealiseYear(), create.getLastUpdate(),
+                "realise_year", "last_update");
+        return filmService.createFilm(create);
     }
 
     @PatchMapping("/{id}")

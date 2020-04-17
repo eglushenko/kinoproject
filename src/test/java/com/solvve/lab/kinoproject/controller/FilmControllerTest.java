@@ -9,11 +9,14 @@ import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
+import com.solvve.lab.kinoproject.exception.ControllerValidationException;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
+import com.solvve.lab.kinoproject.exception.hander.ErrorInfo;
 import com.solvve.lab.kinoproject.service.FilmService;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -244,6 +247,27 @@ public class FilmControllerTest extends BaseControllerTest {
         PageResult<FilmReadDTO> actualPage = objectMapper.readValue(resultJson, new TypeReference<>() {
         });
         Assert.assertEquals(resultPage, actualPage);
+    }
+
+    @Test
+    public void testCreateFilmWrongDates() throws Exception {
+        Instant date = Instant.now();
+        FilmCreateDTO create = new FilmCreateDTO();
+        create.setRealiseYear(date);
+        create.setLastUpdate(date);
+
+        String resultJson = mvc.perform(post("/api/v1/films")
+                .content(objectMapper.writeValueAsString(create))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()).andReturn().getResponse().getContentAsString();
+
+        ErrorInfo errorInfo = objectMapper.readValue(resultJson, ErrorInfo.class);
+        Assert.assertTrue(errorInfo.getMsg().contains("realise_year"));
+        Assert.assertTrue(errorInfo.getMsg().contains("last_update"));
+        Assert.assertEquals(ControllerValidationException.class, errorInfo.getExeptionClass());
+
+        Mockito.verify(filmService, Mockito.never()).createFilm(ArgumentMatchers.any());
+
     }
 
 
