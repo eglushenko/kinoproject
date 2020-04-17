@@ -2,7 +2,6 @@ package com.solvve.lab.kinoproject.repository;
 
 import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.domain.Customer;
-import com.solvve.lab.kinoproject.enums.Gender;
 import com.solvve.lab.kinoproject.enums.Role;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -21,13 +20,7 @@ public class CustomerRepositoryTest extends BaseTest {
     private CustomerRepository customerRepository;
 
     private Customer createCustomer() {
-        Customer customer = new Customer();
-        customer.setLogin("user");
-        customer.setFirstName("Jhon");
-        customer.setLastName("Dou");
-        customer.setEmail("mail@mail.ua");
-        customer.setRole(Role.USER);
-        customer.setGender(Gender.MALE);
+        Customer customer = generateFlatEntityWithoutId(Customer.class);
         return customerRepository.save(customer);
     }
 

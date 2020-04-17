@@ -145,6 +145,17 @@
             <artifactId>bean-randomizer</artifactId>
             <version>1.0.8</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.database-rider</groupId>
+            <artifactId>rider-spring</artifactId>
+            <version>1.10.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bitbucket.brunneng.qb</groupId>
+            <artifactId>query-builder</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
 
 </project>

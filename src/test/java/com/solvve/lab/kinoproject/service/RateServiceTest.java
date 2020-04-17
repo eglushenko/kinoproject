@@ -8,7 +8,6 @@ import com.solvve.lab.kinoproject.dto.rate.RateCreateDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePatchDTO;
 import com.solvve.lab.kinoproject.dto.rate.RatePutDTO;
 import com.solvve.lab.kinoproject.dto.rate.RateReadDTO;
-import com.solvve.lab.kinoproject.enums.RateObjectType;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.job.UpdateAverageRateOfFilmJob;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
@@ -18,7 +17,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 
 import java.util.UUID;
 
@@ -30,9 +28,6 @@ public class RateServiceTest extends BaseTest {
 
     @Autowired
     private RateService rateService;
-
-    @SpyBean
-    private FilmService filmService;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -157,34 +152,6 @@ public class RateServiceTest extends BaseTest {
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteRateNotFoundId() {
         rateService.deleteRate(UUID.randomUUID());
-    }
-
-    @Test
-    public void testUpdateAverageRateOfFilms() {
-        Customer c1 = createCustomer();
-        Customer c2 = createCustomer();
-        Film film = createFilm();
-        film.setAverageRate(0.0);
-        filmRepository.save(film);
-
-        Rate r1 = new Rate();
-        r1.setCustomer(c1);
-        r1.setType(RateObjectType.FILM);
-        r1.setRate(2.0);
-        r1.setRatedObjectId(film.getId());
-        rateRepository.save(r1);
-
-        Rate r2 = new Rate();
-        r2.setCustomer(c2);
-        r2.setType(RateObjectType.FILM);
-        r2.setRate(5.0);
-        r2.setRatedObjectId(film.getId());
-        rateRepository.save(r2);
-
-        updateAverageRateOfFilmJob.updateAverageRateOfFilm();
-
-        film = filmRepository.findById(film.getId()).get();
-        Assert.assertEquals(3.5, film.getAverageRate(), Double.MIN_NORMAL);
     }
 
 }

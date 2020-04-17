@@ -4,15 +4,13 @@ package com.solvve.lab.kinoproject.controller;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.PageResult;
-import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
+import com.solvve.lab.kinoproject.dto.film.*;
 import com.solvve.lab.kinoproject.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -25,6 +23,11 @@ public class FilmController {
     @GetMapping
     public PageResult<FilmReadDTO> getFilms(FilmFilter filter, Pageable pageable) {
         return filmService.getFilms(filter, pageable);
+    }
+
+    @GetMapping("/top-rated")
+    public List<FilmTopRatedReadDTO> getTopRatedFilms() {
+        return filmService.getTopRatedFilms();
     }
 
     @GetMapping("/{id}")

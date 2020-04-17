@@ -1,15 +1,20 @@
 package com.solvve.lab.kinoproject.service;
 
 import com.solvve.lab.kinoproject.BaseTest;
+import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.domain.Rate;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
 import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
+import com.solvve.lab.kinoproject.enums.RateObjectType;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
+import com.solvve.lab.kinoproject.repository.CustomerRepository;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
+import com.solvve.lab.kinoproject.repository.RateRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,7 +31,13 @@ import java.util.UUID;
 public class FilmServiceTest extends BaseTest {
 
     @Autowired
-    FilmRepository filmRepository;
+    private FilmRepository filmRepository;
+
+    @Autowired
+    private RateRepository rateRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Autowired
     private FilmService filmService;
@@ -34,6 +45,11 @@ public class FilmServiceTest extends BaseTest {
     private Film createFilm() {
         Film film = generateFlatEntityWithoutId(Film.class);
         return filmRepository.save(film);
+    }
+
+    private Customer createCustomer() {
+        Customer customer = generateFlatEntityWithoutId(Customer.class);
+        return customerRepository.save(customer);
     }
 
     @Test
@@ -306,6 +322,35 @@ public class FilmServiceTest extends BaseTest {
         PageRequest pageRequest = PageRequest.of(1, 2, Sort.by(Sort.Direction.DESC, "length"));
         Assertions.assertThat(filmService.getFilms(filter, pageRequest).getData()).extracting("id")
                 .isEqualTo(Arrays.asList(film2.getId(), film1.getId()));
+    }
+
+    @Test
+    public void updateAverageRateFilms() {
+        Customer c1 = createCustomer();
+        Customer c2 = createCustomer();
+        Film film = createFilm();
+        film.setAverageRate(0.0);
+        filmRepository.save(film);
+
+        Rate r1 = new Rate();
+        r1.setCustomer(c1);
+        r1.setType(RateObjectType.FILM);
+        r1.setRate(2.0);
+        r1.setRatedObjectId(film.getId());
+        rateRepository.save(r1);
+
+        Rate r2 = new Rate();
+        r2.setCustomer(c2);
+        r2.setType(RateObjectType.FILM);
+        r2.setRate(5.0);
+        r2.setRatedObjectId(film.getId());
+        rateRepository.save(r2);
+
+        filmService.updateAverageRateOfFilm(film.getId());
+
+        film = filmRepository.findById(film.getId()).get();
+        Assert.assertEquals(3.5, film.getAverageRate(), Double.MIN_NORMAL);
+
     }
 
 

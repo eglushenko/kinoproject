@@ -129,5 +129,4 @@ public class TypoControllerTest extends BaseControllerTest {
         Mockito.verify(typoService).deleteTypo(id);
     }
 
-
 }

@@ -5,10 +5,7 @@ import com.solvve.lab.kinoproject.domain.Film;
 import com.solvve.lab.kinoproject.dto.FilmFilter;
 import com.solvve.lab.kinoproject.dto.FilmReadExtendedDTO;
 import com.solvve.lab.kinoproject.dto.PageResult;
-import com.solvve.lab.kinoproject.dto.film.FilmCreateDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmPatchDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmPutDTO;
-import com.solvve.lab.kinoproject.dto.film.FilmReadDTO;
+import com.solvve.lab.kinoproject.dto.film.*;
 import com.solvve.lab.kinoproject.exception.EntityNotFoundException;
 import com.solvve.lab.kinoproject.repository.FilmRepository;
 import com.solvve.lab.kinoproject.repository.RateRepository;
@@ -20,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -89,5 +87,9 @@ public class FilmService {
         film.setAverageRate(averageRate);
         filmRepository.save(film);
 
+    }
+
+    public List<FilmTopRatedReadDTO> getTopRatedFilms() {
+        return filmRepository.getTopRatedFilms();
     }
 }

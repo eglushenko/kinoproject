@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<dataset>
+    <FILM ID="uuid'f341ad89-6140-4bdb-a7c8-eb9e266230f4'"/>
+    <CUSTOMER ID="uuid'aaa580ea-7e28-4645-8586-c60413a9cfef'"/>
+    <CUSTOMER ID="uuid'617e4a88-dda4-403a-a082-429b84de0c1a'"/>
+    <RATE ID="uuid'30c0c60d-9f27-41db-a8d7-43c175592063'"
+          RATED_OBJECT_ID="uuid'f341ad89-6140-4bdb-a7c8-eb9e266230f4'"
+          TYPE="FILM"
+          CUSTOMER_ID="uuid'aaa580ea-7e28-4645-8586-c60413a9cfef'"
+          RATE="2"/>
+    <RATE ID="uuid'5fc3855b-4e6b-42dc-a0f9-db1b1b14b304'"
+          RATED_OBJECT_ID="uuid'f341ad89-6140-4bdb-a7c8-eb9e266230f4'"
+          TYPE="FILM"
+          CUSTOMER_ID="uuid'617e4a88-dda4-403a-a082-429b84de0c1a'"
+          RATE="5"/>
+</dataset>
+

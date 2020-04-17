@@ -2,7 +2,11 @@ package com.solvve.lab.kinoproject.repository;
 
 
 import com.solvve.lab.kinoproject.BaseTest;
+import com.solvve.lab.kinoproject.domain.Customer;
 import com.solvve.lab.kinoproject.domain.Film;
+import com.solvve.lab.kinoproject.domain.Rate;
+import com.solvve.lab.kinoproject.dto.film.FilmTopRatedReadDTO;
+import com.solvve.lab.kinoproject.enums.RateObjectType;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,10 +16,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,22 +29,33 @@ public class FilmRepositoryTest extends BaseTest {
     private FilmRepository filmRepository;
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private RateRepository rateRepository;
+
+    @Autowired
     private TransactionTemplate transactionTemplate;
 
+    private Customer createCustomer() {
+        Customer customer = generateFlatEntityWithoutId(Customer.class);
+        return customerRepository.save(customer);
+    }
 
     private Film createFilm() {
-        ZoneOffset utc = ZoneOffset.UTC;
-        Film film = new Film();
-        film.setCategory("category");
-        film.setCountry("UA");
-        film.setFilmText("");
-        film.setLang("en");
-        film.setLength(83);
-        film.setAverageRate(4.3);
-        film.setTitle("LEGO FILM");
-        film.setRealiseYear(LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc));
-        film.setLastUpdate(LocalDateTime.of(2019, 12, 01, 17, 01).toInstant(utc));
+        Film film = generateFlatEntityWithoutId(Film.class);
         return filmRepository.save(film);
+    }
+
+    private Rate createRate(UUID id, Customer customer, boolean mark) {
+        Rate rate = new Rate();
+        rate.setRatedObjectId(id);
+        rate.setType(RateObjectType.FILM);
+        if (mark) {
+            rate.setRate(1.0);
+        }
+        rate.setCustomer(customer);
+        return rateRepository.save(rate);
     }
 
     @Test
@@ -128,6 +140,33 @@ public class FilmRepositoryTest extends BaseTest {
                     .collect(Collectors.toSet())));
         });
 
+    }
+
+    @Test
+    public void testGetTopRatedFilms() {
+        Customer customer = createCustomer();
+
+        int filmCount = 100;
+        Set<UUID> filmsIds = new HashSet<>();
+        for (int i = 0; i < filmCount; ++i) {
+            Film f = createFilm();
+            filmsIds.add(f.getId());
+
+            createRate(f.getId(), customer, true);
+            createRate(f.getId(), customer, true);
+            createRate(f.getId(), customer, false);
+        }
+        List<FilmTopRatedReadDTO> topRatedFilms = filmRepository.getTopRatedFilms();
+        Assertions.assertThat(topRatedFilms).isSortedAccordingTo(
+                Comparator.comparing(FilmTopRatedReadDTO::getAverageRate).reversed());
+
+        Assert.assertEquals(filmsIds, topRatedFilms.stream().map(FilmTopRatedReadDTO::getId)
+                .collect(Collectors.toSet()));
+        for (FilmTopRatedReadDTO f : topRatedFilms) {
+            Assert.assertNotNull(f.getTitle());
+            Assert.assertNotNull(f.getAverageRate());
+            Assert.assertEquals(2, f.getCount());
+        }
     }
 
 
