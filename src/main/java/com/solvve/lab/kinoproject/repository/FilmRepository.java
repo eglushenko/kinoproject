@@ -18,8 +18,8 @@ public interface FilmRepository extends CrudRepository<Film, UUID>, FilmReposito
     List<Film> findByAverageRateGreaterThan(Double rate);
 
     @Query("select new com.solvve.lab.kinoproject.dto.film.FilmTopRatedReadDTO(f.id, f.title, f.averageRate,"
-            + "(select count(v) from Rate v where v.ratedObjectId = f.id and v.rate is not null))" +
-            " from Film f order by f.averageRate desc")
+            + "(select count(v) from Rate v where v.ratedObjectId = f.id and v.rate is not null))"
+            + " from Film f order by f.averageRate desc")
     List<FilmTopRatedReadDTO> getTopRatedFilms();
 
     @Query("select f from Film f where f.lang = :lang and f.averageRate >= :averageRate"

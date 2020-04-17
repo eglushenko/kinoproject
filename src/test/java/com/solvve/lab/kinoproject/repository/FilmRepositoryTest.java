@@ -83,16 +83,24 @@ public class FilmRepositoryTest extends BaseTest {
     @Test
     public void testGetFilmInIntervalAndParametrs() {
         ZoneOffset utc = ZoneOffset.UTC;
+        Instant realiseYear = LocalDateTime.of(2018, 01, 01, 00, 01).toInstant(utc);
+        Instant last = LocalDateTime.of(2019, 12, 01, 00, 01).toInstant(utc);
         Film film1 = createFilm();
+        film1.setLang("en");
+        film1.setAverageRate(1.1);
+        film1.setRealiseYear(realiseYear);
+        film1.setLastUpdate(last);
+        filmRepository.save(film1);
         Film film2 = createFilm();
+        film2.setAverageRate(1.1);
+        film2.setLang("en");
+        film2.setRealiseYear(realiseYear);
+        film2.setLastUpdate(last);
+        filmRepository.save(film2);
         Film film3 = createFilm();
-        film3.setRealiseYear(LocalDateTime.of(2018, 01, 01, 00, 01).toInstant(utc));
-        film3.setLastUpdate(LocalDateTime.of(2018, 01, 01, 00, 01).toInstant(utc));
-        filmRepository.save(film3);
 
-        Instant lastUpdate = LocalDateTime.of(2019, 12, 01, 00, 01).toInstant(utc);
-        Instant param2 = LocalDateTime.of(2019, 01, 01, 00, 01).toInstant(utc);
-        List<Film> res = filmRepository.findFilmSortedByRealiseYearAndLastUpdate("en", 1.1, lastUpdate, param2);
+        List<Film> res = filmRepository.findFilmSortedByRealiseYearAndLastUpdate("en",
+                1.1, last, realiseYear);
         Assertions.assertThat(res).extracting(Film::getId).containsExactlyInAnyOrder(film1.getId(), film2.getId());
 
     }
