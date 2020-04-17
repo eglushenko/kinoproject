@@ -16,7 +16,6 @@ import com.solvve.lab.kinoproject.exception.EntityWrongStatusException;
 import com.solvve.lab.kinoproject.job.UpdateTypoStatusCheckingToOpenJob;
 import com.solvve.lab.kinoproject.repository.CustomerRepository;
 import com.solvve.lab.kinoproject.repository.NewsRepository;
-import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import com.solvve.lab.kinoproject.repository.TypoRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -39,9 +38,6 @@ public class TypoServiceTest extends BaseTest {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @Autowired
-    private RepositoryHelper repositoryHelper;
 
     @Autowired
     private UpdateTypoStatusCheckingToOpenJob updateTypoStatusCheckingToOpenJob;
@@ -203,7 +199,6 @@ public class TypoServiceTest extends BaseTest {
     @Test
     public void testDeleteTypo() {
         Typo typo = createTypo();
-
         typoService.deleteTypo(typo.getId());
 
         Assert.assertFalse(typoRepository.existsById(typo.getId()));
@@ -212,5 +207,17 @@ public class TypoServiceTest extends BaseTest {
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteTypoNotFoundId() {
         typoService.deleteTypo(UUID.randomUUID());
+    }
+
+    @Test
+    public void testUpdateStatusChecking() {
+        Typo typo = createTypo();
+        typo.setStatus(TypoStatus.CHECKING);
+        typo = typoRepository.save(typo);
+        typoService.updateStatusChecking(typo.getId());
+
+        Typo read = typoRepository.findById(typo.getId()).get();
+
+        Assert.assertTrue(read.getStatus().equals(TypoStatus.OPEN));
     }
 }

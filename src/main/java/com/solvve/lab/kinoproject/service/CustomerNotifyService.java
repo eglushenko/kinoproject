@@ -8,6 +8,7 @@ import com.solvve.lab.kinoproject.repository.RepositoryHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -24,24 +25,22 @@ public class CustomerNotifyService {
         // EmailSender loghic
     }
 
+    @Transactional
     public void notifyOnTypoStatusChangedToClosed(UUID id) {
-        if (id != null) {
-            UUID userId = repositoryHelper.getReferenceIfExist(Typo.class, id).getUserId();
-            if (userId != null) {
-                String email = repositoryHelper.getReferenceIfExist(Customer.class, userId).getEmail();
-                emailSender(email);
-            }
-
-        }
+        UUID userId = repositoryHelper.getReferenceIfExist(Typo.class, id).getUserId();
+        String email = repositoryHelper.getReferenceIfExist(Customer.class, userId).getEmail();
+        emailSender(email);
 
     }
 
+    @Transactional
     public void notifyOnReviewStatusChangedToPublished(UUID id) {
-        if (id != null) {
-            UUID customer = repositoryHelper.getReferenceIfExist(Review.class, id).getCustomer().getId();
-            String email = repositoryHelper.getReferenceIfExist(Customer.class, customer).getEmail();
-            emailSender(email);
-        }
+
+        UUID customer = repositoryHelper.getReferenceIfExist(Review.class, id).getCustomer().getId();
+        String email = repositoryHelper.getReferenceIfExist(Customer.class, customer).getEmail();
+        emailSender(email);
+
+
     }
 
 }
