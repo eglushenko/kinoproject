@@ -17,6 +17,7 @@
             <column name="home_page" type="varchar(225)"/>
             <column name="status" type="varchar(30)"/>
             <column name="rate_count" type="int"/>
+            <column name="original_title" type="varchar"/>
         </addColumn>
 
     </changeSet>

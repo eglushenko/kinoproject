@@ -12,6 +12,7 @@ public class FilmCreateDTO {
     private Boolean adult;
     private Integer budget;
     private String homePage;
+    private String originalTitle;
     private FilmStatus status;
     private Integer rateCount;
     private String country;

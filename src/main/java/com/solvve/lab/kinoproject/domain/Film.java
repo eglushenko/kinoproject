@@ -27,6 +27,7 @@ public class Film extends AbstractEntity {
     private Boolean adult;
     private Integer budget;
     private String homePage;
+    private String originalTitle;
 
     @Enumerated(EnumType.STRING)
     private FilmStatus status;
