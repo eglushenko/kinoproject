@@ -30,5 +30,7 @@ public interface FilmRepository extends CrudRepository<Film, UUID>, FilmReposito
     @Query("select f.id from Film f")
     Stream<UUID> getIdsOfFilms();
 
+    Film findByOriginalTitle(String title);
+
 
 }

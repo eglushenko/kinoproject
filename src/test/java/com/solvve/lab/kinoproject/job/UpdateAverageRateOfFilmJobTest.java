@@ -78,6 +78,8 @@ public class UpdateAverageRateOfFilmJobTest extends BaseTest {
         Customer c1 = createCustomer();
         Customer c2 = createCustomer();
         Film film = createFilm();
+        film.setAverageRate(null);
+        filmRepository.save(film);
 
         Rate r1 = new Rate();
         r1.setCustomer(c1);
