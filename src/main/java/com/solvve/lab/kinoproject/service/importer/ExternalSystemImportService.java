@@ -31,8 +31,8 @@ public class ExternalSystemImportService {
     public void validateNotImported(Class<? extends AbstractEntity> entityToImport,
                                     String idInExternalSystem) throws ImportAlreadyPerformedException {
         ImportEntityType importEntityType = getImportEntityType(entityToImport);
-        ExternalSystemImport esi = externalSystemImportRepository.
-                findByEntityExternalIdAndEntityType(idInExternalSystem, importEntityType);
+        ExternalSystemImport esi = externalSystemImportRepository
+                .findByEntityExternalIdAndEntityType(idInExternalSystem, importEntityType);
         if (esi != null) {
             throw new ImportAlreadyPerformedException(esi);
         }
