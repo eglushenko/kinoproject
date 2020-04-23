@@ -55,8 +55,7 @@ public class CastRepositoryTest extends BaseTest {
 
     private Name createName() {
         Name name = new Name();
-        name.setFirstName("Jhon");
-        name.setLastName("Dou");
+        name.setName("Jhon");
         return nameRepository.save(name);
     }
 

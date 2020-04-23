@@ -4,6 +4,7 @@ import com.solvve.lab.kinoproject.BaseTest;
 import com.solvve.lab.kinoproject.client.themoviedb.dto.MovieReadDTO;
 import com.solvve.lab.kinoproject.client.themoviedb.dto.MovieReadShortDTO;
 import com.solvve.lab.kinoproject.client.themoviedb.dto.MoviesPageDTO;
+import com.solvve.lab.kinoproject.client.themoviedb.dto.PersonReadDTO;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,14 @@ public class TheMovieDbClientTest extends BaseTest {
         }
 
 
+    }
+
+    @Test
+    public void testGetPerson() {
+        String personId = "287";
+        PersonReadDTO person = theMovieDbClient.getPerson(personId);
+        Assert.assertEquals(personId, person.getId());
+        Assert.assertEquals("Brad Pitt", person.getName());
     }
 
 

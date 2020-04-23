@@ -1,4 +1,4 @@
-id;first_name;last_name
-ea8b5802-9d4e-47b8-acc8-e441cff5fe28;Jhon;Smith
-83ee7389-2d55-403f-9435-64637456808c;Губка;Боб
-a5423c08-8662-4363-9983-d84a5545f6fd;Will;Smith
+id;name
+ea8b5802-9d4e-47b8-acc8-e441cff5fe28;Jhon Smith
+83ee7389-2d55-403f-9435-64637456808c;Губка Боб
+a5423c08-8662-4363-9983-d84a5545f6fd;Will Smith

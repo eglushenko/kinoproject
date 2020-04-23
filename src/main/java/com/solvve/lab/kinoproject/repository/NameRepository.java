@@ -9,4 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface NameRepository extends CrudRepository<Name, UUID> {
+    Name findByName(String name);
 }

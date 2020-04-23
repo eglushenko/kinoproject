@@ -97,13 +97,13 @@ public class NameServiceTest extends BaseTest {
 
         NameReadDTO read = nameService.patchName(name.getId(), patch);
 
-        Assert.assertNotNull(read.getFirstName());
-        Assert.assertNotNull(read.getLastName());
+        Assert.assertNotNull(read.getBiography());
+        Assert.assertNotNull(read.getGender());
 
         Name nameAfterUpdate = nameRepository.findById(read.getId()).get();
 
-        Assert.assertNotNull(nameAfterUpdate.getFirstName());
-        Assert.assertNotNull(nameAfterUpdate.getLastName());
+        Assert.assertNotNull(nameAfterUpdate.getBiography());
+        Assert.assertNotNull(nameAfterUpdate.getGender());
 
         Assertions.assertThat(name)
                 .isEqualToIgnoringGivenFields(nameAfterUpdate,

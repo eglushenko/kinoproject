@@ -3,6 +3,7 @@ package com.solvve.lab.kinoproject.client.themoviedb;
 
 import com.solvve.lab.kinoproject.client.themoviedb.dto.MovieReadDTO;
 import com.solvve.lab.kinoproject.client.themoviedb.dto.MoviesPageDTO;
+import com.solvve.lab.kinoproject.client.themoviedb.dto.PersonReadDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,4 +22,8 @@ public interface TheMovieDbClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/movie/top_rated")
     MoviesPageDTO getTopRatedMovies();
+
+    @RequestMapping(method = RequestMethod.GET, value = "/person/{personId}")
+    PersonReadDTO getPerson(@PathVariable("personId") String externalId);
+
 }

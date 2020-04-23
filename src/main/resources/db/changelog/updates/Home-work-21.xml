@@ -21,4 +21,32 @@
 
     </changeSet>
 
+
+    <changeSet author="eglushenko" id="21-2">
+        <renameColumn catalogName="${val}"
+                      columnDataType="varchar(255)"
+                      newColumnName="name"
+                      oldColumnName="first_name"
+                      schemaName="public"
+                      tableName="name"/>
+    </changeSet>
+    <changeSet author="eglushenko" id="21-3">
+        <renameColumn catalogName="${val}"
+                      columnDataType="varchar(255)"
+                      newColumnName="biography"
+                      oldColumnName="last_name"
+                      schemaName="public"
+                      tableName="name"/>
+    </changeSet>
+    <changeSet id="21-4" author="eglushenko">
+
+        <addColumn tableName="name">
+
+            <column name="birthday" type="date"/>
+            <column name="deathday" type="date"/>
+            <column name="gender" type="varchar(255)"/>
+
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

@@ -21,8 +21,7 @@ public class NameRepositoryTest extends BaseTest {
 
     private Name createName() {
         Name name = new Name();
-        name.setFirstName("Jhon");
-        name.setLastName("Dou");
+        name.setName("Jhon");
         return nameRepository.save(name);
     }
 
@@ -55,7 +54,7 @@ public class NameRepositoryTest extends BaseTest {
 
         Instant updateDateBeforeLoad = name.getUpdatedAt();
 
-        name.setLastName("Polur");
+        name.setName("Polur");
         name = nameRepository.save(name);
         name = nameRepository.findById(name.getId()).get();
 

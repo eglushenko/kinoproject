@@ -40,17 +40,18 @@ public class TheMovieDbImportOneOffJob {
         asyncService.executeAsync(this::doImport);
     }
 
+
     public void doImport() {
         log.info("Starting import");
         try {
             List<MovieReadShortDTO> moviesToImport = client.getTopRatedMovies().getResults();
-            int successfullyImported = 0;
+            int successfullyImportedFilm = 0;
             int skipped = 0;
             int failed = 0;
             for (MovieReadShortDTO m : moviesToImport) {
                 try {
                     movieImportService.importMovie(m.getId());
-                    successfullyImported++;
+                    successfullyImportedFilm++;
                 } catch (ImportAlreadyPerformedException | ImportedEntityAlreadyExistException e) {
                     log.info("Can't import movie id={} , originalTitle={}: {}",
                             m.getId(), m.getOriginalTitle(), e.getMessage());
@@ -60,7 +61,7 @@ public class TheMovieDbImportOneOffJob {
                     failed++;
                 }
                 log.info("Total movies to import: {} , successfully {} , skipped {}, failed {}",
-                        moviesToImport.size(), successfullyImported, skipped, failed);
+                        moviesToImport.size(), successfullyImportedFilm, skipped, failed);
             }
         } catch (Exception e) {
             log.warn("Filed to perform import", e);

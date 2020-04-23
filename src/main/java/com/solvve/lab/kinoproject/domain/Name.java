@@ -1,6 +1,7 @@
 package com.solvve.lab.kinoproject.domain;
 
 
+import com.solvve.lab.kinoproject.enums.Gender;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -9,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,8 +20,12 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 public class Name extends AbstractEntity {
 
-    private String firstName;
-    private String lastName;
+    private String name;
+    private LocalDate birthday;
+    private LocalDate deathday;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    private String biography;
 
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
